@@ -1,0 +1,56 @@
+<!doctype html>
+{% csrf_token %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Рецепты{% endblock %}</title>
+        {% load static %}
+
+{% block css %}
+    {% if form %}
+        <link rel="stylesheet" href="{% static "recipes/pages/form.css" %}">
+    {% else %}
+        <link rel="stylesheet" href="{% static "recipes/pages/index.css" %}">
+    {% endif %}
+{% endblock css %}
+
+</head>
+<body class="body">
+
+    <header class="header">
+            {% block nav %}
+        {% include 'auxiliary/nav.html' %}
+            {% endblock nav %}
+    </header>
+
+    <main class="main container">
+            <div class="main__header">
+            <h1 class="main__title">{% block main_title %}Рецепты{% endblock %}</h1>
+            {% block tag %}
+                <!---------block tag --------->
+            {% endblock tag %}
+        </div>
+
+    {% block subscription %}
+            <!---------block subsciption --------->
+    {% endblock subscription %}
+
+    {% block content %}
+            <!---------block content --------->
+    {% endblock content  %}
+
+    </main>
+
+    {% block js %}
+        <!---------block load java scripts --------->
+    {% endblock js  %}
+
+    {% block footer %}
+        {% include 'auxiliary/footer.html' %}
+    {% endblock footer  %}
+
+</body>
+</html>

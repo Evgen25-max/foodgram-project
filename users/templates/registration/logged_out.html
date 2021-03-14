@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block main_title %}Вы вышли из системы{% endblock main_title %}
+{% block content %}
+    <div class="custom-center-block">
+        {% if user %}
+        {% endif %}
+        <p class="custom-text-block">
+            Вы вышли из своей учётной записи. Ждём вас снова!
+        </p>
+        <p class="custom-text-block">
+            <a href='{% url 'recipes:index' %}'>Перейти на главную страницу</a>
+        </p>
+    </div>
+{% endblock content %}

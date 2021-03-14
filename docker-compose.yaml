@@ -1,0 +1,30 @@
+version: '3.8'
+volumes:
+  postgres_data:
+services:
+  db:
+    image: postgres:13.1-alpine
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+  web:
+    image: evgen25max/python3.8.5_foodgram:v1.0
+    restart: always
+    volumes:
+      - ./static:/code/static/
+      - ./media:/code/media/
+    depends_on:
+      - db
+  nginx:
+    image: nginx:1.19.6
+    restart: always
+    volumes:
+      - ./static:/static/
+      - ./media:/media/
+      - ./nginx:/etc/nginx/conf.d/
+    depends_on:
+      - web
+    ports:
+      - "80:80"

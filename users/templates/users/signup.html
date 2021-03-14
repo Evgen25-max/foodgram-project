@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Регистрация{% endblock title %}
+{% block main_title %}Регистрация{% endblock main_title %}
+{% block content %}
+    <div class="form-container">
+        <form class="form" method="post">
+            {% csrf_token %}
+{#            {{ form.errors }}#}
+            <div class="form__group">
+                <label for="id_first_name" class="form__label">Имя</label>
+                <div class="form__field-group">
+                    <input type="text" name="first_name" id="id_first_name" value="{{ form.instance.first_name }}" class="form__input">
+                    <span class="form__error">{{ form.first_name.errors }}</span>
+                </div>
+            </div>
+                        <div class="form__group">
+                <label for="id_last_name" class="form__label">Фамилия</label>
+                <div class="form__field-group">
+                    <input type="text" name="last_name" id="id_last_name" value="{{ form.instance.last_name }}" class="form__input">
+                    <span class="form__error">{{ form.last_name.errors }}</span>
+                </div>
+            </div>
+            <div class="form__group">
+                <label for="id_username" class="form__label">Логин пользователя</label>
+                <div class="form__field-group">
+                    <input type="text" name="username" id="id_username" value="{{ form.instance.username }}" class="form__input">
+                    <span class="form__error">{{ form.username.errors }}</span>
+                </div>
+            </div>
+            <div class="form__group">
+                <label for="id_email" class="form__label">Адрес электронной почты</label>
+                <div class="form__field-group">
+                    <input type="email" name="email" id="id_email" value="{{ form.instance.email }}" class="form__input">
+                    <span class="form__error">{{ form.email.errors }}</span>
+                </div>
+            </div>
+            <div class="form__group">
+                <label for="id_password1" class="form__label">Пароль</label>
+                <div class="form__field-group">
+                    <input type="password" name="password1" id="id_password1" class="form__input">
+                    <span class="form__error">{{ form.password1.errors }}</span>
+                </div>
+            </div>
+            <div class="form__group">
+                <label for="id_password2" class="form__label">Повторите пароль</label>
+                <div class="form__field-group">
+                    <input type="password" name="password2" id="id_password2" class="form__input">
+                    <span class="form__error">{{ form.password2.errors }}</span>
+                </div>
+            </div>
+            <div class="form__footer">
+                <button class="button button_style_blue">Создать аккаунт</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ flatpage.title }}{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static "recipes/pages/index.css" %}">{% endblock css %}
+{% block content %}
+    {% block main_title %}{% endblock main_title %}
+        <h2>{{ flatpage.title }}</h2>
+    <p>{{ flatpage.content|linebreaksbr }}</p>
+{% endblock %}

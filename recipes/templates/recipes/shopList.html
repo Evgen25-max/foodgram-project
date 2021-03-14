@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% block title %} Список покупок {% endblock title %}
+
+{% block css %}
+        <link rel="stylesheet" href="{% static "recipes/pages/shopList.css" %}">
+{% endblock css %}
+
+{% block main_title %} Список покупок {% endblock main_title %}
+
+{% block content %}
+    <div class="card-list card-list_column">
+        <ul class="shopping-list">
+            {% for recipe in recipes %}
+            <li class="shopping-list__item" data-id="{{ recipe.id }}">
+                <div class="recipe recipe_reverse">
+                    {% thumbnail recipe.image "90x90" crop="center" as im %}
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="recipe__image recipe__image_big">
+                    {% endthumbnail %}
+
+                    <h3 class="recipe__title">{{ recipe.title }}</h3>
+                    <p class="recipe__text"><span class="icon-time"></span> {{ recipe.cooking_time }} мин.</p>
+                </div>
+                <a href="#" class="shopping-list__button link">Удалить</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'recipes:shoplist_file' %}"><button class="button button_style_blue">Скачать список</button></a>
+    </div>
+{% endblock content %}
+{% block js %}
+    {% include 'helper/js_shoplist.html' %}
+{% endblock js  %}
