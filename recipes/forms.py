@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from .models import Recipe, RecipeTag
 from .utils import get_ingredients, ingredients_exist
 
-# class Active_reciep
+
 class RecipeForm(ModelForm):
     """Form for recipes create."""
 

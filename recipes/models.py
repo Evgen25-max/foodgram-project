@@ -18,6 +18,7 @@ class RecipeTag(models.Model):
     def __str__(self):
         return self.meal_time
 
+
 class Ingredient(models.Model):
     """Model for ingredients."""
 
