@@ -15,7 +15,7 @@ if DEBUG:
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-ALLOWED_HOSTS = ['130.193.43.240', 'foodgram-proj.ml', 'www.foodgram-proj.ml', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', '130.193.43.240', 'foodgram-proj.ml', 'www.foodgram-proj.ml', 'localhost']
 
 INSTALLED_APPS = [
     'api',
@@ -84,7 +84,12 @@ DATABASES = {
         'PORT': os.environ['DB_PORT'],
     }
 }
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 AUTH_PASSWORD_VALIDATORS = [
