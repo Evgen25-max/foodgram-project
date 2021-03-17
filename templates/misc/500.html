@@ -3,11 +3,11 @@
 {% block title %}Ошибка 500{% endblock %}
 {% block css %}<link rel="stylesheet" href="{% static "recipes/pages/index.css" %}">{% endblock css %}
 {% block content %}
-    {% block main_title %}{% endblock main_title %}
+    {% block main_title %}Ошибка 404 :-({% endblock main_title %}
 
             <div class="custom-center-block">
     <p class="custom-text-block">Страница <code>{{ path }}</code> не найдена</p>
-        <div class="custom-button-block">
+            <div class="custom-center-block">
     <p class="lead"><a href="{% url  'recipes:index' %}">Вернуться на главную</a></p>
         </div>
     </div>
