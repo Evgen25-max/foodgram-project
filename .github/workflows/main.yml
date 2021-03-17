@@ -60,7 +60,7 @@ jobs:
         port: ${{ secrets.PORT }}
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
-        source: "docker-compose.yaml,.env,nginx/*"
+        source: "docker-compose.yaml,.env,nginx/*,media/*"
         overwrite: true
         target: "app"
   deploy:
