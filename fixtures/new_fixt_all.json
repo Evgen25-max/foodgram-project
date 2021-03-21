@@ -1,4 +1,3 @@
-Tracking file by folder pattern:  migrations
 [
 {
   "model": "recipes.recipetag",
