@@ -57,15 +57,14 @@ def get_ingredients(data):
 
 def ingredients_save(ingredients, recipe):
     """Saving the ingredients in the recipe."""
-    a= RecipeIngredient.objects.filter(recipe=recipe)
-    a.delete()
+    RecipeIngredient.objects.filter(recipe=recipe).delete()
     recipe_ingerient = []
     for ingredient in ingredients:
         recipe_ingerient.append(
             RecipeIngredient(amount=ingredients[ingredient], recipe=recipe, ingredient=ingredient,)
         )
 
-    a=RecipeIngredient.objects.bulk_create(recipe_ingerient)
+    RecipeIngredient.objects.bulk_create(recipe_ingerient)
     return recipe_ingerient
 
 
@@ -152,24 +151,25 @@ def ingredients_exist(recipe_ingredients):
     if broken_ingredient:
         ingr_for_error = ', '.join(broken_ingredient)
         if len(broken_ingredient) == 1:
-            raise ValidationError(_(f"Ошибка: {ingr_for_error}.\n При необходимости воспользуйтесь выпадающим списком ингредиентов"))
+            raise ValidationError(
+                _(f"Ошибка: {ingr_for_error}.\n При необходимости воспользуйтесь выпадающим списком ингредиентов")
+            )
         else:
-            raise ValidationError(_(f"Ошибка: {ingr_for_error}. \n При необходимости воспользуйтесь выпадающим списком ингредиентов"))
+            raise ValidationError(
+                _(f"Ошибка: {ingr_for_error}. \n При необходимости воспользуйтесь выпадающим списком ингредиентов")
+            )
     return ingredients_clean
 
 
 def ingredients_change(recipe_ing, form_ing):
     """Returns valid ingredients in the form: {Ingredient instance: quantity}."""
 
-    ingredients_clean = {}
-    broken_ingredient = []
     if len(recipe_ing) == len(form_ing):
         for recipe_ingredient in recipe_ing:
-            if not recipe_ingredient.ingredient in form_ing and form_ing[recipe_ingredient.ingredient] == recipe_ingredient.amount:
+            if not (
+                    recipe_ingredient.ingredient in form_ing and
+                    form_ing[recipe_ingredient.ingredient] == recipe_ingredient.amount
+            ):
                 return True
         return False
-        # b = ingredient.ingredient
-        # c =   b  in form_ing
-        # d = form_ing[b]
-        # f = ingredient.amount
     return True

@@ -9,7 +9,7 @@ from users.models import BasketUser, Favorite, Subscription
 
 from .forms import RecipeForm
 from .utils import (get_actual_tag, get_ingredient_dict, get_ingredients,
-                    get_or_none, ingredients_save, pdf_get, ingredients_change)
+                    get_or_none, ingredients_change, ingredients_save, pdf_get)
 
 User = get_user_model()
 
@@ -71,12 +71,8 @@ def subscriptions(request):
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     return render(
-        request, 'recipes/myFollow.html', {'page': page, 'paginator': paginator,'follow_user': follow_user},
+        request, 'recipes/myFollow.html', {'page': page, 'paginator': paginator, 'follow_user': follow_user}
     )
-
-
-
-
 
 
 @login_required
