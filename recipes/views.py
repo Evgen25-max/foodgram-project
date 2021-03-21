@@ -63,24 +63,17 @@ def profile(request, username):
 
 def subscriptions(request):
     """."""
-    # actual_tags = get_actual_tag(request.get_full_path())
+
     follow_user = Subscription.objects.filter(
         user=request.user).annotate(num_recipes=Count('author__recipes')).prefetch_related('author__recipes')
-    # recipes = Recipe.objects.filter(
-    #     recipe_tag__meal_time__in=actual_tags
-    # ).select_related('author').prefetch_related('recipe_tag').distinct()
+
     paginator = Paginator(follow_user, 3)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     return render(
         request, 'recipes/myFollow.html', {'page': page, 'paginator': paginator,'follow_user': follow_user},
     )
-    # follow_user = Subscription.objects.filter(
-    #     user=request.user).annotate(num_recipes=Count('author__recipes')).prefetch_related('author__recipes')
-    # paginator = Paginator(follow_user, 6)
-    # page_number = request.GET.get('page')
-    # page = paginator.get_page(page_number)
-    # return render(request, 'recipes/myFollow.html', {'page': page, 'paginator': paginator, follow_user: 'follow_user'})
+
 
 
 
