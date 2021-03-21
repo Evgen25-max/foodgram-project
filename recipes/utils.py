@@ -57,14 +57,15 @@ def get_ingredients(data):
 
 def ingredients_save(ingredients, recipe):
     """Saving the ingredients in the recipe."""
-
+    a= RecipeIngredient.objects.filter(recipe=recipe)
+    a.delete()
     recipe_ingerient = []
     for ingredient in ingredients:
         recipe_ingerient.append(
             RecipeIngredient(amount=ingredients[ingredient], recipe=recipe, ingredient=ingredient,)
         )
 
-    RecipeIngredient.objects.bulk_create(recipe_ingerient)
+    a=RecipeIngredient.objects.bulk_create(recipe_ingerient)
     return recipe_ingerient
 
 
@@ -139,11 +140,36 @@ def ingredients_exist(recipe_ingredients):
     """Returns valid ingredients in the form: {Ingredient instance: quantity}."""
 
     ingredients_clean = {}
+    broken_ingredient = []
     for ingredient in recipe_ingredients:
         ingredient_instance = get_or_none(Ingredient, title=ingredient['title'], dimension=ingredient['dimension'])
         if not ingredient_instance:
-            raise ValidationError(
-                _(f"Введён некорректный ингридиент: {ingredient['title']}.")
-            )
-        ingredients_clean.update({ingredient_instance: ingredient['amount']})
+            broken_ingredient.append(f"некорректный ингредиент: {ingredient['title']}")
+        if not ingredients_clean.get(ingredient_instance):
+            ingredients_clean.update({ingredient_instance: ingredient['amount']})
+        else:
+            broken_ingredient.append(f"повторяющийся ингредиент: {ingredient['title']}")
+    if broken_ingredient:
+        ingr_for_error = ', '.join(broken_ingredient)
+        if len(broken_ingredient) == 1:
+            raise ValidationError(_(f"Ошибка: {ingr_for_error}.\n При необходимости воспользуйтесь выпадающим списком ингредиентов"))
+        else:
+            raise ValidationError(_(f"Ошибка: {ingr_for_error}. \n При необходимости воспользуйтесь выпадающим списком ингредиентов"))
     return ingredients_clean
+
+
+def ingredients_change(recipe_ing, form_ing):
+    """Returns valid ingredients in the form: {Ingredient instance: quantity}."""
+
+    ingredients_clean = {}
+    broken_ingredient = []
+    if len(recipe_ing) == len(form_ing):
+        for recipe_ingredient in recipe_ing:
+            if not recipe_ingredient.ingredient in form_ing and form_ing[recipe_ingredient.ingredient] == recipe_ingredient.amount:
+                return True
+        return False
+        # b = ingredient.ingredient
+        # c =   b  in form_ing
+        # d = form_ing[b]
+        # f = ingredient.amount
+    return True

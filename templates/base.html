@@ -6,7 +6,20 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{% block title %}Рецепты{% endblock %}</title>
+       {% url 'recipes:index' as index %}
+{% url 'recipes:subscriptions' as subscriptions %}
+{% url 'recipes:new_recipe' as new_recipe %}
+{% url 'recipes:favorite' request.user as favorite %}
+{% url 'recipes:shoplist' as shoplist %}
+{##}
+{##}
+<title>{% block title %}
+{% if favorite == request.path %}
+ Избранное
+{% else %}
+ Рецепты
+{% endif %}
+{% endblock %}</title>
         {% load static %}
 
 {% block css %}

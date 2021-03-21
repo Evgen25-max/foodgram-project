@@ -19,6 +19,7 @@ class Subscription(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='follower', verbose_name=_('follower'))
 
     class Meta:
+        ordering = ['-author']
         unique_together = ['author', 'user']
         verbose_name = _('subscription')
         verbose_name_plural = _('subscriptions')

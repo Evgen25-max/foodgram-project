@@ -40,6 +40,8 @@
                 </div>
             </div>
 
+
+
             <div class="form__group">
                 <label for="nameIngredient" class="form__label">Ингредиенты</label>
                 <div class="form__field-group">
@@ -66,7 +68,7 @@
                   {% elif ingredients%}
                       {% for ingredient in ingredients %}
                           <div class="form__field-item-ingredient" id="ing_{{ forloop.counter }}">
-                              <span> {{ ingredient.title }} {{ ingredient.amount|floatformat }}{{ ingredientdimension }}</span>
+                              <span> {{ ingredient.title }} {{ ingredient.amount|floatformat }}{{ ingredient.dimension }}</span>
                               <span class="form__field-item-delete"></span>
                               <input id="nameIngredient_{{ forloop.counter }}" name="nameIngredient_{{ forloop.counter }}" type="hidden" value="{{ ingredient.title }}">
                               <input id="valueIngredient_{{ forloop.counter }}" name="valueIngredient_{{ forloop.counter }}" type="hidden" value="{{ ingredient.amount|floatformat }}">

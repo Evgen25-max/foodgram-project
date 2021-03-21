@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
-{% load thumbnail %}
 {% load static %}
+{% load thumbnail %}
 {% load user_filter_tag %}
 {% block title %} Мои подписки {% endblock title %}
 {% block css %}<link rel="stylesheet" href="{% static "recipes/pages/myFollow.css" %}">{% endblock css %}
@@ -22,16 +22,18 @@
                         <li class="card-user__item">
                             <div class="recipe">
                                 {% thumbnail recipe.image "90x90" crop="center" as im %}
-                                    <img src="{{ im.url }}" alt="какой-то-текст" class="recipe__image">
+                                    <img src="{{ im.url }}" alt="Картинка потeрялась :-(" class="recipe__image">
                                 {% endthumbnail %}
                                 <h3 class="recipe__title">{{ recipe.title }}</h3>
                                 <p class="recipe__text"><span class="icon-time"></span> {{ recipe.cooking_time }} мин.</p>
                             </div>
                         </li>
                     {% endfor %}
+                {% if  follow.num_recipes > 3 %}
                         <li class="card-user__item">
                             <a href="{% url 'recipes:profile' follow.author  %}" class="card-user__link link">Еще {{ follow.num_recipes|sub_up_0:3 }} рецептов...</a>
                         </li>
+                {% endif %}
                 </ul>
             </div>
             <div class="card-user__footer">
@@ -41,7 +43,7 @@
      {% endfor %}
      </div>
      {% if page.has_other_pages %}
-         {% include 'helper/paginator.html' with items=page paginator=paginator actual_tags=actual_tags%}
+         {% include 'helper/paginator.html' with items=page paginator=paginator %}
      {% endif %}
 {% endblock content %}
 
