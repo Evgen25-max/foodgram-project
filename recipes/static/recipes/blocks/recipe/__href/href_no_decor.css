@@ -1,0 +1,6 @@
+.href_no_decor {
+    text-decoration: none;
+}
+.href_no_decor:hover {
+    text-decoration: underline;
+}
