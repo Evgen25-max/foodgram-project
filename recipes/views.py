@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -9,8 +10,8 @@ from users.models import BasketUser, Favorite, Subscription
 
 from .forms import RecipeForm
 from .utils import (get_actual_tag, get_ingredient_dict, get_ingredients,
-                    get_or_none, ingredients_change, ingredients_save, pdf_get, paginator_initial)
-from django.conf import settings
+                    get_or_none, ingredients_change, ingredients_save,
+                    paginator_initial, pdf_get)
 
 User = get_user_model()
 

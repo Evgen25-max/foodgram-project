@@ -1,13 +1,14 @@
 import re
 from collections import defaultdict
 from io import BytesIO
-from django.core.paginator import Paginator
+
 from django.core.exceptions import ValidationError
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.utils.translation import gettext_lazy as _
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
-from django.conf import settings
+
 from .const import GIT_HUB, PROJECT_NAME
 from .models import Ingredient, RecipeIngredient
 
@@ -50,7 +51,7 @@ def get_ingredients(data):
                 ingredient_actual.append(
                     {
                      'amount': temp_ingredient_data.pop(),
-                     'ingredient': {'dimension': temp_ingredient_data.pop(),'title': temp_ingredient_data.pop()}}
+                     'ingredient': {'dimension': temp_ingredient_data.pop(), 'title': temp_ingredient_data.pop()}}
                 )
 
     return ingredient_actual
@@ -142,7 +143,9 @@ def ingredients_exist(recipe_ingredients):
     ingredients_clean = {}
     broken_ingredient = []
     for ingredient in recipe_ingredients:
-        ingredient_instance = get_or_none(Ingredient, title=ingredient['ingredient']['title'], dimension=ingredient['ingredient']['dimension'])
+        ingredient_instance = get_or_none(
+            Ingredient, title=ingredient['ingredient']['title'], dimension=ingredient['ingredient']['dimension']
+        )
         if not ingredient_instance:
             broken_ingredient.append(f"некорректный ингредиент: {ingredient['ingredient']['title']}")
         else:
@@ -171,6 +174,7 @@ def ingredients_change(recipe_ing, form_ing):
                 return True
         return False
     return True
+
 
 def paginator_initial(request, model_objs, paginator_count):
     """:"""
