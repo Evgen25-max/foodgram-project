@@ -7,8 +7,6 @@
 <nav class="nav">
   <div class="nav__container container">
       <ul class="nav__items list">
-{#{% with url_name=request.resolver_match.view_name %}#}
-
           <li class="nav__item {% if request.path == index %}nav__item_active{% endif %}"><a href="{% url 'recipes:index' %}" class="nav__link link">Рецепты</a></li>
           {% if user.is_authenticated %}
           <li class="nav__item {% if request.path == subscriptions %}nav__item_active{% endif %}"><a href="{% url 'recipes:subscriptions' %}" class="nav__link link">Мои подписки</a></li>

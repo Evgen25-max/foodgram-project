@@ -49,6 +49,7 @@
 @import "../blocks/recipe/__title/recipe__title.css";
 @import "../blocks/recipe/__image/recipe__image.css";
 @import "../blocks/recipe/__text/recipe__text.css";
+@import "../blocks/recipe/__href/href_no_decor.css";
 
 @import "../blocks/pagination/pagination.css";
 @import "../blocks/pagination/__container/pagination__container.css";

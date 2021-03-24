@@ -1,13 +1,13 @@
 import re
 from collections import defaultdict
 from io import BytesIO
-
+from django.core.paginator import Paginator
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.utils.translation import gettext_lazy as _
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
-
+from django.conf import settings
 from .const import GIT_HUB, PROJECT_NAME
 from .models import Ingredient, RecipeIngredient
 
@@ -37,19 +37,20 @@ def get_ingredients(data):
                 except KeyError:
                     raise ValidationError(_('Незаполнено название ингредиента'))
                 try:
+                    temp_ingredient_data.append(data[f'unitsIngredient_{index_ingredient}'])
+                except KeyError:
+                    raise ValidationError(_('Незаполнена мера измерения ингредиента'))
+                try:
                     temp_ingredient_data.append(float(data[f'valueIngredient_{index_ingredient}']))
                 except KeyError:
                     raise ValidationError(_('Незаполнено количество ингредиента'))
                 except ValueError:
                     raise ValidationError(_('Количество ингредиента должно быть числом'))
-                try:
-                    temp_ingredient_data.append(data[f'unitsIngredient_{index_ingredient}'])
-                except KeyError:
-                    raise ValidationError(_('Незаполнена мера измерения ингредиента'))
+
                 ingredient_actual.append(
-                    {'dimension': temp_ingredient_data.pop(),
+                    {
                      'amount': temp_ingredient_data.pop(),
-                     'title': temp_ingredient_data.pop()}
+                     'ingredient': {'dimension': temp_ingredient_data.pop(),'title': temp_ingredient_data.pop()}}
                 )
 
     return ingredient_actual
@@ -141,23 +142,20 @@ def ingredients_exist(recipe_ingredients):
     ingredients_clean = {}
     broken_ingredient = []
     for ingredient in recipe_ingredients:
-        ingredient_instance = get_or_none(Ingredient, title=ingredient['title'], dimension=ingredient['dimension'])
+        ingredient_instance = get_or_none(Ingredient, title=ingredient['ingredient']['title'], dimension=ingredient['ingredient']['dimension'])
         if not ingredient_instance:
-            broken_ingredient.append(f"некорректный ингредиент: {ingredient['title']}")
-        if not ingredients_clean.get(ingredient_instance):
-            ingredients_clean.update({ingredient_instance: ingredient['amount']})
+            broken_ingredient.append(f"некорректный ингредиент: {ingredient['ingredient']['title']}")
         else:
-            broken_ingredient.append(f"повторяющийся ингредиент: {ingredient['title']}")
+            if ingredients_clean.get(ingredient_instance):
+                broken_ingredient.append(f"повторяющийся ингредиент: {ingredient['ingredient']['title']}")
+            else:
+                ingredients_clean.update({ingredient_instance: ingredient['amount']})
     if broken_ingredient:
         ingr_for_error = ', '.join(broken_ingredient)
-        if len(broken_ingredient) == 1:
-            raise ValidationError(
+        raise ValidationError(
                 _(f"Ошибка: {ingr_for_error}.\n При необходимости воспользуйтесь выпадающим списком ингредиентов")
             )
-        else:
-            raise ValidationError(
-                _(f"Ошибка: {ingr_for_error}. \n При необходимости воспользуйтесь выпадающим списком ингредиентов")
-            )
+
     return ingredients_clean
 
 
@@ -173,3 +171,14 @@ def ingredients_change(recipe_ing, form_ing):
                 return True
         return False
     return True
+
+def paginator_initial(request, model_objs, paginator_count):
+    """:"""
+
+    paginator = Paginator(model_objs, paginator_count)
+    page_number = request.GET.get('page')
+    if page_number and int(page_number) > paginator.num_pages:
+        page = paginator.get_page(paginator.num_pages)
+    else:
+        page = paginator.get_page(page_number)
+    return page, paginator

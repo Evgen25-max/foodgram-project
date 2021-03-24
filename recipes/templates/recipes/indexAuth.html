@@ -1,18 +1,16 @@
 {% extends 'base.html' %}
 
 {% load static %}
-
-{% block css %} <link rel="stylesheet" href="{% static "recipes/pages/index.css" %}"> {% endblock css %}
-
+{% block main_title %}Рецепты{% endblock main_title %}
 {% block tag %}
     {% include 'helper/tag-block.html' with actual_tags=actual_tags author=author %}
 {% endblock tag  %}
 
 {% block content %}
     {% include 'helper/recipe_list.html' with recipes=page %}
-{% if page.has_other_pages %}
-    {% include 'helper/paginator.html' with items=page paginator=paginator actual_tags=actual_tags%}
-{% endif %}
+    {% if page.has_other_pages %}
+        {% include 'helper/paginator.html' with items=page paginator=paginator actual_tags=actual_tags%}
+    {% endif %}
 {% endblock content %}
 
 {% block js %}

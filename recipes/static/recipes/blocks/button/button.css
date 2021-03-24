@@ -7,7 +7,7 @@
     border-radius: 6px;
     padding: 12px 24px;
     height: 48px;
-    line-height: 1;
+    line-height: normal;
     text-decoration: none;
     border: 1px solid transparent;
     transition: background 0.2s;

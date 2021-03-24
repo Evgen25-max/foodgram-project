@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Страница не найдена{% endblock %}
-{% block css %}<link rel="stylesheet" href="{% static "recipes/pages/index.css" %}">{% endblock css %}
-{% block main_title %}Ошибка 404 :-({% endblock main_title %}
-{% block content %}
 
-        <div class="custom-center-block">
-            <p class="custom-text-block">Страница &nbsp;"{{ path }}" &nbsp; не найдена</p>
+<title>Страница не найдена</title>
+{% block main_title %}Ошибка 404 :-({% endblock main_title %}
+
+{% block content %}
+    <div class="custom-center-block">
+        <p class="custom-text-block">Страница &nbsp;"{{ path }}" &nbsp;не найдена</p>
         <div class="custom-button-block">
             <a href='{% url 'recipes:index' %}' class="button button_style_blue">Перейти на главную</a>
         </div>
-      </div>
+    </div>
 {% endblock %}

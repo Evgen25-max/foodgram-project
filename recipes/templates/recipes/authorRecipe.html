@@ -1,33 +1,31 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load user_filter_tag %}
-{% block title %} Рецепты {% endblock title%}
-{% block css %}<link rel="stylesheet" href="{% static "recipes/pages/index.css" %}">{% endblock css %}
 
 {% block tag %}
     {% include 'helper/tag-block.html' with author=author actual_tags=actual_tags %}
 {% endblock tag  %}
 
-{% block subscription %}
-    {% if user.is_authenticated %}
-    <div class="author-subscribe" data-author="{{ author.pk }}">
-    {% if user != author %}
-    {% if author|subscriptions_check:user  %}
-         <p style="padding: 0 0 2em 0;"><button class="button button_style_light-blue button_size_subscribe" name="subscribe" >Отписаться от автора</button></p>
-    {% else %}
-        <p style="padding: 0 0 2em 0;"><button class="button button_style_light-blue button_size_subscribe" name="subscribe" data-out="">Подписаться на автора</button></p>
-    {% endif %}
-        {% endif %}
-    </div>
-    {% endif %}
-{% endblock subscription %}
-
 {% block main_title %}{{ author.first_name }} {{ author.last_name }}{% endblock main_title%}
+
 {% block content %}
+    {% if user.is_authenticated %}
+        <div class="author-subscribe" data-author="{{ author.pk }}">
+            {% if user != author %}
+                {% if author|subscriptions_check:user  %}
+                    <p style="padding: 0 0 2em 0;"><button class="button button_style_light-blue button_size_subscribe" name="subscribe" >Отписаться от автора</button></p>
+                {% else %}
+                    <p style="padding: 0 0 2em 0;"><button class="button button_style_light-blue button_size_subscribe" name="subscribe" data-out="">Подписаться на автора</button></p>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endif %}
+
     {% include 'helper/recipe_list.html' with recipes=page %}
-{% if page.has_other_pages %}
-    {% include 'helper/paginator.html' with items=page paginator=paginator actual_tags=actual_tags %}
-{% endif %}
+
+    {% if page.has_other_pages %}
+        {% include 'helper/paginator.html' with items=page paginator=paginator actual_tags=actual_tags %}
+    {% endif %}
 {% endblock content %}
 
 {% block js %}

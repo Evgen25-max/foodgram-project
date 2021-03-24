@@ -3,13 +3,13 @@
 <div class="card-list">
     {% for recipe in recipes %}
         <div class="card" data-id="{{recipe.id}}">
-            <a href="{% url 'recipes:recipe' recipe.author recipe.pk %}" class="link" target="_blank">
+            <a href="{% url 'recipes:recipe' recipe.author recipe.pk %}" class="link">
                 {% thumbnail recipe.image "361x240" crop="center" as im %}
                     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                 {% endthumbnail %}
             </a>
             <div class="card__body">
-                <a class="card__title link" href='{% url 'recipes:recipe' recipe.author.username recipe.pk %}' target="_blank">{{ recipe }}</a>
+                <a class="card__title link" href='{% url 'recipes:recipe' recipe.author.username recipe.pk %}' >{{ recipe }}</a>
                 <ul class="card__items">
                     {% for meal_time in recipe.recipe_tag.all %}
                         {% if meal_time.meal_time == "breakfast" %}<li class="card__item"><span class="badge badge_style_green">Завтрак</span></li>{% endif %}
@@ -18,13 +18,11 @@
                     {% endfor %}
                 </ul>
                 <div class="card__items card__items_column">
-                    <p class="card__text"><span class="icon-time"></span>{{ recipe.cooking_time }}</p>
+                    <p class="card__text"><span class="icon-time"></span> {{ recipe.cooking_time }} мин.</p>
                     <p class="card__text"><span class="icon-user"></span> <a href='{% url 'recipes:profile' recipe.author.username %}' style="color: black">{{ recipe.author.first_name }} {{ recipe.author.last_name }}</a></p>
                 </div>
             </div>
-
             <div class="card__footer">
-
                 {% if recipe|recipe_basket_check:request %}
                     <button class="button button_style_light-blue" name="purchases"><span class="icon-check button__icon"></span> Рецепт добавлен</button>
                 {% else %}

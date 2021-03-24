@@ -9,7 +9,8 @@ from users.models import BasketUser, Favorite, Subscription
 
 from .forms import RecipeForm
 from .utils import (get_actual_tag, get_ingredient_dict, get_ingredients,
-                    get_or_none, ingredients_change, ingredients_save, pdf_get)
+                    get_or_none, ingredients_change, ingredients_save, pdf_get, paginator_initial)
+from django.conf import settings
 
 User = get_user_model()
 
@@ -35,9 +36,7 @@ def index(request):
     recipes = Recipe.objects.filter(
         recipe_tag__meal_time__in=actual_tags
     ).select_related('author').prefetch_related('recipe_tag').distinct()
-    paginator = Paginator(recipes, 6)
-    page_number = request.GET.get('page')
-    page = paginator.get_page(page_number)
+    page, paginator = paginator_initial(request, recipes, settings.PAGINATOR_COUNT['default'])
     return render(
         request, 'recipes/indexAuth.html', {'page': page, 'paginator': paginator, 'actual_tags': actual_tags}
     )
@@ -50,7 +49,7 @@ def profile(request, username):
     author = get_object_or_404(User.objects.filter(username=username))
     recipes = author.recipes.filter(
         recipe_tag__meal_time__in=actual_tags).select_related('author').prefetch_related('recipe_tag').distinct()
-    paginator = Paginator(recipes, 6)
+    paginator = Paginator(recipes, settings.PAGINATOR_COUNT['default'])
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     sub = request.user.is_authenticated and get_or_none(Subscription, user=request.user, author=author)
@@ -67,7 +66,7 @@ def subscriptions(request):
     follow_user = Subscription.objects.filter(
         user=request.user).annotate(num_recipes=Count('author__recipes')).prefetch_related('author__recipes')
 
-    paginator = Paginator(follow_user, 3)
+    paginator = Paginator(follow_user, settings.PAGINATOR_COUNT['subscribe'])
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     return render(
@@ -82,11 +81,9 @@ def new_recipe(request):
     if form.is_valid():
         form.instance.author = request.user
         recipe_ingredient = form.cleaned_data.get('ingredients')
-
         if recipe_ingredient:
             recipe = form.save()
             ingredients_save(recipe_ingredient, recipe)
-            # RecipeIngredient.objects.bulk_create(recipe_ingredient)
             return redirect('recipes:index')
     ingredients = get_ingredients(form.data)
     return render(request, 'recipes/formRecipe.html', {'form': form, 'ingredients': ingredients})
@@ -143,7 +140,8 @@ def recipe_edit(request, username, recipe_id):
                 return redirect('recipes:index')
 
             return render(request, 'recipes/formRecipe.html', {'form': form, 'recipe': recipe})
-        return render(request, 'recipes/formRecipe.html', {'form': form, 'recipe': recipe})
+        ingredients = get_ingredients(form.data) or recipe.ingredients.all()
+        return render(request, 'recipes/formRecipe.html', {'form': form, 'recipe': recipe, 'ingredients': ingredients})
     return redirect('recipes:recipe', username=username, recipe_id=recipe_id)
 
 
@@ -157,7 +155,7 @@ def favorite(request, username):
     recipes = Recipe.objects.filter(
         pk__in=Subquery(favorite_recipe.values('recipe')),
         recipe_tag__meal_time__in=actual_tags).select_related('author').prefetch_related('recipe_tag').distinct()
-    paginator = Paginator(recipes, 6)
+    paginator = Paginator(recipes, settings.PAGINATOR_COUNT['default'])
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     return render(request, 'recipes/indexAuth.html',

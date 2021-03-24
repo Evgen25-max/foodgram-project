@@ -1,64 +1,77 @@
 <!doctype html>
 {% csrf_token %}
+{% load static %}
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-       {% url 'recipes:index' as index %}
-{% url 'recipes:subscriptions' as subscriptions %}
-{% url 'recipes:new_recipe' as new_recipe %}
-{% url 'recipes:favorite' request.user as favorite %}
-{% url 'recipes:shoplist' as shoplist %}
-{##}
-{##}
-<title>{% block title %}
-{% if favorite == request.path %}
- Избранное
-{% else %}
- Рецепты
-{% endif %}
-{% endblock %}</title>
-        {% load static %}
 
-{% block css %}
-    {% if form %}
-        <link rel="stylesheet" href="{% static "recipes/pages/form.css" %}">
-    {% else %}
-        <link rel="stylesheet" href="{% static "recipes/pages/index.css" %}">
-    {% endif %}
-{% endblock css %}
+
+{% if request.resolver_match.view_name == 'recipes:favorite' %}
+    <title>Избранное</title>
+    <link rel="stylesheet" href="{% static "recipes/pages/index.css" %}">
+
+{% elif request.resolver_match.view_name == 'recipes:subscriptions'  %}
+    <title>Мои подписки</title>
+    <link rel="stylesheet" href="{% static "recipes/pages/myFollow.css" %}">
+
+{% elif request.resolver_match.view_name == 'recipes:shoplist' %}
+    <title>Список покупок</title>
+    <link rel="stylesheet" href="{% static "recipes/pages/shopList.css" %}">
+
+{% elif request.resolver_match.view_name == 'recipes:profile' %}
+    <title>Рецепты</title>
+    <link rel="stylesheet" href="{% static "recipes/pages/index.css" %}">
+
+{% elif request.resolver_match.view_name == 'recipes:recipe' %}
+    <title>Рецепты</title>
+    <link rel="stylesheet" href="{% static "recipes/pages/single.css" %}">
+
+{% elif request.resolver_match.view_name == 'recipes:new_recipe' %}
+    <link rel="stylesheet" href="{% static "recipes/pages/form.css" %}">
+
+{% elif request.resolver_match.view_name in 'password_change, login, auth:signup,recipes:new_recipe,recipes:recipe_edit' %}
+    <title>Рецепты</title>
+    <link rel="stylesheet" href="{% static "recipes/pages/form.css" %}">
+
+{% else %}
+    <link rel="stylesheet" href="{% static "recipes/pages/index.css" %}">
+{% endif %}
+
 
 </head>
+
+
 <body class="body">
-
     <header class="header">
-            {% block nav %}
-        {% include 'auxiliary/nav.html' %}
-            {% endblock nav %}
+        {% block nav %}
+            {% include 'auxiliary/nav.html' %}
+        {% endblock nav %}
     </header>
-
     <main class="main container">
-            <div class="main__header">
-            <h1 class="main__title">{% block main_title %}Рецепты{% endblock %}</h1>
+        <div class="main__header">
+
+            <h1 class="main__title">
+                {% block main_title %}
+                <!---------block main_title --------->
+                {% endblock main_title%}
+            </h1>
+
             {% block tag %}
-                <!---------block tag --------->
+            <!---------block tag --------->
             {% endblock tag %}
         </div>
 
-    {% block subscription %}
-            <!---------block subsciption --------->
-    {% endblock subscription %}
-
     {% block content %}
-            <!---------block content --------->
+    <!---------block content --------->
     {% endblock content  %}
 
     </main>
 
     {% block js %}
-        <!---------block load java scripts --------->
+    <!---------block load java scripts --------->
     {% endblock js  %}
 
     {% block footer %}

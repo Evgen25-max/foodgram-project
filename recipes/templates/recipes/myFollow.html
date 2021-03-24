@@ -2,8 +2,7 @@
 {% load static %}
 {% load thumbnail %}
 {% load user_filter_tag %}
-{% block title %} Мои подписки {% endblock title %}
-{% block css %}<link rel="stylesheet" href="{% static "recipes/pages/myFollow.css" %}">{% endblock css %}
+
 {% block main_title %} Мои подписки {% endblock main_title %}
 
 {% block content %}
@@ -11,37 +10,42 @@
         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="recipe__image recipe__image_big">
     {% endthumbnail %}
      <div class="card-list">
-     {% for follow in page %}
-        <div class="card-user" data-author="{{ follow.author.id }}">
-            <div class="card-user__header">
-                <h2 class="card-user__title">{{ follow.author.first_name }} {{ follow.author.last_name }}</h2>
-            </div>
-            <div class="card-user__body">
-                <ul class="card-user__items">
-                    {% for recipe in follow.author.recipes.all|slice:":3" %}
-                        <li class="card-user__item">
-                            <div class="recipe">
+         {% for follow in page %}
+            <div class="card-user" data-author="{{ follow.author.id }}">
+                <div class="card-user__header">
+                    <a class="href_no_decor" href='{% url 'recipes:profile' follow.author.username %}'>
+                        <h2 class="card-user__title">{{ follow.author.first_name }} {{ follow.author.last_name }}</h2>
+                    </a>
+                </div>
+                <div class="card-user__body">
+                    <ul class="card-user__items">
+                        {% for recipe in follow.author.recipes.all|slice:":3" %}
+                            <li class="card-user__item">
+                                <div class="recipe">
                                 {% thumbnail recipe.image "90x90" crop="center" as im %}
                                     <img src="{{ im.url }}" alt="Картинка потeрялась :-(" class="recipe__image">
                                 {% endthumbnail %}
-                                <h3 class="recipe__title">{{ recipe.title }}</h3>
-                                <p class="recipe__text"><span class="icon-time"></span> {{ recipe.cooking_time }} мин.</p>
-                            </div>
-                        </li>
-                    {% endfor %}
-                {% if  follow.num_recipes > 3 %}
-                        <li class="card-user__item">
-                            <a href="{% url 'recipes:profile' follow.author  %}" class="card-user__link link">Еще {{ follow.num_recipes|sub_up_0:3 }} рецептов...</a>
-                        </li>
-                {% endif %}
-                </ul>
+                                <a class="href_no_decor" href='{% url 'recipes:recipe' recipe.author.username recipe.pk  %}' >
+                                    <h3 class="recipe__title">{{ recipe.title }}</h3>
+                                    <p class="recipe__text"><span class="icon-time"></span> {{ recipe.cooking_time }} мин.</p>
+                                </a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                        {% if  follow.num_recipes > 3 %}
+                            <li class="card-user__item">
+                                <a href="{% url 'recipes:profile' follow.author  %}" class="card-user__link link">Еще {{ follow.num_recipes|sub_up_0:3 }} рецептов...</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="card-user__footer">
+                    <button class="button button_style_light-blue button_size_auto" name="subscribe">Отписаться</button>
+                </div>
             </div>
-            <div class="card-user__footer">
-                <button class="button button_style_light-blue button_size_auto" name="subscribe">Отписаться</button>
-            </div>
-        </div>
-     {% endfor %}
+         {% endfor %}
      </div>
+
      {% if page.has_other_pages %}
          {% include 'helper/paginator.html' with items=page paginator=paginator %}
      {% endif %}

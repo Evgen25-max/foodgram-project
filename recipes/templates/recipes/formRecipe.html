@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}{{ recipe|yesno:'Изменение рецепта,Создание рецепта' }}{% endblock %}
 {% load user_filter_tag %}
+
+<title>{{ recipe|yesno:'Изменение рецепта,Создание рецепта' }}</title>
+
 {% block main_title %}{{ recipe|yesno:'Изменение рецепта,Создание рецепта' }}{% endblock %}
+
 {% block content %}
     <div class="form-container">
         <form class="form" method="post" enctype="multipart/form-data">
@@ -12,7 +15,6 @@
                 <div class="form__field-group">
                     <input type="text" id="id_title" name="title" value="{{ form.instance.title }}" class="form__input">
                     <span class="form__error">{{ form.title.errors }}</span>
-
                 </div>
             </div>
 
@@ -40,8 +42,6 @@
                 </div>
             </div>
 
-
-
             <div class="form__group">
                 <label for="nameIngredient" class="form__label">Ингредиенты</label>
                 <div class="form__field-group">
@@ -53,10 +53,10 @@
                         <input type="number" id="cantidad" class="form__input" min="0">
                         <label for="cantidad" class="form__label" id="cantidadVal">шт.</label>
                     </div>
+
                     <div class="form__field-group-ingredientes-container">
                         <span class="form__error">{{ form.non_field_errors }}</span>
-                   {% if recipe %}
-                       {% for ingredient in recipe.ingredients.all %}
+                       {% for ingredient in ingredients %}
                            <div class="form__field-item-ingredient" id="ing_{{ forloop.counter }}">
                                <span> {{ ingredient.ingredient.title }} {{ ingredient.amount|floatformat }}{{ ingredient.ingredient.dimension }}</span>
                                <span class="form__field-item-delete"></span>
@@ -65,18 +65,8 @@
                                <input id="unitsIngredient_{{ forloop.counter }}" name="unitsIngredient_{{ forloop.counter }}" type="hidden" value="{{ ingredient.ingredient.dimension }}">
                           </div>
                       {% endfor %}
-                  {% elif ingredients%}
-                      {% for ingredient in ingredients %}
-                          <div class="form__field-item-ingredient" id="ing_{{ forloop.counter }}">
-                              <span> {{ ingredient.title }} {{ ingredient.amount|floatformat }}{{ ingredient.dimension }}</span>
-                              <span class="form__field-item-delete"></span>
-                              <input id="nameIngredient_{{ forloop.counter }}" name="nameIngredient_{{ forloop.counter }}" type="hidden" value="{{ ingredient.title }}">
-                              <input id="valueIngredient_{{ forloop.counter }}" name="valueIngredient_{{ forloop.counter }}" type="hidden" value="{{ ingredient.amount|floatformat }}">
-                              <input id="unitsIngredient_{{ forloop.counter }}" name="unitsIngredient_{{ forloop.counter }}" type="hidden" value="{{ ingredient.dimension }}">
-                          </div>
-                      {% endfor %}
-                  {% endif %}
-               </div>
+                    </div>
+
                     <span class="form__ingredient-link" id="addIng">Добавить ингредиент</span>
                     <span class="form__error"></span>
                 </div>
@@ -117,6 +107,7 @@
         </form>
     </div>
 {% endblock content %}
+
 {% block js %}
     {% include 'helper/recipe_edit_new_form_js.html' %}
 {% endblock js  %}

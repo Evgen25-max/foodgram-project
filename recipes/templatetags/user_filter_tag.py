@@ -54,10 +54,11 @@ def shop_count(user, request):
     """Number of recipes in the shopping cart."""
 
     if user.is_authenticated:
-        return BasketUser.objects.filter(user=user).count()
+
+        return BasketUser.objects.filter(user=user).count() or ''
     recipe_list = request.session.get('basket_recipes')
     if recipe_list is None:
-        return 0
+        return ''
     return len(recipe_list)
 
 
