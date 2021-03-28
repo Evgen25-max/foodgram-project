@@ -9,7 +9,7 @@
 {% block content %}
     {% include 'helper/recipe_list.html' with recipes=page %}
     {% if page.has_other_pages %}
-        {% include 'helper/paginator.html' with items=page paginator=paginator actual_tags=actual_tags%}
+        {% include 'helper/paginator.html' with items=page paginator=paginator %}
     {% endif %}
 {% endblock content %}
 

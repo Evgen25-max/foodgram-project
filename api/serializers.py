@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from recipes.models import Ingredient, Recipe
-from users.models import BasketUser, Favorite, Subscription
+from recipes.models import BasketUser, Favorite, Ingredient, Recipe
+from users.models import Subscription
 
 User = get_user_model()
 
@@ -30,11 +30,6 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         model = Subscription
         extra_kwargs = {'user': {'read_only': True}}
 
-    def create(self, validated_data):
-        if 'user' not in validated_data:
-            validated_data['user'] = self.context['request'].user
-        return super().create(validated_data)
-
 
 class FavoriteSerializer(serializers.ModelSerializer):
     """Serializer for favorite models."""
@@ -51,11 +46,6 @@ class FavoriteSerializer(serializers.ModelSerializer):
         model = Favorite
         extra_kwargs = {'user': {'read_only': True}}
 
-    def create(self, validated_data):
-        if 'user' not in validated_data:
-            validated_data['user'] = self.context['request'].user
-        return super().create(validated_data)
-
 
 class BasketUserSerializer(serializers.ModelSerializer):
     """Serializer for Follow models."""
@@ -71,8 +61,3 @@ class BasketUserSerializer(serializers.ModelSerializer):
         fields = ('id',)
         model = BasketUser
         extra_kwargs = {'user': {'read_only': True}}
-
-    def create(self, validated_data):
-        if 'user' not in validated_data:
-            validated_data['user'] = self.context['request'].user
-        return super().create(validated_data)

@@ -5,13 +5,12 @@ from django.core.paginator import Paginator
 from django.db.models import Count, Prefetch, Subquery
 from django.shortcuts import get_object_or_404, redirect, render
 
-from recipes.models import Recipe, RecipeIngredient
-from users.models import BasketUser, Favorite, Subscription
+from recipes.models import Favorite, Recipe, RecipeIngredient
+from users.models import Subscription
 
 from .forms import RecipeForm
-from .utils import (get_actual_tag, get_ingredient_dict, get_ingredients,
-                    get_or_none, ingredients_change, ingredients_save,
-                    paginator_initial, pdf_get)
+from .utils import (get_actual_tag, get_ingredients, get_or_none,
+                    ingredients_change, paginator_initial, pdf_get)
 
 User = get_user_model()
 
@@ -34,12 +33,11 @@ def index(request):
     """ """
 
     actual_tags = get_actual_tag(request.get_full_path())
-    recipes = Recipe.objects.filter(
-        recipe_tag__meal_time__in=actual_tags
-    ).select_related('author').prefetch_related('recipe_tag').distinct()
+
+    recipes = Recipe.objects.recipe_with_tag(tag=actual_tags).annotate_subscribe_favorite(user=request.user)
     page, paginator = paginator_initial(request, recipes, settings.PAGINATOR_COUNT['default'])
     return render(
-        request, 'recipes/indexAuth.html', {'page': page, 'paginator': paginator, 'actual_tags': actual_tags}
+        request, 'recipes/indexAuth.html', {'page': page, 'paginator': paginator}
     )
 
 
@@ -48,16 +46,13 @@ def profile(request, username):
 
     actual_tags = get_actual_tag(request.get_full_path())
     author = get_object_or_404(User.objects.filter(username=username))
-    recipes = author.recipes.filter(
-        recipe_tag__meal_time__in=actual_tags).select_related('author').prefetch_related('recipe_tag').distinct()
-    paginator = Paginator(recipes, settings.PAGINATOR_COUNT['default'])
-    page_number = request.GET.get('page')
-    page = paginator.get_page(page_number)
+    recipes = author.recipes.recipe_with_tag(tag=actual_tags).annotate_all(user=request.user)
+    page, paginator = paginator_initial(request, recipes, settings.PAGINATOR_COUNT['default'])
     sub = request.user.is_authenticated and get_or_none(Subscription, user=request.user, author=author)
     return render(
         request,
         'recipes/authorRecipe.html',
-        {'page': page, 'paginator': paginator, 'actual_tags': actual_tags, 'author': author, 'sub': sub}
+        {'page': page, 'paginator': paginator, 'author': author, 'sub': sub}
     )
 
 
@@ -83,8 +78,7 @@ def new_recipe(request):
         form.instance.author = request.user
         recipe_ingredient = form.cleaned_data.get('ingredients')
         if recipe_ingredient:
-            recipe = form.save()
-            ingredients_save(recipe_ingredient, recipe)
+            form.save(recipe_ingredient)
             return redirect('recipes:index')
     ingredients = get_ingredients(form.data)
     return render(request, 'recipes/formRecipe.html', {'form': form, 'ingredients': ingredients})
@@ -96,15 +90,13 @@ def recipe_view(request, username, recipe_id):
         Recipe.objects.filter(
             pk=recipe_id,
             author__username=username
-        ).select_related('author').prefetch_related('recipe_ingredient__ingredient', 'recipe_tag'))
-    favorite_exist = (request.user.is_authenticated and
-                      Favorite.objects.filter(recipe=recipe_id, user=request.user).exists())
-    basket_exist = (request.user.is_authenticated and
-                    BasketUser.objects.filter(recipe=recipe_id, user=request.user).exists())
+        ).select_related('author').prefetch_related(
+            'recipe_ingredient__ingredient', 'recipe_tag'
+        ).annotate_all(user=request.user))
     return render(
         request,
         'recipes/singlePage.html',
-        {'recipe': recipe, 'favorite_exist': favorite_exist, 'basket_exist': basket_exist}
+        {'recipe': recipe}
     )
 
 
@@ -137,7 +129,7 @@ def recipe_edit(request, username, recipe_id):
             if (ingredients_change(form.instance.ingredients.all(), form.cleaned_data.get('ingredients')) or
                     form.has_changed()):
                 recipe = form.save()
-                ingredients_save(form.cleaned_data.get('ingredients'), recipe)
+
                 return redirect('recipes:index')
 
             return render(request, 'recipes/formRecipe.html', {'form': form, 'recipe': recipe})
@@ -154,13 +146,12 @@ def favorite(request, username):
     favorites_user = get_object_or_404(User.objects.filter(username=username))
     favorite_recipe = Favorite.objects.filter(user__username=username)
     recipes = Recipe.objects.filter(
-        pk__in=Subquery(favorite_recipe.values('recipe')),
-        recipe_tag__meal_time__in=actual_tags).select_related('author').prefetch_related('recipe_tag').distinct()
-    paginator = Paginator(recipes, settings.PAGINATOR_COUNT['default'])
-    page_number = request.GET.get('page')
-    page = paginator.get_page(page_number)
+        pk__in=Subquery(
+            favorite_recipe.values('recipe')
+        )).recipe_with_tag(actual_tags).annotate_subscribe_favorite(user=request.user)
+    page, paginator = paginator_initial(request, recipes, settings.PAGINATOR_COUNT['default'])
     return render(request, 'recipes/indexAuth.html',
-                  {'page': page, 'paginator': paginator, 'actual_tags': actual_tags, 'author': favorites_user})
+                  {'page': page, 'paginator': paginator, 'author': favorites_user})
 
 
 def shoplist(request):
@@ -194,7 +185,7 @@ def shoplist_file(request):
         if recipes:
             try:
                 recipes = RecipeIngredient.objects.filter(
-                    recipe__pk__in=[int(recipe_pk) for recipe_pk in recipes]
+                    recipe__pk__in=recipes
                 ).select_related('ingredient')
 
             except ValueError:
@@ -202,5 +193,5 @@ def shoplist_file(request):
                 recipes = {}
         else:
             recipes = {}
-    ingredient_data = get_ingredient_dict(recipes)
-    return pdf_get(ingredient_data)
+
+    return pdf_get(recipes)

@@ -32,11 +32,13 @@
                                 </div>
                             </li>
                         {% endfor %}
-                        {% if  follow.num_recipes > 3 %}
+                        {% with recipe_count=follow.num_recipes|add:"-3"  %}
+                        {% if  recipe_count > 3 %}
                             <li class="card-user__item">
-                                <a href="{% url 'recipes:profile' follow.author  %}" class="card-user__link link">Еще {{ follow.num_recipes|sub_up_0:3 }} рецептов...</a>
+                                <a href="{% url 'recipes:profile' follow.author  %}" class="card-user__link link">Еще {{ recipe_count }} рецептов...</a>
                             </li>
                         {% endif %}
+                        {% endwith %}
                     </ul>
                 </div>
                 <div class="card-user__footer">

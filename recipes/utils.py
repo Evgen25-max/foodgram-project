@@ -1,16 +1,15 @@
 import re
-from collections import defaultdict
 from io import BytesIO
 
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.utils.translation import gettext_lazy as _
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 
-from .const import GIT_HUB, PROJECT_NAME
-from .models import Ingredient, RecipeIngredient
+from .const import GIT_HUB, PROJECT_NAME, TAGS
+from .models import Ingredient
 
 
 def get_actual_tag(path):
@@ -57,19 +56,6 @@ def get_ingredients(data):
     return ingredient_actual
 
 
-def ingredients_save(ingredients, recipe):
-    """Saving the ingredients in the recipe."""
-    RecipeIngredient.objects.filter(recipe=recipe).delete()
-    recipe_ingerient = []
-    for ingredient in ingredients:
-        recipe_ingerient.append(
-            RecipeIngredient(amount=ingredients[ingredient], recipe=recipe, ingredient=ingredient,)
-        )
-
-    RecipeIngredient.objects.bulk_create(recipe_ingerient)
-    return recipe_ingerient
-
-
 def get_or_none(model, **kwargs):
     try:
         return model.objects.get(**kwargs)
@@ -77,16 +63,16 @@ def get_or_none(model, **kwargs):
         return None
 
 
-def get_ingredient_dict(recipe_ingredients):
-    """Returns a dictionary ingredients of the form {(ingredient, dimension): quantity, ...}."""
+# def get_ingredient_dict(recipe_ingredients):
+#     """Returns a dictionary ingredients of the form {(ingredient, dimension): quantity, ...}."""
+#
+#     ing_for_file = defaultdict(int)
+#     for recipe_ingredient in recipe_ingredients:
+#         ing_for_file[(recipe_ingredient.ingredient.title, recipe_ingredient.ingredient.dimension)] += recipe_ingredient.amount # noqa
+#     return ing_for_file
 
-    ing_for_file = defaultdict(int)
-    for recipe_ingredient in recipe_ingredients:
-        ing_for_file[(recipe_ingredient.ingredient.title, recipe_ingredient.ingredient.dimension)] += recipe_ingredient.amount # noqa
-    return ing_for_file
 
-
-def pdf_get(ingredient_for_file):
+def pdf_get(recipes):
     """Returns a pdf file with the ingredients."""
 
     response = HttpResponse(content_type='application/pdf')
@@ -98,9 +84,9 @@ def pdf_get(ingredient_for_file):
     page.setFont('FreeSans', 16)
     count = 0
 
-    for ingredient in ingredient_for_file:
+    for recipe in recipes:
         if count < 34:
-            str = f'• {ingredient[0]}({ingredient[1]}) - {ingredient_for_file[ingredient]}'
+            str = f'• {recipe.ingredient.title}({recipe.ingredient.dimension}) - {recipe.amount}'
             page.drawString(100, y, str)
             y -= 20
             count += 1
@@ -181,8 +167,22 @@ def paginator_initial(request, model_objs, paginator_count):
 
     paginator = Paginator(model_objs, paginator_count)
     page_number = request.GET.get('page')
-    if page_number and int(page_number) > paginator.num_pages:
-        page = paginator.get_page(paginator.num_pages)
-    else:
-        page = paginator.get_page(page_number)
-    return page, paginator
+    if page_number:
+        if not page_number.isdigit():
+            raise Http404()
+        if int(page_number) > paginator.num_pages:
+            page = paginator.get_page(paginator.num_pages)
+        else:
+            page = paginator.get_page(page_number)
+        return page, paginator
+    return paginator.get_page(None), paginator
+
+
+def tag_context_processors(request):
+
+    temp_actual_tags = {}
+    for tag in TAGS:
+        temp_tag = re.search(rf'{tag}=\d', request.get_full_path())
+        if not temp_tag:
+            temp_actual_tags[tag] = 1
+    return {'actual_tags': temp_actual_tags}

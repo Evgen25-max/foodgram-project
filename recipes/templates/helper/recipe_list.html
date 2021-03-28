@@ -23,14 +23,22 @@
                 </div>
             </div>
             <div class="card__footer">
-                {% if recipe|recipe_basket_check:request %}
-                    <button class="button button_style_light-blue" name="purchases"><span class="icon-check button__icon"></span> Рецепт добавлен</button>
+                {% if user.is_authenticated %}
+                    {% if recipe.basket %}
+                        <button class="button button_style_light-blue" name="purchases"><span class="icon-check button__icon"></span> Рецепт добавлен</button>
+                    {% else %}
+                        <button class="button button_style_blue button_style_light-blue" name="purchases" data-out=""><span class="icon-plus button__icon"></span>Добавить в покупки</button>
+                    {% endif %}
                 {% else %}
-                      <button class="button button_style_blue button_style_light-blue" name="purchases" data-out=""><span class="icon-plus button__icon"></span>Добавить в покупки</button>
+                    {% if recipe|recipe_basket_check:request %}
+                        <button class="button button_style_light-blue" name="purchases"><span class="icon-check button__icon"></span> Рецепт добавлен</button>
+                    {% else %}
+                        <button class="button button_style_blue button_style_light-blue" name="purchases" data-out=""><span class="icon-plus button__icon"></span>Добавить в покупки</button>
+                    {% endif %}
                 {% endif %}
 
                 {% if user.is_authenticated %}
-                    {% if recipe|favorite_check:user %}
+                    {% if recipe.favorite %}
                         <button class="button button_style_none" name="favorites"><span class="icon-favorite icon-favorite_big icon-favorite_active"></span></button>
                     {% else %}
                         <button class="button button_style_none" name="favorites" data-out><span class="icon-favorite icon-favorite_big"></span></button>

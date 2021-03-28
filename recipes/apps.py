@@ -9,6 +9,7 @@ class RecipesConfig(AppConfig):
     """Representing Recipes application with registration fonts for PDF files."""
 
     name = 'recipes'
+    verbose_name = "Рецепты"
 
     def ready(self):
         Font_FreeSans = ttfonts.TTFont(

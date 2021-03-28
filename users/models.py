@@ -2,12 +2,17 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from .utils import account_activation_token, sent_email_activate
+
 
 class CustomUser(AbstractUser):
     admin = models.BooleanField(default=False)
     email = models.EmailField(blank=True, unique=True)
+    is_active = models.BooleanField(default=False,)
 
-from recipes.models import Recipe  # noqa
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        sent_email_activate(self, account_activation_token)
 
 
 class Subscription(models.Model):
@@ -26,24 +31,3 @@ class Subscription(models.Model):
 
     def __str__(self):
         return f'{self.user} is subscribed to {self.author}'
-
-
-class Favorite(models.Model):
-    """Model of selected recipes."""
-
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_fav')
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='recipe_fav')
-
-    class Meta:
-        unique_together = ['user', 'recipe']
-
-    def __str__(self):
-        return f'{self.recipe} is favorites for {self.user}'
-
-
-class BasketUser(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='basket_user')
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='basket_recipe')
-
-    class Meta:
-        unique_together = ['user', 'recipe']

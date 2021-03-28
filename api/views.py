@@ -1,5 +1,6 @@
+from collections import OrderedDict
+
 from django.http import Http404
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.generics import get_object_or_404
@@ -9,8 +10,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 
-from recipes.models import Ingredient
-from users.models import BasketUser, Favorite, Subscription
+from recipes.models import BasketUser, Favorite, Ingredient
+from users.models import Subscription
 
 from .const import BASKET_USER_METHOD_PERMISSIONS, FAVORITE_METHOD_PERMISSIONS
 from .filters import IngredientFilterSet
@@ -54,8 +55,19 @@ class IngredientViewSet(ReadOnlyModelViewSet):
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
     permission_classes = [IsAuthenticated]
-    filter_backends = (DjangoFilterBackend,)
     filterset_class = IngredientFilterSet
+
+    def list(self, request, *args, **kwargs):
+
+        queryset = self.filter_queryset(self.get_queryset())
+        if not queryset:
+            return Response([OrderedDict([('title', ''), ('dimension', '')])])
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class SubscriptionViewSet(CreateDestroyViewSet):
@@ -73,10 +85,18 @@ class SubscriptionViewSet(CreateDestroyViewSet):
             raise Http404
         instance = get_object_or_404(self.queryset, user=request.user, author=author)
         self.perform_destroy(instance)
-        return Response({"success": True})
+        return Response({'success': True})
+
+    def perform_create(self, serializer):
+        """Save instance with/without data about user."""
+
+        if 'user' not in serializer.validated_data:
+            serializer.save(user=self.request.user)
+        else:
+            serializer.save()
 
 
-class FavoriteViewSet(CreateDestroyViewSet):
+class FavoriteViewSet(SubscriptionViewSet):
     """ViewSet for the Favorite model."""
 
     queryset = Favorite.objects.all()
@@ -96,7 +116,7 @@ class FavoriteViewSet(CreateDestroyViewSet):
         return Response({"success": True})
 
 
-class BasketViewSet(CreateDestroyViewSet):
+class BasketViewSet(SubscriptionViewSet):
     """ViewSet for the BasketUser model."""
 
     queryset = BasketUser.objects.all()

@@ -32,7 +32,7 @@
 {% elif request.resolver_match.view_name == 'recipes:new_recipe' %}
     <link rel="stylesheet" href="{% static "recipes/pages/form.css" %}">
 
-{% elif request.resolver_match.view_name in 'password_change, login, auth:signup,recipes:new_recipe,recipes:recipe_edit' %}
+{% elif request.resolver_match.view_name in 'password_change, password_reset, password_reset_confirm, login, auth:signup,recipes:new_recipe,recipes:recipe_edit' %}
     <title>Рецепты</title>
     <link rel="stylesheet" href="{% static "recipes/pages/form.css" %}">
 

@@ -12,3 +12,5 @@ class TAG_RECIPE(models.TextChoices):
 
 PROJECT_NAME = 'Foodgram_project'
 GIT_HUB = 'https://github.com/Evgen25-max'
+
+TAGS = ['breakfast', 'lunch', 'dinner']

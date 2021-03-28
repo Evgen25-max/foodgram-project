@@ -1,8 +1,11 @@
 from django.contrib import admin
 
-from users.models import Favorite
-
 from .models import Ingredient, Recipe, RecipeIngredient, RecipeTag
+
+
+class RecipeIngredientInline(admin.StackedInline):
+    model = RecipeIngredient
+    extra = 1
 
 
 class RecipeAdmin(admin.ModelAdmin):
@@ -11,14 +14,21 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'title',
+        'cooking_time',
+        'description',
+        'image',
         'author',
         'count_favorite'
     )
 
+    inlines = (RecipeIngredientInline,)
+
     def count_favorite(self, obj):
         """Number of additions to favorites."""
 
-        return Favorite.objects.filter(recipe=obj).count()
+        return obj.recipe_fav.count()
+
+    count_favorite.short_description = 'Добавили в избранное'
 
     search_fields = ('title', 'author__username', 'recipe_tag__meal_time',)
     empty_value_display = '-empty-'

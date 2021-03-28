@@ -1,8 +1,12 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from .forms import CustomUserCreationForm
+from .utils import check_token_and_save
+
+User = get_user_model()
 
 
 class UserCreationForm(CreateView):
@@ -16,3 +20,10 @@ class UserCreationForm(CreateView):
         if request.user.is_authenticated:
             return redirect('recipes:index')
         return super().dispatch(request, *args, **kwargs)
+
+
+def activate_user(request, uid64, token):
+
+    if check_token_and_save(User, uid64, token):
+        return redirect('sucess-user-activate')
+    return redirect('error-user-activate')
