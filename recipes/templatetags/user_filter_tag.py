@@ -54,7 +54,7 @@ def correct_ending(number, word):
         (1,): '',
     }
     remainder = number % 100
-    if remainder in range(11,20):
+    if remainder in range(11, 20):
         return f'{number} {word}ов'
     remainder = remainder % 10
     for key in remainder_dict:

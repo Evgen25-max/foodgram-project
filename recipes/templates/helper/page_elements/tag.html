@@ -1,0 +1,13 @@
+{% for tag in actual_tags %}
+    <li class="tags__item">
+        <a id="{{ tag }}" class="tags__checkbox tags__checkbox_style_orange {% if actual_tags.breakfast %} tags__checkbox_active {% endif %}"
+           {% if actual_tags|length > 1 or not actual_tags.breakfast %}
+                href="{% with url_name=request.resolver_match.view_name %}{% if author %}{% url url_name author.username %}{% else %}{% url url_name %}{% endif %}{% endwith %}?&q={% if actual_tags.breakfast %}breakfast=0{% endif %}{% if not actual_tags.lunch %}lunch=0{% endif %}{% if not actual_tags.dinner %}dinner=0{% endif %}">
+           {% else %}
+                href="#">
+           {% endif %}
+        </a>
+        <span class="tags__label">Завтрак</span>
+    </li>
+{% endfor %}
+actual_tags=actual_tags author=author

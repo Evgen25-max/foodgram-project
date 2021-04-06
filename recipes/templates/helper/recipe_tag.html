@@ -1,0 +1,5 @@
+<ul class={{ class }}>
+    {% for meal_time in recipe.recipe_tag.all %}
+        <li class="card__item"><span class="badge badge_style_{{meal_time.color}}">{{meal_time.tag_russian}}</span></li>
+    {% endfor %}
+</ul>

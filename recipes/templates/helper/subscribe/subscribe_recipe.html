@@ -1,0 +1,26 @@
+<div class="card-user" data-author="{{ follow.author.id }}">
+    <div class="card-user__header">
+        <a class="href_no_decor" href='{% url 'recipes:profile' follow.author.username %}'>
+            <h2 class="card-user__title">{% if follow.author.first_name or follow.author.last_name %}{{ follow.author.first_name }} {{ follow.author.last_name }}{% else %} {{ follow.author.username }}{% endif %}</h2>
+        </a>
+    </div>
+    <div class="card-user__body">
+        <ul class="card-user__items">
+            {% for recipe in follow.author.recipes.all|slice:":3" %}
+                <li class="card-user__item">
+                    <div class="recipe">
+                    {% include 'helper/page_elements/picture.html' with image=recipe.image size_picture="90x90" class='recipe__image'%}
+                    <a class="href_no_decor" href='{% url 'recipes:recipe' recipe.author.username recipe.pk  %}' >
+                        <h3 class="recipe__title">{{ recipe.title }}</h3>
+                        {% include 'helper/page_elements/recipe_clock.html' with class='recipe__text' clock=recipe.cooking_time %}
+                    </a>
+                    </div>
+                </li>
+            {% endfor %}
+            {% include 'helper/subscribe/remaining_recipes.html' with recipe_count=follow.num_recipes %}
+        </ul>
+    </div>
+    <div class="card-user__footer">
+        <button class="button button_style_light-blue button_size_auto" name="subscribe">Отписаться</button>
+    </div>
+</div>

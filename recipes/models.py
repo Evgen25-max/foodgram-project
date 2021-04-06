@@ -2,8 +2,9 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Exists, OuterRef
-from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+
 from users.models import Subscription
 
 from .const import TAG_COLOR, TAG_RECIPE, TAG_RUS
@@ -139,8 +140,7 @@ class Recipe(models.Model):
 
     def get_absolute_url(self):
         return reverse('recipes:recipe', args=[self.author, self.pk])
-    # def get_absolute_url(self):
-    #     return reverse('recipes:recipe', kwargs={'pk': self.pk})
+
     def __str__(self):
         return self.title
 

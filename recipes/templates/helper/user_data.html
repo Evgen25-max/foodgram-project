@@ -1,0 +1,1 @@
+<p class={{ class }}><span class="icon-user"></span> <a href='{% url 'recipes:profile' user.username %}' style="color: black">{% if user.first_name or user.last_name %}{{ user.first_name }} {{ user.last_name }}{% else %} {{ user.username }}{% endif %}</a></p>

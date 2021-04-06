@@ -1,19 +1,20 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Prefetch, Subquery
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import ListView
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+
 from recipes.models import Favorite, Recipe, RecipeIngredient
 from users.models import Subscription
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+
 from .forms import RecipeForm
 from .utils import (get_ingredients, get_or_none, ingredients_change,
                     paginator_initial, pdf_get)
-from django.http import HttpResponseRedirect
+
 User = get_user_model()
 
 
@@ -128,6 +129,7 @@ class ShopList(ListView):
                     self.request.session.pop('basket_recipes')
                     return recipes
 
+
 class NewRecipe(LoginRequiredMixin, CreateView):
     template_name = 'recipes/formRecipe.html'
     form_class = RecipeForm
@@ -144,6 +146,7 @@ class NewRecipe(LoginRequiredMixin, CreateView):
         context = super().get_context_data()
         context['ingredients'] = get_ingredients(context['form'])
         return context
+
 
 class RecipeUpdate(UpdateView):
 
@@ -162,7 +165,6 @@ class RecipeUpdate(UpdateView):
                 )
             )
         )
-    
 
     def form_valid(self, form):
         if (ingredients_change(form.instance.ingredients.all(), form.cleaned_data.get('ingredients')) or
@@ -170,7 +172,11 @@ class RecipeUpdate(UpdateView):
             self.object = form.save(form.cleaned_data['ingredients'])
             return HttpResponseRedirect(self.get_success_url())
         else:
-            return render(self.request, 'recipes/formRecipe.html', {'form': form, 'recipe': self.object, 'ingredients': form.instance.ingredients.all()})
+            return render(
+                self.request,
+                'recipes/formRecipe.html',
+                {'form': form, 'recipe': self.object, 'ingredients': form.instance.ingredients.all()}
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -183,11 +189,8 @@ class RecipeDelete(DeleteView):
     model = Recipe
     success_url = reverse_lazy('recipes:index')
 
-
     def get(self, *args, **kwargs):
         return self.post(*args, **kwargs)
-
-
 
 
 def shoplist_file(request):
