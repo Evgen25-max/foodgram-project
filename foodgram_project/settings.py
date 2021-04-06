@@ -7,7 +7,7 @@ load_dotenv()
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-PASSWORD_RESET_TIMEOUT = 9999999999999
+
 DEBUG = True
 
 if not DEBUG:

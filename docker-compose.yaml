@@ -1,6 +1,7 @@
 version: '3.8'
 volumes:
   postgres_data:
+  web-static:
 services:
   db:
     image: postgres:13.1-alpine
@@ -21,7 +22,7 @@ services:
     image: nginx:1.19.6
     restart: always
     volumes:
-      - ./static:/static/
+      - web-static:/static/
       - ./media:/media/
       - ./nginx:/etc/nginx/conf.d/
     depends_on:
