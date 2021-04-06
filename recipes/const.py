@@ -10,6 +10,19 @@ class TAG_RECIPE(models.TextChoices):
     DINNER = 'dinner', _('Ужин')
 
 
+TAG_RUS = {
+    'breakfast': 'Завтрак',
+    'lunch': 'Обед',
+    'dinner': 'Ужин',
+}
+
+TAG_COLOR = {
+    'breakfast': 'green',
+    'lunch': 'orange',
+    'dinner': 'purple',
+}
+
+
 PROJECT_NAME = 'Foodgram_project'
 GIT_HUB = 'https://github.com/Evgen25-max'
 

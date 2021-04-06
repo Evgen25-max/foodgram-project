@@ -1,33 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load user_filter_tag %}
-
 {% block tag %}
-    {% include 'helper/tag-block.html' with author=author actual_tags=actual_tags %}
+    {% include 'helper/tag-block.html' with author=author actual_tags=request.META.actual_tags %}
 {% endblock tag  %}
 
 {% block main_title %}{{ author.first_name }} {{ author.last_name }}{% endblock main_title%}
 
 {% block content %}
-    {% if user.is_authenticated %}
-        <div class="author-subscribe" data-author="{{ author.pk }}">
-            {% if user != author and sub %}
-{#                {% if sub  %}#}
-                    <p style="padding: 0 0 2em 0;"><button class="button button_style_light-blue button_size_subscribe" name="subscribe" >Отписаться от автора</button></p>
-                {% elif user != author and not sub %}
-                    <p style="padding: 0 0 2em 0;"><button class="button button_style_light-blue button_size_subscribe" name="subscribe" data-out="">Подписаться на автора</button></p>
-{#                {% endif %}#}
-            {% endif %}
-        </div>
+    {% if user.is_authenticated and user != author%}
+            {% include 'helper/subscribe.html' with data=author.pk sub=sub %}
     {% endif %}
 
-    {% include 'helper/recipe_list.html' with recipes=page %}
+    {% include 'helper/recipe_list.html' with recipes=page_obj %}
 
-    {% if page.has_other_pages %}
-        {% include 'helper/paginator.html' with items=page paginator=paginator actual_tags=actual_tags %}
+    {% if page_obj.has_other_pages %}
+        {% include 'helper/paginator.html' with items=page_obj paginator=paginator actual_tags=actual_tags %}
     {% endif %}
 {% endblock content %}
 
 {% block js %}
-    {% include 'helper/js.html' %}
+    {% include 'helper/js/js.html' %}
 {% endblock js  %}

@@ -13,7 +13,7 @@ class UserCreationForm(CreateView):
     """Signup."""
 
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('activate')
     template_name = 'users/signup.html'
 
     def dispatch(self, request, *args, **kwargs):
@@ -23,6 +23,7 @@ class UserCreationForm(CreateView):
 
 
 def activate_user(request, uid64, token):
+    """User activation with a valid uid64 and token."""
 
     if check_token_and_save(User, uid64, token):
         return redirect('sucess-user-activate')

@@ -3,10 +3,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Exists, OuterRef
 from django.utils.translation import gettext_lazy as _
-
+from django.urls import reverse
 from users.models import Subscription
 
-from .const import TAG_RECIPE
+from .const import TAG_COLOR, TAG_RECIPE, TAG_RUS
 
 User = get_user_model()
 
@@ -17,6 +17,13 @@ class RecipeTag(models.Model):
     meal_time = models.CharField(
         max_length=20, choices=TAG_RECIPE.choices, unique=True, verbose_name=_('meal for time')
     )
+    color = models.CharField(max_length=20, null=True, editable=False)
+    tag_russian = models.CharField(max_length=20, null=True, editable=False)
+
+    def save(self, *args, **kwargs):
+        self.color = TAG_COLOR[self.meal_time]
+        self.tag_russian = TAG_RUS[self.meal_time]
+        super().save(self, *args, **kwargs)
 
     def __str__(self):
         return self.meal_time
@@ -65,30 +72,30 @@ class RecipeIngredient(models.Model):
 
 class RecipeQuerySet(models.QuerySet):
     def basket(self, **kwargs):
-        return self.annotate(basket=Exists(BasketUser.objects.filter(recipe=OuterRef('pk')), **kwargs))
+        return self.annotate(basket=Exists(BasketUser.objects.filter(recipe=OuterRef('pk'), **kwargs)))
 
     def favorite(self, **kwargs):
-        return self.annotate(favorite=Exists(Favorite.objects.filter(recipe=OuterRef('pk')), **kwargs))
+        return self.annotate(favorite=Exists(Favorite.objects.filter(recipe=OuterRef('pk'), **kwargs)))
 
     def subscribe(self, **kwargs):
-        return self.annotate(subscribe=Exists(Subscription.objects.filter(author=OuterRef('author')), **kwargs))
+        return self.annotate(subscribe=Exists(Subscription.objects.filter(author=OuterRef('author'), **kwargs)))
 
     def recipe_with_tag(self, tag):
         return self.filter(
             recipe_tag__meal_time__in=tag
         ).select_related('author').prefetch_related('recipe_tag').distinct()
 
-    def annotate_subscribe_favorite(self, **kwargs):
+    def annotate_basket_favorite(self, **kwargs):
         return self.annotate(
-            basket=Exists(BasketUser.objects.filter(recipe=OuterRef('pk')), **kwargs),
-            favorite=Exists(Favorite.objects.filter(recipe=OuterRef('pk')), **kwargs)
+            basket=Exists(BasketUser.objects.filter(recipe=OuterRef('pk'), **kwargs)),
+            favorite=Exists(Favorite.objects.filter(recipe=OuterRef('pk'), **kwargs))
         )
 
     def annotate_all(self, **kwargs):
         return self.annotate(
-            basket=Exists(BasketUser.objects.filter(recipe=OuterRef('pk')), **kwargs),
-            favorite=Exists(Favorite.objects.filter(recipe=OuterRef('pk')), **kwargs),
-            subscribe=Exists(Subscription.objects.filter(author=OuterRef('author')), **kwargs)
+            basket=Exists(BasketUser.objects.filter(recipe=OuterRef('pk'), **kwargs)),
+            favorite=Exists(Favorite.objects.filter(recipe=OuterRef('pk'), **kwargs)),
+            subscribe=Exists(Subscription.objects.filter(author=OuterRef('author'), **kwargs))
         )
 
 
@@ -130,6 +137,10 @@ class Recipe(models.Model):
         verbose_name = _('Рецепт')
         verbose_name_plural = _('Рецепты')
 
+    def get_absolute_url(self):
+        return reverse('recipes:recipe', args=[self.author, self.pk])
+    # def get_absolute_url(self):
+    #     return reverse('recipes:recipe', kwargs={'pk': self.pk})
     def __str__(self):
         return self.title
 

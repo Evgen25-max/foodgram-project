@@ -13,11 +13,10 @@
             <div class="form__group">
                 <label for="id_title" class="form__label">Название рецепта</label>
                 <div class="form__field-group">
-                    <input type="text" id="id_title" name="title" value="{{ form.instance.title }}" class="form__input">
-                    <span class="form__error">{{ form.title.errors }}</span>
+                    <input type="text" id="id_title" name="title"  value="{{ form.instance.title }}" class="form__input">
+                    <span class="form__error">{{ form.title.error }}</span>
                 </div>
             </div>
-
             <div class="form__group">
                 <p class="form__label">Теги</p>
                 <div class="form__field-group">
@@ -53,7 +52,7 @@
                         <input type="number" id="cantidad" class="form__input" min="0">
                         <label for="cantidad" class="form__label" id="cantidadVal">шт.</label>
                     </div>
-
+                    <span class="form__ingredient-link" id="addIng">Добавить ингредиент</span>
                     <div class="form__field-group-ingredientes-container">
                         <span class="form__error">{{ form.non_field_errors }}</span>
                        {% for ingredient in ingredients %}
@@ -66,8 +65,6 @@
                           </div>
                       {% endfor %}
                     </div>
-
-                    <span class="form__ingredient-link" id="addIng">Добавить ингредиент</span>
                     <span class="form__error"></span>
                 </div>
             </div>
@@ -109,5 +106,5 @@
 {% endblock content %}
 
 {% block js %}
-    {% include 'helper/recipe_edit_new_form_js.html' %}
+    {% include 'helper/js/recipe_edit_new_form_js.html' %}
 {% endblock js  %}

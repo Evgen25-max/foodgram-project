@@ -1,48 +1,22 @@
-{% load thumbnail %}
 {% load user_filter_tag %}
 <div class="card-list">
     {% for recipe in recipes %}
         <div class="card" data-id="{{recipe.id}}">
-            <a href="{% url 'recipes:recipe' recipe.author recipe.pk %}" class="link">
-                {% thumbnail recipe.image "361x240" crop="center" as im %}
-                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                {% endthumbnail %}
-            </a>
+                {% include 'helper/recipe_picture.html' with image=recipe.image size_picture="361x240" %}
             <div class="card__body">
-                <a class="card__title link" href='{% url 'recipes:recipe' recipe.author.username recipe.pk %}' >{{ recipe }}</a>
-                <ul class="card__items">
-                    {% for meal_time in recipe.recipe_tag.all %}
-                        {% if meal_time.meal_time == "breakfast" %}<li class="card__item"><span class="badge badge_style_green">Завтрак</span></li>{% endif %}
-                        {% if meal_time.meal_time == 'lunch' %}<li class="card__item"><span class="badge badge_style_orange">Обед</span></li>{% endif %}
-                        {% if meal_time.meal_time == 'dinner' %}<li class="card__item"><span class="badge badge_style_purple">Ужин</span></li>{% endif %}
-                    {% endfor %}
-                </ul>
+                {% include 'helper/recipe_title_link.html' with recipe=recipe %}
+                {% include 'helper/recipe_tag.html' with meal_time=recipe.recipe_tag.all class='card__items'%}
                 <div class="card__items card__items_column">
-                    <p class="card__text"><span class="icon-time"></span> {{ recipe.cooking_time }} мин.</p>
-                    <p class="card__text"><span class="icon-user"></span> <a href='{% url 'recipes:profile' recipe.author.username %}' style="color: black">{{ recipe.author.first_name }} {{ recipe.author.last_name }}</a></p>
+                    {% include 'helper/page_elements/recipe_clock.html' with class='card__text' clock=recipe.cooking_time %}
+                    {% include 'helper/user_data.html' with user=recipe.author class="card__text" %}
                 </div>
             </div>
             <div class="card__footer">
                 {% if user.is_authenticated %}
-                    {% if recipe.basket %}
-                        <button class="button button_style_light-blue" name="purchases"><span class="icon-check button__icon"></span> Рецепт добавлен</button>
-                    {% else %}
-                        <button class="button button_style_blue button_style_light-blue" name="purchases" data-out=""><span class="icon-plus button__icon"></span>Добавить в покупки</button>
-                    {% endif %}
+                    {% include 'helper/recipe_footer_basket.html' with basket=recipe.basket %}
+                    {% include 'helper/recipe_footer_favorite.html' with favorite=recipe.favorite %}
                 {% else %}
-                    {% if recipe|recipe_basket_check:request %}
-                        <button class="button button_style_light-blue" name="purchases"><span class="icon-check button__icon"></span> Рецепт добавлен</button>
-                    {% else %}
-                        <button class="button button_style_blue button_style_light-blue" name="purchases" data-out=""><span class="icon-plus button__icon"></span>Добавить в покупки</button>
-                    {% endif %}
-                {% endif %}
-
-                {% if user.is_authenticated %}
-                    {% if recipe.favorite %}
-                        <button class="button button_style_none" name="favorites"><span class="icon-favorite icon-favorite_big icon-favorite_active"></span></button>
-                    {% else %}
-                        <button class="button button_style_none" name="favorites" data-out><span class="icon-favorite icon-favorite_big"></span></button>
-                    {% endif %}
+                    {% include 'helper/recipe_footer_basket.html' with basket=recipe|recipe_basket_check:request %}
                 {% endif %}
             </div>
         </div>

@@ -8,7 +8,7 @@ class IngredientFilterSet(rest_framework.FilterSet):
 
     query = rest_framework.CharFilter(
         field_name='title',
-        lookup_expr='istartswith',
+        lookup_expr='icontains',
     )
 
     class Meta:

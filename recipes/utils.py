@@ -3,7 +3,7 @@ from io import BytesIO
 
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
-from django.http import Http404, HttpResponse
+from django.http import HttpResponse
 from django.utils.translation import gettext_lazy as _
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
@@ -61,15 +61,6 @@ def get_or_none(model, **kwargs):
         return model.objects.get(**kwargs)
     except model.DoesNotExist:
         return None
-
-
-# def get_ingredient_dict(recipe_ingredients):
-#     """Returns a dictionary ingredients of the form {(ingredient, dimension): quantity, ...}."""
-#
-#     ing_for_file = defaultdict(int)
-#     for recipe_ingredient in recipe_ingredients:
-#         ing_for_file[(recipe_ingredient.ingredient.title, recipe_ingredient.ingredient.dimension)] += recipe_ingredient.amount # noqa
-#     return ing_for_file
 
 
 def pdf_get(recipes):
@@ -149,16 +140,15 @@ def ingredients_exist(recipe_ingredients):
 
 
 def ingredients_change(recipe_ing, form_ing):
-    """Returns valid ingredients in the form: {Ingredient instance: quantity}."""
+    """Return: whether the ingredients have changed or not.."""
 
     if len(recipe_ing) == len(form_ing):
         for recipe_ingredient in recipe_ing:
-            if not (
+            if (
                     recipe_ingredient.ingredient in form_ing and
                     form_ing[recipe_ingredient.ingredient] == recipe_ingredient.amount
             ):
-                return True
-        return False
+                return False
     return True
 
 
@@ -169,20 +159,34 @@ def paginator_initial(request, model_objs, paginator_count):
     page_number = request.GET.get('page')
     if page_number:
         if not page_number.isdigit():
-            raise Http404()
-        if int(page_number) > paginator.num_pages:
+            page = paginator.get_page(None)
+        elif int(page_number) > paginator.num_pages:
             page = paginator.get_page(paginator.num_pages)
+            # request.GET.page = paginator.num_pages
         else:
             page = paginator.get_page(page_number)
-        return page, paginator
-    return paginator.get_page(None), paginator
+        return paginator, page, page.object_list, page.has_other_pages()
+    page = paginator.get_page(None)
+    return paginator, page, page.object_list, page.has_other_pages()
 
 
-def tag_context_processors(request):
+def tag_from_get(request):
 
     temp_actual_tags = {}
     for tag in TAGS:
         temp_tag = re.search(rf'{tag}=\d', request.get_full_path())
         if not temp_tag:
             temp_actual_tags[tag] = 1
-    return {'actual_tags': temp_actual_tags}
+    return temp_actual_tags
+
+
+class SimpleMiddleware:
+    """Add actual tags in request.META."""
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        tags = tag_from_get(request)
+        request.META['actual_tags'] = tags
+        return self.get_response(request)

@@ -49,6 +49,8 @@ class RecipeTagAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'meal_time',
+        'color',
+        'tag_russian',
         )
 
 

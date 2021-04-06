@@ -113,7 +113,7 @@ class FavoriteViewSet(SubscriptionViewSet):
         instance = get_object_or_404(self.queryset, recipe=recipe_pk, user=request.user)
         self.check_object_permissions(self.request, instance)
         self.perform_destroy(instance)
-        return Response({"success": True})
+        return Response({'success': True}, status=status.HTTP_200_OK)
 
 
 class BasketViewSet(SubscriptionViewSet):
@@ -143,6 +143,7 @@ class BasketViewSet(SubscriptionViewSet):
 
     def destroy(self, request, *args, **kwargs):
         """Deleting a recipe from the trash for an authorized and anonymous user."""
+
         recipe_pk = kwargs.get('pk')
         if not recipe_pk:
             raise Http404
@@ -157,4 +158,4 @@ class BasketViewSet(SubscriptionViewSet):
                     request.session.modified = True
                 except (KeyError, ValueError):
                     return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response({"success": True})
+        return Response({'success': True}, status=status.HTTP_200_OK)

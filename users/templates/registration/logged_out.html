@@ -2,13 +2,10 @@
 {% block main_title %}Вы вышли из системы{% endblock main_title %}
 {% block content %}
     <div class="custom-center-block">
-        {% if user %}
-        {% endif %}
         <p class="custom-text-block">
             Вы вышли из своей учётной записи. Ждём вас снова!
         </p>
-        <p class="custom-text-block">
-            <a href='{% url 'recipes:index' %}'>Перейти на главную страницу</a>
+            {% include 'elements/custom_button_block.html' with url='/'  button_text="Перейти на главную страницу" %}
         </p>
     </div>
 {% endblock content %}

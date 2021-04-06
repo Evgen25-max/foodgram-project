@@ -39,4 +39,4 @@ class RecipeForm(ModelForm):
             )
 
         RecipeIngredient.objects.bulk_create(recipe_ingerient)
-        return recipe_ingerient
+        return recipe

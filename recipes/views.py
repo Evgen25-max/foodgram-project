@@ -1,17 +1,19 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Prefetch, Subquery
+from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, redirect, render
-
+from django.views.generic import ListView
+from django.views.generic import DetailView
 from recipes.models import Favorite, Recipe, RecipeIngredient
 from users.models import Subscription
-
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from .forms import RecipeForm
-from .utils import (get_actual_tag, get_ingredients, get_or_none,
-                    ingredients_change, paginator_initial, pdf_get)
-
+from .utils import (get_ingredients, get_or_none, ingredients_change,
+                    paginator_initial, pdf_get)
+from django.http import HttpResponseRedirect
 User = get_user_model()
 
 
@@ -29,169 +31,184 @@ def server_error(request):
     return render(request, 'misc/500.html', status=500)
 
 
-def index(request):
-    """ """
+class Index(ListView):
+    template_name = 'recipes/indexAuth.html'
+    paginate_by = settings.PAGINATOR_COUNT['default']
 
-    actual_tags = get_actual_tag(request.get_full_path())
+    def get_queryset(self):
+        return Recipe.objects.recipe_with_tag(
+            self.request.META.get('actual_tags')
+        ).annotate_basket_favorite(user=self.request.user.pk)
 
-    recipes = Recipe.objects.recipe_with_tag(tag=actual_tags).annotate_subscribe_favorite(user=request.user)
-    page, paginator = paginator_initial(request, recipes, settings.PAGINATOR_COUNT['default'])
-    return render(
-        request, 'recipes/indexAuth.html', {'page': page, 'paginator': paginator}
-    )
+    def paginate_queryset(self, queryset, page_size):
+        return(paginator_initial(self.request, queryset, settings.PAGINATOR_COUNT['default']))
 
 
-def profile(request, username):
+class SubscriptionRecipe(LoginRequiredMixin, Index):
+
+    template_name = 'recipes/myFollow.html'
+    paginate_by = settings.PAGINATOR_COUNT['subscribe']
+
+    def get_queryset(self):
+        return Subscription.objects.filter(user=self.request.user).annotate(
+            num_recipes=Count('author__recipes')).prefetch_related('author__recipes'
+                                                                   )
+
+
+class FavoriteRecipe(LoginRequiredMixin, Index):
     """."""
 
-    actual_tags = get_actual_tag(request.get_full_path())
-    author = get_object_or_404(User.objects.filter(username=username))
-    recipes = author.recipes.recipe_with_tag(tag=actual_tags).annotate_all(user=request.user)
-    page, paginator = paginator_initial(request, recipes, settings.PAGINATOR_COUNT['default'])
-    sub = request.user.is_authenticated and get_or_none(Subscription, user=request.user, author=author)
-    return render(
-        request,
-        'recipes/authorRecipe.html',
-        {'page': page, 'paginator': paginator, 'author': author, 'sub': sub}
-    )
+    def get_queryset(self):
+        self.author = get_object_or_404(User.objects.filter(username=self.kwargs['username']))
+        favorite_recipe = Favorite.objects.filter(user__username=self.kwargs['username'])
+        return Recipe.objects.filter(
+            pk__in=Subquery(
+                favorite_recipe.values('recipe')
+            )).recipe_with_tag(self.request.META.get('actual_tags')).annotate_basket_favorite(
+            user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['author'] = self.author
+        return context
 
 
-def subscriptions(request):
-    """."""
+class ProfileUser(Index):
 
-    follow_user = Subscription.objects.filter(
-        user=request.user).annotate(num_recipes=Count('author__recipes')).prefetch_related('author__recipes')
+    template_name = 'recipes/authorRecipe.html'
 
-    paginator = Paginator(follow_user, settings.PAGINATOR_COUNT['subscribe'])
-    page_number = request.GET.get('page')
-    page = paginator.get_page(page_number)
-    return render(
-        request, 'recipes/myFollow.html', {'page': page, 'paginator': paginator, 'follow_user': follow_user}
-    )
+    def get_queryset(self):
+
+        self.author = get_object_or_404(User.objects.filter(username=self.kwargs['username']))
+        self.sub = self.request.user.is_authenticated and get_or_none(
+            Subscription, user=self.request.user, author=self.author
+        )
+        return self.author.recipes.recipe_with_tag(
+            self.request.META.get('actual_tags')
+        ).annotate_all(
+            user=self.request.user.pk
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['author'] = self.author
+        context['sub'] = self.sub
+        return context
 
 
-@login_required
-def new_recipe(request):
-    form = RecipeForm(request.POST or None, files=request.FILES or None)
+class RecipeView(DetailView):
+    template_name = 'recipes/singlePage.html'
+    context_object_name = 'recipe'
 
-    if form.is_valid():
-        form.instance.author = request.user
+    def get_object(self, *args, **kwargs):
+        return get_object_or_404(
+            Recipe.objects.filter(
+                pk=self.kwargs['recipe_id'],
+                author__username=self.kwargs['username']
+            ).select_related('author').prefetch_related(
+                'recipe_ingredient__ingredient', 'recipe_tag'
+            ).annotate_all(user=self.request.user.pk))
+
+
+class ShopList(ListView):
+    template_name = 'recipes/shopList.html'
+
+    context_object_name = 'recipes'
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Recipe.objects.filter(basket_recipe__user=self.request.user)
+        else:
+            basket_recipes = self.request.session.get('basket_recipes')
+            recipes = None
+            if basket_recipes:
+                try:
+                    return Recipe.objects.filter(pk__in=[int(recipe_pk) for recipe_pk in basket_recipes])
+                except ValueError:
+                    self.request.session.pop('basket_recipes')
+                    return recipes
+
+class NewRecipe(LoginRequiredMixin, CreateView):
+    template_name = 'recipes/formRecipe.html'
+    form_class = RecipeForm
+
+    def form_valid(self, form):
+
+        form.instance.author = self.request.user
         recipe_ingredient = form.cleaned_data.get('ingredients')
         if recipe_ingredient:
-            form.save(recipe_ingredient)
-            return redirect('recipes:index')
-    ingredients = get_ingredients(form.data)
-    return render(request, 'recipes/formRecipe.html', {'form': form, 'ingredients': ingredients})
+            self.object = form.save(recipe_ingredient)
+            return HttpResponseRedirect(self.get_success_url())
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['ingredients'] = get_ingredients(context['form'])
+        return context
 
-def recipe_view(request, username, recipe_id):
+class RecipeUpdate(UpdateView):
 
-    recipe = get_object_or_404(
-        Recipe.objects.filter(
-            pk=recipe_id,
-            author__username=username
-        ).select_related('author').prefetch_related(
-            'recipe_ingredient__ingredient', 'recipe_tag'
-        ).annotate_all(user=request.user))
-    return render(
-        request,
-        'recipes/singlePage.html',
-        {'recipe': recipe}
-    )
+    template_name = 'recipes/formRecipe.html'
+    form_class = RecipeForm
 
-
-@login_required
-def recipe_remove(request, username, recipe_id):
-    """"""
-    recipe = get_object_or_404(Recipe.objects.filter(pk=recipe_id, author__username=username))
-    if recipe.author == request.user:
-        recipe.delete()
-    return redirect('recipes:index')
-
-
-@login_required
-def recipe_edit(request, username, recipe_id):
-    recipe = get_object_or_404(
-        Recipe.objects.filter(
-            author__username=username, pk=recipe_id
-        ).prefetch_related(
-            'recipe_tag', Prefetch(
-                'ingredients', queryset=RecipeIngredient.objects.filter(
-                    recipe__pk=recipe_id
-                ).select_related('ingredient')
+    def get_object(self, *args, **kwargs):
+        return get_object_or_404(
+            Recipe.objects.filter(
+                author__username=self.kwargs['username'], pk=self.kwargs['recipe_id']
+            ).prefetch_related(
+                'recipe_tag', Prefetch(
+                    'ingredients', queryset=RecipeIngredient.objects.filter(
+                        recipe__pk=self.kwargs['recipe_id']
+                    ).select_related('ingredient')
+                )
             )
         )
-    )
+    
 
-    if request.user == recipe.author:
-        form = RecipeForm(request.POST or None, files=request.FILES or None, instance=recipe)
-        if form.is_valid():
-            if (ingredients_change(form.instance.ingredients.all(), form.cleaned_data.get('ingredients')) or
-                    form.has_changed()):
-                recipe = form.save()
-
-                return redirect('recipes:index')
-
-            return render(request, 'recipes/formRecipe.html', {'form': form, 'recipe': recipe})
-        ingredients = get_ingredients(form.data) or recipe.ingredients.all()
-        return render(request, 'recipes/formRecipe.html', {'form': form, 'recipe': recipe, 'ingredients': ingredients})
-    return redirect('recipes:recipe', username=username, recipe_id=recipe_id)
-
-
-@login_required
-def favorite(request, username):
-    """."""
-
-    actual_tags = get_actual_tag(request.get_full_path())
-    favorites_user = get_object_or_404(User.objects.filter(username=username))
-    favorite_recipe = Favorite.objects.filter(user__username=username)
-    recipes = Recipe.objects.filter(
-        pk__in=Subquery(
-            favorite_recipe.values('recipe')
-        )).recipe_with_tag(actual_tags).annotate_subscribe_favorite(user=request.user)
-    page, paginator = paginator_initial(request, recipes, settings.PAGINATOR_COUNT['default'])
-    return render(request, 'recipes/indexAuth.html',
-                  {'page': page, 'paginator': paginator, 'author': favorites_user})
-
-
-def shoplist(request):
-    """."""
-
-    if request.user.is_authenticated:
-        recipes = Recipe.objects.filter(basket_recipe__user=request.user)
-    else:
-        basket_recipes = request.session.get('basket_recipes')
-        if basket_recipes:
-            try:
-                recipes = Recipe.objects.filter(pk__in=[int(recipe_pk) for recipe_pk in basket_recipes])
-            except ValueError:
-                request.session.pop('basket_recipes')
-                recipes = None
+    def form_valid(self, form):
+        if (ingredients_change(form.instance.ingredients.all(), form.cleaned_data.get('ingredients')) or
+                form.has_changed()):
+            self.object = form.save(form.cleaned_data['ingredients'])
+            return HttpResponseRedirect(self.get_success_url())
         else:
-            recipes = None
+            return render(self.request, 'recipes/formRecipe.html', {'form': form, 'recipe': self.object, 'ingredients': form.instance.ingredients.all()})
 
-    return render(request, 'recipes/shopList.html',
-                  {'recipes': recipes, })
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+
+        context['ingredients'] = get_ingredients(context['form']) or self.object.ingredients.all()
+        return context
+
+
+class RecipeDelete(DeleteView):
+    model = Recipe
+    success_url = reverse_lazy('recipes:index')
+
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+
 
 
 def shoplist_file(request):
-    """."""
+    """Uploads an ingredient purchase file to the user."""
+
     if request.user.is_authenticated:
-        recipes = RecipeIngredient.objects.filter(
+        recipes_ingredients = RecipeIngredient.objects.filter(
             recipe__basket_recipe__user=request.user
         ).select_related('ingredient')
     else:
-        recipes = request.session.get('basket_recipes')
-        if recipes:
+        recipes_pk_list = request.session.get('basket_recipes')
+        if recipes_pk_list:
             try:
-                recipes = RecipeIngredient.objects.filter(
-                    recipe__pk__in=recipes
+                recipes_ingredients = RecipeIngredient.objects.filter(
+                    recipe__pk__in=recipes_pk_list
                 ).select_related('ingredient')
 
             except ValueError:
                 request.session.pop('basket_recipes')
-                recipes = {}
+                recipes_ingredients = {}
         else:
-            recipes = {}
+            recipes_ingredients = {}
 
-    return pdf_get(recipes)
+    return pdf_get(recipes_ingredients)
