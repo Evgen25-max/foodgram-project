@@ -2,6 +2,8 @@ version: '3.8'
 volumes:
   postgres_data:
   web-static:
+  certbot-etc:
+  certbot-var:
 services:
   db:
     image: postgres:13.1-alpine
