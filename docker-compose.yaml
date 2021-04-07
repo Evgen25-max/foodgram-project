@@ -1,7 +1,6 @@
 version: '3.8'
 volumes:
   postgres_data:
-  web-static:
   certbot-etc:
   certbot-var:
 services:
@@ -24,7 +23,7 @@ services:
     image: nginx:1.19.6
     restart: always
     volumes:
-      - web-static:/static/
+      - ./static:/static/
       - ./media:/media/
       - ./nginx:/etc/nginx/conf.d/
       - certbot-etc:/etc/letsencrypt/
@@ -39,7 +38,7 @@ services:
     volumes:
       - certbot-etc:/etc/letsencrypt/
       - certbot-var:/var/lib/letsencrypt/
-      - web-static:/static/
+      - ./static:/static/
     depends_on:
       - nginx
     command: certonly --webroot --webroot-path=/static/ --email foodgramproj@gmail.com --agree-tos --no-eff-email --staging -d foodgram-proj.ml  -d www.foodgram-proj.ml
