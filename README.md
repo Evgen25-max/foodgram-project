@@ -1,4 +1,4 @@
-![foodgram_workflow](https://github.com/Evgen25-max/foodgram-project/workflows/foodgram_workflow/badge.svg)
+![](https://github.com/Evgen25-max/foodgram-project/actions/workflows/foodgram.yaml/badge.svg)
 
 # Foodgram project. Yandex Praktikum - final sprint.
 This is an online service where users can publish recipes, subscribe to other users ' publications, 
