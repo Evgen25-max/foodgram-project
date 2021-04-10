@@ -1,10 +1,4 @@
-![example event parameter](https://github.com/Evgen25-max/foodgram-project/workflows/main.yml/badge.svg)
-
-![](https://github.com/Evgen25-max/yamdb_final/workflows/yamdb_final-app/badge.svg)
-
-![](https://github.com/Evgen25-max/foodgram-project/workflows/ffff/main.yml/badge.svg)
-
-
+![foodgram_workflow](https://github.com/Evgen25-max/foodgram-project/workflows/foodgram_workflow/badge.svg?branch=master)
 
 # Foodgram project. Yandex Praktikum - final sprint.
 This is an online service where users can publish recipes, subscribe to other users ' publications, 
