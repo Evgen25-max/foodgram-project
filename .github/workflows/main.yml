@@ -87,7 +87,6 @@ jobs:
          cd app
          sudo docker-compose stop nginx web db
          rm -f .env
-         touch .env
          echo DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} > .env
          echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
          echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> .env
