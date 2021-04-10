@@ -1,5 +1,6 @@
 ![](https://github.com/Evgen25-max/foodgram-project/actions/workflows/foodgram.yaml/badge.svg)
 
+
 # Foodgram project. Yandex Praktikum - final sprint.
 This is an online service where users can publish recipes, subscribe to other users ' publications, 
 add their favorite recipes to the Favorites list, and download a summary list of products needed to 
