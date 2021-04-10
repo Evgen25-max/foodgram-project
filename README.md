@@ -6,9 +6,6 @@ This is an online service where users can publish recipes, subscribe to other us
 add their favorite recipes to the Favorites list, and download a summary list of products needed to 
 prepare one or more selected dishes before going to the store.
 
-## Functionality:
-Authorization: email verification with a confirmation code.
-
 What I used:
 - [Django Version: 3.0](https://www.djangoproject.com/)
 - [Django REST Version: 3.12.2](https://www.django-rest-framework.org/)
