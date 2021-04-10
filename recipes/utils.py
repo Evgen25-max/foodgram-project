@@ -201,7 +201,10 @@ class PaginatorMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
         page = request.GET.get('page')
-        paginator = response.context_data.get('paginator')
+        if response.get('context_data'):
+            paginator = response['context_data'].get('paginator')
+        else:
+            paginator = None
         if (page and paginator) and (page.isdigit() is False or int(page) > paginator.num_pages):
             q = request.GET.get('q')
             full_path = f'{request.path}?page={paginator.num_pages}'
