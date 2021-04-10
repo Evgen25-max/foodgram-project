@@ -1,4 +1,4 @@
-![foodgram_workflow](https://github.com/Evgen25-max/foodgram-project/workflows/foodgram_workflow/badge.svg?branch=master)
+![foodgram_workflow](https://github.com/Evgen25-max/foodgram-project/workflows/foodgram_workflow/badge.svg)
 
 # Foodgram project. Yandex Praktikum - final sprint.
 This is an online service where users can publish recipes, subscribe to other users ' publications, 
@@ -15,10 +15,10 @@ What I used:
 
 ## Pre-installation
 You need to install [docker](https://www.docker.com/products/docker-desktop "use the link if necessary") on your server 
-## Getting Started
 
+## Getting Started
 - Clone the repository to your server.
--  Create your own **.env** file. You can use the **.example_env** file as a base. In the file, you must specify the data for the correct operation of the Django framework and the postgresql database:
+- Create your own **.env** file. You can use the **.example_env** file as a base. In the file, you must specify the data for the correct operation of the Django framework and the postgresql database:
    * DJANGO_SECRET_KEY
    * DB_ENGINE   
    * DB_NAME   
