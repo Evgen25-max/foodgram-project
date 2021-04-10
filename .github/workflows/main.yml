@@ -86,7 +86,6 @@ jobs:
          sudo chmod +x /usr/local/bin/docker-compose
          cd app
          sudo docker-compose stop nginx web db
-         rm -f .env
          sudo docker pull evgen25max/python3.8.5_foodgram:v1.0
          sudo docker pull nginx:1.19.6
          sudo docker-compose up -d
