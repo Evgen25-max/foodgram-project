@@ -87,19 +87,6 @@ jobs:
          cd app
          sudo docker-compose stop nginx web db
          rm -f .env
-         echo DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} > .env
-         echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
-         echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> .env
-         echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
-         echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
-         echo DB_HOST=${{ secrets.DB_HOST }} >> .env
-         echo DB_PORT=${{ secrets.DB_PORT }} >> .env
-         echo DEFAULT_FROM_EMAIL=${{ secrets.DEFAULT_FROM_EMAIL }} >> .env
-         echo EMAIL_USE_TLS=${{ secrets.EMAIL_USE_TLS }} >> .env
-         echo EMAIL_HOST=${{ secrets.EMAIL_HOST }} >> .env
-         echo EMAIL_HOST_USER=${{ secrets.EMAIL_HOST }} >> .env
-         echo EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST }} >> .env
-         echo EMAIL_PORT=${{ secrets.EMAIL_HOST }} >> .env
          sudo docker pull evgen25max/python3.8.5_foodgram:v1.0
          sudo docker pull nginx:1.19.6
          sudo docker-compose up -d
