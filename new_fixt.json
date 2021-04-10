@@ -3,21 +3,27 @@
   "model": "recipes.recipetag",
   "pk": 1,
   "fields": {
-    "meal_time": "breakfast"
+    "meal_time": "breakfast",
+    "color": "green",
+    "tag_russian": "\u0417\u0430\u0432\u0442\u0440\u0430\u043a"
   }
 },
 {
   "model": "recipes.recipetag",
   "pk": 2,
   "fields": {
-    "meal_time": "lunch"
+    "meal_time": "lunch",
+    "color": "orange",
+    "tag_russian": "\u041e\u0431\u0435\u0434"
   }
 },
 {
   "model": "recipes.recipetag",
   "pk": 3,
   "fields": {
-    "meal_time": "dinner"
+    "meal_time": "dinner",
+    "color": "purple",
+    "tag_russian": "\u0423\u0436\u0438\u043d"
   }
 },
 {
@@ -18594,34 +18600,7 @@
 },
 {
   "model": "recipes.recipeingredient",
-  "pk": 119,
-  "fields": {
-    "amount": 120.0,
-    "recipe": 27,
-    "ingredient": 27085
-  }
-},
-{
-  "model": "recipes.recipeingredient",
-  "pk": 120,
-  "fields": {
-    "amount": 120.0,
-    "recipe": 27,
-    "ingredient": 27488
-  }
-},
-{
-  "model": "recipes.recipeingredient",
-  "pk": 121,
-  "fields": {
-    "amount": 120.0,
-    "recipe": 27,
-    "ingredient": 26382
-  }
-},
-{
-  "model": "recipes.recipeingredient",
-  "pk": 122,
+  "pk": 132,
   "fields": {
     "amount": 120.0,
     "recipe": 27,
@@ -18630,29 +18609,38 @@
 },
 {
   "model": "recipes.recipeingredient",
-  "pk": 123,
+  "pk": 133,
+  "fields": {
+    "amount": 120.0,
+    "recipe": 27,
+    "ingredient": 26382
+  }
+},
+{
+  "model": "recipes.recipeingredient",
+  "pk": 134,
+  "fields": {
+    "amount": 120.0,
+    "recipe": 27,
+    "ingredient": 27085
+  }
+},
+{
+  "model": "recipes.recipeingredient",
+  "pk": 135,
+  "fields": {
+    "amount": 120.0,
+    "recipe": 27,
+    "ingredient": 27488
+  }
+},
+{
+  "model": "recipes.recipeingredient",
+  "pk": 136,
   "fields": {
     "amount": 120.0,
     "recipe": 27,
     "ingredient": 27492
-  }
-},
-{
-  "model": "recipes.recipeingredient",
-  "pk": 124,
-  "fields": {
-    "amount": 4.0,
-    "recipe": 28,
-    "ingredient": 25711
-  }
-},
-{
-  "model": "recipes.recipeingredient",
-  "pk": 125,
-  "fields": {
-    "amount": 5.0,
-    "recipe": 28,
-    "ingredient": 27503
   }
 },
 {
@@ -18817,10 +18805,42 @@
 },
 {
   "model": "sessions.session",
+  "pk": "7yjt4zhe2pl2u3bs909k4tocoxnlyv63",
+  "fields": {
+    "session_data": "YzNlZDE2Mjc0YjUwNWQ5ZjljOTQyMjgxOWI3MjkwMzlkYmIwZDRmMDp7fQ==",
+    "expire_date": "2021-04-13T17:59:32.691Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "8ugih2e6vycw1bt1lqbhlekidt0p0s8d",
+  "fields": {
+    "session_data": "YzNlZDE2Mjc0YjUwNWQ5ZjljOTQyMjgxOWI3MjkwMzlkYmIwZDRmMDp7fQ==",
+    "expire_date": "2021-04-13T17:59:44.355Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "a1hbov4j6gdmu97h9vndnhbiv4xccboy",
+  "fields": {
+    "session_data": "OTZhODI1NTAxNTYzMDI1Y2VhOTJiMDkyMWM1NDY4ZTI4MDcyMDM1Zjp7ImJhc2tldF9yZWNpcGVzIjpbXX0=",
+    "expire_date": "2021-04-15T16:02:53.101Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "fuxkave41jo4ivj4gtyhfzkxwlrt7d83",
   "fields": {
     "session_data": "MjcwNzBiNGEzY2JmMTFiNGM3MGE2MDFlZmYzZDVmZjdiN2FlODE1Zjp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzNmIxNjEyNDQ3YjY0N2YzNTkwMjJlODYyMDcwZDZlMzE0ZTczYmQwIn0=",
     "expire_date": "2021-03-30T16:47:40.110Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "iwudz9dltivmjxvc6o1zjk7pf5z06jbn",
+  "fields": {
+    "session_data": "YjE5NzUwYWQ5OTNkOGVhYjlmNTdjODE1ZTJlZDc4NmU3NjRiOTg3ODp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3MzE5N2VmYWIyYzhiM2VlNTY1MmI2N2M0NjAwZmE1MmIxZTQyNDJkIn0=",
+    "expire_date": "2021-04-12T17:50:56.087Z"
   }
 },
 {
@@ -18833,10 +18853,74 @@
 },
 {
   "model": "sessions.session",
+  "pk": "oe7jjr9xq0muevio6mjwz6uicxiuwr6k",
+  "fields": {
+    "session_data": "MjdiNWE0MzNlYzIwZDM2Y2FjNjVlNzFhNDA0MWFjY2JmODE3ZmMwZDp7ImJhc2tldF9yZWNpcGVzIjpbIjI3Il19",
+    "expire_date": "2021-04-15T16:13:47.305Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "p27od828tyss0ybs9zojndqd7a802ocd",
   "fields": {
     "session_data": "ZjcxM2NmN2JiMTMwNGEzNWY4Njg2MGE3MjQwYzFjMGI0N2E3ZWFkNjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlMmNmNDAxYTlhMmRiZTVlNTY4YzBjNTU5OWRmYzQ4ZmE0YjRlOTIzIn0=",
     "expire_date": "2021-03-27T14:56:40.488Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "r4n6jfl8hkkqditbd3er4mxamyb9bkuc",
+  "fields": {
+    "session_data": "Nzg2ZGViYzU1MzY1NzE2ZTM4MDQ2ZTU3NThiYTEzMjY2MmY1MDNkNzp7ImJhc2tldF9yZWNpcGVzIjpbIjI1IiwiMjUiXX0=",
+    "expire_date": "2021-04-15T15:46:46.551Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "rv1a12il98vfply21jb6dwj30oy1jc6v",
+  "fields": {
+    "session_data": "YzNlZDE2Mjc0YjUwNWQ5ZjljOTQyMjgxOWI3MjkwMzlkYmIwZDRmMDp7fQ==",
+    "expire_date": "2021-04-13T18:00:24.260Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "una3fffkez8wshhypphpkqnw3zx7h3o8",
+  "fields": {
+    "session_data": "NzEzMjU1NDMzNGJhMzhlMjZhOTM3ZDgwYTM5MGNhOTFkMzY0NTQ1Mjp7ImJhc2tldF9yZWNpcGVzIjpbIjI4IiwiMjciXSwiX2F1dGhfdXNlcl9pZCI6IjEwIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI2MTkzN2E3NzNjNzA3NjliNmRlMmFiMWY1YTljYjQ0ZjA1MzEwOGZjIn0=",
+    "expire_date": "2021-04-23T15:15:02.282Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "uucfp4n15pybp827qojci821iorqer5e",
+  "fields": {
+    "session_data": "ZjhjYjdmNzlkMzI3ZDllNmI0OGYyMmJhMjc0ZTg0NzAxMzgxOTEyNjp7Il9hdXRoX3VzZXJfaWQiOiI4IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzOGEyZmFiM2Y3YjEwZTdhMDM3MmIxOGRlZGI1MTYwY2Q5ZTA1YmJlIn0=",
+    "expire_date": "2021-04-18T12:48:29.554Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "uuyvgfblnl7kipf08eqvd51ly4gwtjx9",
+  "fields": {
+    "session_data": "NzcwZTFlNTljOWFmMzk5NWQ4MmExODNhYTM1YWU3ZDY0ZGU5YWRiYjp7Il9hdXRoX3VzZXJfaWQiOiIxMCIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiNjE5MzdhNzczYzcwNzY5YjZkZTJhYjFmNWE5Y2I0NGYwNTMxMDhmYyJ9",
+    "expire_date": "2021-04-19T16:27:24.508Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "xid7q837ss242ljv9qnwc1zi2fbmb3g3",
+  "fields": {
+    "session_data": "OTZhODI1NTAxNTYzMDI1Y2VhOTJiMDkyMWM1NDY4ZTI4MDcyMDM1Zjp7ImJhc2tldF9yZWNpcGVzIjpbXX0=",
+    "expire_date": "2021-04-15T15:47:44.409Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "xnv2dy4zoxs5e95qis6qwx14s6usy86q",
+  "fields": {
+    "session_data": "YzNlZDE2Mjc0YjUwNWQ5ZjljOTQyMjgxOWI3MjkwMzlkYmIwZDRmMDp7fQ==",
+    "expire_date": "2021-04-17T13:08:29.143Z"
   }
 },
 {
@@ -18911,6 +18995,13 @@
 },
 {
   "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||image||15cf5521fbc73866f0056c91772a2672",
+  "fields": {
+    "value": "{\"name\": \"cache/bd/26/bd26d3bc076116db9c1bf24162e1d2f5.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [361, 240]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||image||1858c178dfd217f5b95b416e0b00671e",
   "fields": {
     "value": "{\"name\": \"cache/c2/83/c28315d52bf28f3ae14c81f93412a5ca.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [361, 240]}"
@@ -18953,6 +19044,13 @@
 },
 {
   "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||image||1fed82fb2f3be18976cfe15c1d9dae52",
+  "fields": {
+    "value": "{\"name\": \"cache/95/42/9542e4e4133c632a46583be1c8e805b1.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [361, 240]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||image||1ffc40b0906d001c661d1e1b588d261d",
   "fields": {
     "value": "{\"name\": \"cache/96/1c/961ccc013b54725af6609d224122d4f7.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [300, 300]}"
@@ -18981,6 +19079,13 @@
 },
 {
   "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||image||26f0043ef151d57bb5c95e4ce0a58f70",
+  "fields": {
+    "value": "{\"name\": \"cache/39/46/3946a8cb50208bf20ff74e2114b0f602.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [90, 90]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||image||2757f5a7c16b650e9d45e9d5f9ae1d74",
   "fields": {
     "value": "{\"name\": \"recipes/zebra.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [2500, 1250]}"
@@ -19005,6 +19110,13 @@
   "pk": "sorl-thumbnail||image||2c2e4fcc9a87cd6b7f05c00a9eff7ae6",
   "fields": {
     "value": "{\"name\": \"recipes/Plov_s42gsZD.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [614, 408]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||image||2d2757e5520499f3bc9e6a09c9fdf088",
+  "fields": {
+    "value": "{\"name\": \"cache/48/6b/486bf5d79f85fe66c1f9352bfae58c2f.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [90, 90]}"
   }
 },
 {
@@ -19058,6 +19170,13 @@
 },
 {
   "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||image||370d13244e4240ff394286e5eaf17f8f",
+  "fields": {
+    "value": "{\"name\": \"cache/39/87/398729bb1ef75996a6adc7291c74be46.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [90, 90]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||image||383153b3ab75301ba4d1b86e0e7be029",
   "fields": {
     "value": "{\"name\": \"recipes/\\u0411\\u043e\\u0440\\u0449_\\u043c\\u044f\\u0441\\u043d\\u043e\\u0439.jpeg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [268, 188]}"
@@ -19068,6 +19187,13 @@
   "pk": "sorl-thumbnail||image||396fa9fba9781425c699772b865017b1",
   "fields": {
     "value": "{\"name\": \"cache/b6/1f/b61fca4cb5af4fa1ad5a1de5a792e00a.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [300, 300]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||image||3b76335702e8ab4c11e454138379b30a",
+  "fields": {
+    "value": "{\"name\": \"cache/be/60/be600738eb8375a153188e74052bd49b.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [361, 240]}"
   }
 },
 {
@@ -19124,6 +19250,13 @@
   "pk": "sorl-thumbnail||image||4574399206869e3c7bab818a4a80ef8a",
   "fields": {
     "value": "{\"name\": \"cache/9f/75/9f75357c75000dc6fec104edc277a5dd.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [300, 300]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||image||463bd71bac55c4401941316845521357",
+  "fields": {
+    "value": "{\"name\": \"cache/b1/59/b1590d3568c3d7ce95c34f8f66991cdf.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [361, 240]}"
   }
 },
 {
@@ -19240,6 +19373,13 @@
 },
 {
   "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||image||62d732cab02db04d12e7cc8883594e93",
+  "fields": {
+    "value": "{\"name\": \"cache/65/97/659720d4d9913fdf70ccb15bc044dbb2.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [361, 240]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||image||65f7c048aea63f5faa60bbc5b05f145b",
   "fields": {
     "value": "{\"name\": \"cache/4f/31/4f31a6b6c31f72e758bd36a27e267172.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [300, 300]}"
@@ -19285,6 +19425,13 @@
   "pk": "sorl-thumbnail||image||7aded03bf0221358d8628636a090909e",
   "fields": {
     "value": "{\"name\": \"cache/9c/cb/9ccb61c15e0e0c4c0f682b430753de2b.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [90, 90]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||image||7b1c49fd3d52a04a9575bfa1d5d156da",
+  "fields": {
+    "value": "{\"name\": \"cache/da/4b/da4b5824c973b82197ba7c3933a6534f.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [300, 300]}"
   }
 },
 {
@@ -19366,6 +19513,13 @@
 },
 {
   "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||image||92bcdda6cd710a311fad022c13dc45c5",
+  "fields": {
+    "value": "{\"name\": \"cache/d4/b9/d4b9eb1cd56a67853cfbeac102253a98.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [90, 90]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||image||92d000627d361041647e4e350634d2e6",
   "fields": {
     "value": "{\"name\": \"cache/80/ed/80eda16fd05d396ea14015085e8b5eec.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [300, 300]}"
@@ -19425,6 +19579,13 @@
   "pk": "sorl-thumbnail||image||a285036a2ddb56b3055d5ecc49d1187a",
   "fields": {
     "value": "{\"name\": \"cache/ba/38/ba38782d229d221bf5d6ac31c7636562.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [361, 240]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||image||a30b9dfe3af830eec6ced6f46142bc23",
+  "fields": {
+    "value": "{\"name\": \"recipes/\\u0421\\u043d\\u0438\\u043c\\u043e\\u043a_\\u044d\\u043a\\u0440\\u0430\\u043d\\u0430_\\u043e\\u0442_2021-01-22_16-56-26.png\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [1920, 1080]}"
   }
 },
 {
@@ -19523,6 +19684,13 @@
   "pk": "sorl-thumbnail||image||bfd2f6c6b7dfb25f6127257401f556a3",
   "fields": {
     "value": "{\"name\": \"recipes/befstroganov.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [457, 505]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||image||c20b980280140d05422d57f91aa7591a",
+  "fields": {
+    "value": "{\"name\": \"cache/da/e8/dae894032fbdfa5efc57eb042b45b423.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [90, 90]}"
   }
 },
 {
@@ -19639,9 +19807,23 @@
 },
 {
   "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||image||e26fa39a8dec4fac3789893845738619",
+  "fields": {
+    "value": "{\"name\": \"cache/ad/5c/ad5cd46c99ffd42c26ca68df27e2f5dd.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [361, 240]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||image||e2744e03ceb80a734fc8e7f684c6a09c",
   "fields": {
     "value": "{\"name\": \"cache/b6/bf/b6bfdf8019bbe67a69ebb79a1f9d4bf2.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [300, 300]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||image||e6091d9f06d0fd12e20095268d964486",
+  "fields": {
+    "value": "{\"name\": \"cache/06/c9/06c997172754fb64d669a965006e7d7e.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [90, 90]}"
   }
 },
 {
@@ -19751,6 +19933,13 @@
 },
 {
   "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||image||fb7a3a5afdc09f06f0214ecdfac63b94",
+  "fields": {
+    "value": "{\"name\": \"cache/d2/55/d2553d89b46b2dad07a550aa645bb443.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [90, 90]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||image||fd4dc275f436fafe4ce9009d430b0520",
   "fields": {
     "value": "{\"name\": \"cache/0b/a9/0ba902966b2857a3807a11ad9cdf3ade.jpg\", \"storage\": \"django.core.files.storage.FileSystemStorage\", \"size\": [300, 300]}"
@@ -19774,7 +19963,7 @@
   "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||thumbnails||1363352b175fdae02d5b24df7c9f1a08",
   "fields": {
-    "value": "[\"89ee149ca93753d0aa4a2c3c50b2b004\"]"
+    "value": "[\"89ee149ca93753d0aa4a2c3c50b2b004\", \"15cf5521fbc73866f0056c91772a2672\"]"
   }
 },
 {
@@ -19795,7 +19984,7 @@
   "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||thumbnails||1c8e3b03a7cfd44f31211ceee8b4c07a",
   "fields": {
-    "value": "[\"31bce65207458a504a3d9e57bdab5d04\", \"f8d109a483afb8a891edffee23236fa5\"]"
+    "value": "[\"31bce65207458a504a3d9e57bdab5d04\", \"e6091d9f06d0fd12e20095268d964486\", \"f8d109a483afb8a891edffee23236fa5\"]"
   }
 },
 {
@@ -19809,7 +19998,7 @@
   "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||thumbnails||1e90ee7ee8fa435e68e3e082211b95e9",
   "fields": {
-    "value": "[\"d9bf570ef43182c5645d02c79c8b58e2\", \"b12d971d701f89b33a9ff0e4efbb8ce5\"]"
+    "value": "[\"d9bf570ef43182c5645d02c79c8b58e2\", \"26f0043ef151d57bb5c95e4ce0a58f70\", \"b12d971d701f89b33a9ff0e4efbb8ce5\"]"
   }
 },
 {
@@ -19858,7 +20047,7 @@
   "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||thumbnails||383153b3ab75301ba4d1b86e0e7be029",
   "fields": {
-    "value": "[\"3db8ebc3a0b4054ca4c0863427d38369\"]"
+    "value": "[\"3db8ebc3a0b4054ca4c0863427d38369\", \"1fed82fb2f3be18976cfe15c1d9dae52\"]"
   }
 },
 {
@@ -19914,7 +20103,7 @@
   "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||thumbnails||79ce8414b6e06f97f975521070463be8",
   "fields": {
-    "value": "[\"adc732b26fcec5fb7f9f3d700095fc14\", \"25557d503d689789e9c77b4c99773cfd\"]"
+    "value": "[\"2d2757e5520499f3bc9e6a09c9fdf088\", \"adc732b26fcec5fb7f9f3d700095fc14\", \"25557d503d689789e9c77b4c99773cfd\"]"
   }
 },
 {
@@ -19947,6 +20136,13 @@
 },
 {
   "model": "thumbnail.kvstore",
+  "pk": "sorl-thumbnail||thumbnails||a30b9dfe3af830eec6ced6f46142bc23",
+  "fields": {
+    "value": "[\"3b76335702e8ab4c11e454138379b30a\", \"7b1c49fd3d52a04a9575bfa1d5d156da\"]"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||thumbnails||aeec085ef0afa11f84f80b1b0d10be7b",
   "fields": {
     "value": "[\"e1b48843deeaff9ec05e1a2851d47364\", \"396fa9fba9781425c699772b865017b1\", \"a285036a2ddb56b3055d5ecc49d1187a\"]"
@@ -19963,7 +20159,7 @@
   "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||thumbnails||b11b7a77150c6004f9dfb959e916c6ff",
   "fields": {
-    "value": "[\"8655a1fb8433bc424e1495a3a203b8bf\"]"
+    "value": "[\"370d13244e4240ff394286e5eaf17f8f\", \"62d732cab02db04d12e7cc8883594e93\", \"8655a1fb8433bc424e1495a3a203b8bf\"]"
   }
 },
 {
@@ -19977,7 +20173,7 @@
   "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||thumbnails||b8cd8e7f29ea2c701820067013399a83",
   "fields": {
-    "value": "[\"d981381452991fe840ed005a212d3904\", \"1b27127a14af5ed669cc3c801ec4afd1\"]"
+    "value": "[\"d981381452991fe840ed005a212d3904\", \"fb7a3a5afdc09f06f0214ecdfac63b94\", \"1b27127a14af5ed669cc3c801ec4afd1\"]"
   }
 },
 {
@@ -19991,7 +20187,7 @@
   "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||thumbnails||ce9370ec021176697ab6ba75f52f74ff",
   "fields": {
-    "value": "[\"62aaf27b4c5f02baeace1392a49849ea\", \"f7b7645fec7650e9457c02a116972e9b\"]"
+    "value": "[\"f7b7645fec7650e9457c02a116972e9b\", \"c20b980280140d05422d57f91aa7591a\", \"62aaf27b4c5f02baeace1392a49849ea\"]"
   }
 },
 {
@@ -20019,21 +20215,21 @@
   "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||thumbnails||df94befae4411e7c5e3488fc5965dfcb",
   "fields": {
-    "value": "[\"5572c8ca015ca1542192475a4d645d8a\"]"
+    "value": "[\"5572c8ca015ca1542192475a4d645d8a\", \"463bd71bac55c4401941316845521357\"]"
   }
 },
 {
   "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||thumbnails||e11b6e952b33b76847758983b3c5e707",
   "fields": {
-    "value": "[\"23f7e5818e6598bad264b2aa492cc505\"]"
+    "value": "[\"23f7e5818e6598bad264b2aa492cc505\", \"e26fa39a8dec4fac3789893845738619\"]"
   }
 },
 {
   "model": "thumbnail.kvstore",
   "pk": "sorl-thumbnail||thumbnails||e99c4b5f7fc39f438efc91f94377605e",
   "fields": {
-    "value": "[\"a0835f5444ed52252ff491dfa2f55763\", \"6d100df305ed10a60dda9af2b31804c2\"]"
+    "value": "[\"a0835f5444ed52252ff491dfa2f55763\", \"6d100df305ed10a60dda9af2b31804c2\", \"92bcdda6cd710a311fad022c13dc45c5\"]"
   }
 },
 {
@@ -20627,6 +20823,78 @@
   }
 },
 {
+  "model": "auth.permission",
+  "pk": 65,
+  "fields": {
+    "name": "Can add favorite",
+    "content_type": 4,
+    "codename": "add_favorite"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 66,
+  "fields": {
+    "name": "Can change favorite",
+    "content_type": 4,
+    "codename": "change_favorite"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 67,
+  "fields": {
+    "name": "Can delete favorite",
+    "content_type": 4,
+    "codename": "delete_favorite"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 68,
+  "fields": {
+    "name": "Can view favorite",
+    "content_type": 4,
+    "codename": "view_favorite"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 69,
+  "fields": {
+    "name": "Can add basket user",
+    "content_type": 3,
+    "codename": "add_basketuser"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 70,
+  "fields": {
+    "name": "Can change basket user",
+    "content_type": 3,
+    "codename": "change_basketuser"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 71,
+  "fields": {
+    "name": "Can delete basket user",
+    "content_type": 3,
+    "codename": "delete_basketuser"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 72,
+  "fields": {
+    "name": "Can view basket user",
+    "content_type": 3,
+    "codename": "view_basketuser"
+  }
+},
+{
   "model": "flatpages.flatpage",
   "pk": 1,
   "fields": {
@@ -20687,6 +20955,21 @@
   }
 },
 {
+  "model": "flatpages.flatpage",
+  "pk": 5,
+  "fields": {
+    "url": "/activate/",
+    "title": "\u0410\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f",
+    "content": "\u041f\u0438\u0441\u044c\u043c\u043e \u0434\u043b\u044f \u0430\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u0438 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u043e \u043d\u0430 email \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u044b\u0439 \u043f\u0440\u0438 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438",
+    "enable_comments": false,
+    "template_name": "",
+    "registration_required": false,
+    "sites": [
+      1
+    ]
+  }
+},
+{
   "model": "users.customuser",
   "pk": 1,
   "fields": {
@@ -20698,7 +20981,7 @@
     "last_name": "\u0427\u0435\u0440\u043d\u043e\u0432\u0430",
     "is_staff": false,
     "date_joined": "2021-03-13T14:45:48.391Z",
-    "admin": false,
+    "email_send": true,
     "email": "vera@gmail.com",
     "is_active": true,
     "groups": [],
@@ -20709,15 +20992,15 @@
   "model": "users.customuser",
   "pk": 2,
   "fields": {
-    "password": "pbkdf2_sha256$180000$qJp71fshNWzp$MuixixebT0o4K4746IHivfYlPrCmRFoYv4eq0MsS/N4=",
-    "last_login": "2021-03-28T18:32:48.145Z",
+    "password": "pbkdf2_sha256$180000$cYyhlrgQLQPK$gH/mbqLFLntTu9rVhR1y+u9Fdjs8KgkJUDJGu1EEYJ0=",
+    "last_login": "2021-03-31T17:01:57.156Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "",
     "last_name": "",
     "is_staff": true,
     "date_joined": "2021-03-13T14:52:14.792Z",
-    "admin": false,
+    "email_send": true,
     "email": "admin@admin.ru",
     "is_active": true,
     "groups": [],
@@ -20736,7 +21019,7 @@
     "last_name": "\u0417\u0435\u043b\u0435\u043d\u043e\u0432\u0430",
     "is_staff": false,
     "date_joined": "2021-03-13T18:12:40.862Z",
-    "admin": false,
+    "email_send": true,
     "email": "a@a.ru",
     "is_active": true,
     "groups": [],
@@ -20755,7 +21038,7 @@
     "last_name": "\u0410\u0433\u0430\u043d\u0435\u0441\u043e\u0432\u0438\u0447",
     "is_staff": false,
     "date_joined": "2021-03-13T18:36:58.220Z",
-    "admin": false,
+    "email_send": true,
     "email": "agan@agan.ru",
     "is_active": true,
     "groups": [],
@@ -20774,7 +21057,7 @@
     "last_name": "\u0422\u0451\u0440\u043a\u0438\u043d",
     "is_staff": false,
     "date_joined": "2021-03-13T19:22:55.233Z",
-    "admin": false,
+    "email_send": true,
     "email": "terkin@mail.ru",
     "is_active": true,
     "groups": [],
@@ -20793,7 +21076,7 @@
     "last_name": "\u0418\u0432\u0430\u043d\u043e\u0432",
     "is_staff": false,
     "date_joined": "2021-03-13T19:28:30.321Z",
-    "admin": false,
+    "email_send": true,
     "email": "ivan@ivan.ru",
     "is_active": true,
     "groups": [],
@@ -20805,14 +21088,14 @@
   "pk": 8,
   "fields": {
     "password": "pbkdf2_sha256$180000$vUv5sBMRR8JI$YssdgzFh32aLSdp/UIkSOTG+6Ks4qQStniIVDg16oyA=",
-    "last_login": "2021-03-16T16:16:00.809Z",
+    "last_login": "2021-04-04T16:27:29.927Z",
     "is_superuser": false,
     "username": "rita",
     "first_name": "\u0420\u0438\u0442\u0430",
     "last_name": "\u0413\u043e\u0442\u043e\u0432\u043a\u0438\u043d\u0430",
     "is_staff": false,
     "date_joined": "2021-03-15T16:15:48.177Z",
-    "admin": false,
+    "email_send": true,
     "email": "rita@mail.ru",
     "is_active": true,
     "groups": [],
@@ -20831,7 +21114,7 @@
     "last_name": "\u041a\u0440\u0443\u0442\u043e\u0432\u0438\u0447",
     "is_staff": false,
     "date_joined": "2021-03-16T16:13:00.982Z",
-    "admin": false,
+    "email_send": true,
     "email": "ddd@yandex.ru",
     "is_active": true,
     "groups": [],
@@ -20843,14 +21126,14 @@
   "pk": 10,
   "fields": {
     "password": "pbkdf2_sha256$180000$bICg9zkI4Qh6$lqQNllamjo8pF3srmrtvwEzjC+hKDaqJ333Csqnd6JA=",
-    "last_login": null,
+    "last_login": "2021-04-09T15:15:02.190Z",
     "is_superuser": true,
     "username": "adminPavel",
     "first_name": "",
     "last_name": "",
     "is_staff": true,
     "date_joined": "2021-03-16T16:51:51.004Z",
-    "admin": false,
+    "email_send": true,
     "email": "admin@admin1.ru",
     "is_active": true,
     "groups": [],
@@ -20858,83 +21141,100 @@
   }
 },
 {
-  "model": "users.subscription",
-  "pk": 1,
+  "model": "users.customuser",
+  "pk": 105,
   "fields": {
-    "author": 1,
-    "user": 3
+    "password": "pbkdf2_sha256$180000$RfTvpOyUPSam$ArT8emVcY5zaeJ8agTKq4DrpSJaNpM47ZjSpxgVs6qE=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "26gdigdi",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "date_joined": "2021-04-03T12:50:21.608Z",
+    "email_send": true,
+    "email": "26gdigdi@mail.ru",
+    "is_active": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.customuser",
+  "pk": 106,
+  "fields": {
+    "password": "pbkdf2_sha256$180000$VceJM7BIbOZ2$nGikYnB4ZUw5Qtb4K6YIzvBHA69XNESIsFZazEC/DNQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "27gdigdi",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "date_joined": "2021-04-03T12:50:21.666Z",
+    "email_send": true,
+    "email": "27gdigdi@mail.ru",
+    "is_active": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.customuser",
+  "pk": 107,
+  "fields": {
+    "password": "pbkdf2_sha256$180000$c4UEFZmYhtQd$d/q0HGtcBV4MjNDb8PTfE19QmJLZLeKVSqNiiVzD8Wg=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "28gdigdi",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "date_joined": "2021-04-03T12:50:21.742Z",
+    "email_send": true,
+    "email": "28gdigdi@mail.ru",
+    "is_active": false,
+    "groups": [],
+    "user_permissions": []
   }
 },
 {
   "model": "users.subscription",
-  "pk": 2,
+  "pk": 23,
+  "fields": {
+    "author": 1,
+    "user": 8
+  }
+},
+{
+  "model": "users.subscription",
+  "pk": 27,
+  "fields": {
+    "author": 8,
+    "user": 2
+  }
+},
+{
+  "model": "users.subscription",
+  "pk": 35,
+  "fields": {
+    "author": 8,
+    "user": 10
+  }
+},
+{
+  "model": "users.subscription",
+  "pk": 36,
   "fields": {
     "author": 3,
-    "user": 4
+    "user": 10
   }
 },
 {
   "model": "users.subscription",
-  "pk": 3,
+  "pk": 37,
   "fields": {
     "author": 1,
-    "user": 4
-  }
-},
-{
-  "model": "users.subscription",
-  "pk": 4,
-  "fields": {
-    "author": 4,
-    "user": 5
-  }
-},
-{
-  "model": "users.subscription",
-  "pk": 5,
-  "fields": {
-    "author": 3,
-    "user": 5
-  }
-},
-{
-  "model": "users.subscription",
-  "pk": 6,
-  "fields": {
-    "author": 1,
-    "user": 5
-  }
-},
-{
-  "model": "users.subscription",
-  "pk": 9,
-  "fields": {
-    "author": 3,
-    "user": 6
-  }
-},
-{
-  "model": "users.subscription",
-  "pk": 10,
-  "fields": {
-    "author": 1,
-    "user": 6
-  }
-},
-{
-  "model": "users.subscription",
-  "pk": 12,
-  "fields": {
-    "author": 5,
-    "user": 6
-  }
-},
-{
-  "model": "users.subscription",
-  "pk": 14,
-  "fields": {
-    "author": 4,
-    "user": 6
+    "user": 10
   }
 },
 {
@@ -21330,112 +21630,56 @@
   }
 },
 {
-  "model": "recipes.recipe",
-  "pk": 28,
+  "model": "recipes.favorite",
+  "pk": 27,
   "fields": {
-    "author": 8,
-    "title": "\u0420\u0435\u0446\u0435\u043f\u0442 \u0431\u0435\u0437 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f",
-    "image": "recipes/defaultImage.png",
-    "description": "\u0420\u0435\u0446\u0435\u043f\u0442 \u0431\u0435\u0437 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f",
-    "cooking_time": 3,
-    "pub_date": "2021-03-18T05:02:07.445Z",
-    "recipe_tag": [
-      1,
-      2
-    ]
+    "user": 8,
+    "recipe": 17
   }
 },
 {
   "model": "recipes.favorite",
-  "pk": 2,
+  "pk": 30,
   "fields": {
-    "user": 3,
-    "recipe": 14
+    "user": 2,
+    "recipe": 19
   }
 },
 {
   "model": "recipes.favorite",
-  "pk": 3,
+  "pk": 31,
   "fields": {
-    "user": 3,
-    "recipe": 12
+    "user": 2,
+    "recipe": 18
   }
 },
 {
   "model": "recipes.favorite",
-  "pk": 4,
+  "pk": 32,
   "fields": {
-    "user": 3,
-    "recipe": 7
+    "user": 8,
+    "recipe": 18
   }
 },
 {
   "model": "recipes.favorite",
-  "pk": 5,
+  "pk": 33,
   "fields": {
-    "user": 6,
-    "recipe": 15
+    "user": 8,
+    "recipe": 19
   }
 },
 {
   "model": "recipes.favorite",
-  "pk": 7,
+  "pk": 35,
   "fields": {
-    "user": 6,
-    "recipe": 12
+    "user": 2,
+    "recipe": 27
   }
 },
 {
   "model": "recipes.favorite",
-  "pk": 8,
-  "fields": {
-    "user": 6,
-    "recipe": 16
-  }
-},
-{
-  "model": "recipes.favorite",
-  "pk": 9,
-  "fields": {
-    "user": 6,
-    "recipe": 14
-  }
-},
-{
-  "model": "recipes.favorite",
-  "pk": 10,
-  "fields": {
-    "user": 6,
-    "recipe": 13
-  }
-},
-{
-  "model": "recipes.favorite",
-  "pk": 11,
-  "fields": {
-    "user": 6,
-    "recipe": 3
-  }
-},
-{
-  "model": "recipes.favorite",
-  "pk": 12,
-  "fields": {
-    "user": 6,
-    "recipe": 2
-  }
-},
-{
-  "model": "recipes.favorite",
-  "pk": 13,
-  "fields": {
-    "user": 6,
-    "recipe": 1
-  }
-},
-{
-  "model": "recipes.favorite",
-  "pk": 14,
+  "pk": 44,
   "fields": {
     "user": 8,
     "recipe": 26
@@ -21443,71 +21687,111 @@
 },
 {
   "model": "recipes.favorite",
-  "pk": 15,
+  "pk": 48,
   "fields": {
     "user": 8,
-    "recipe": 25
+    "recipe": 20
   }
 },
 {
-  "model": "recipes.basketuser",
-  "pk": 1,
-  "fields": {
-    "user": 1,
-    "recipe": 1
-  }
-},
-{
-  "model": "recipes.basketuser",
-  "pk": 2,
-  "fields": {
-    "user": 3,
-    "recipe": 13
-  }
-},
-{
-  "model": "recipes.basketuser",
-  "pk": 3,
-  "fields": {
-    "user": 3,
-    "recipe": 12
-  }
-},
-{
-  "model": "recipes.basketuser",
-  "pk": 4,
-  "fields": {
-    "user": 3,
-    "recipe": 14
-  }
-},
-{
-  "model": "recipes.basketuser",
-  "pk": 5,
-  "fields": {
-    "user": 4,
-    "recipe": 15
-  }
-},
-{
-  "model": "recipes.basketuser",
-  "pk": 7,
-  "fields": {
-    "user": 6,
-    "recipe": 16
-  }
-},
-{
-  "model": "recipes.basketuser",
-  "pk": 9,
+  "model": "recipes.favorite",
+  "pk": 49,
   "fields": {
     "user": 8,
     "recipe": 21
   }
 },
 {
+  "model": "recipes.favorite",
+  "pk": 50,
+  "fields": {
+    "user": 8,
+    "recipe": 22
+  }
+},
+{
+  "model": "recipes.favorite",
+  "pk": 51,
+  "fields": {
+    "user": 8,
+    "recipe": 16
+  }
+},
+{
+  "model": "recipes.favorite",
+  "pk": 52,
+  "fields": {
+    "user": 8,
+    "recipe": 15
+  }
+},
+{
+  "model": "recipes.favorite",
+  "pk": 53,
+  "fields": {
+    "user": 8,
+    "recipe": 14
+  }
+},
+{
+  "model": "recipes.favorite",
+  "pk": 54,
+  "fields": {
+    "user": 8,
+    "recipe": 13
+  }
+},
+{
+  "model": "recipes.favorite",
+  "pk": 65,
+  "fields": {
+    "user": 8,
+    "recipe": 25
+  }
+},
+{
+  "model": "recipes.favorite",
+  "pk": 66,
+  "fields": {
+    "user": 8,
+    "recipe": 24
+  }
+},
+{
+  "model": "recipes.favorite",
+  "pk": 67,
+  "fields": {
+    "user": 8,
+    "recipe": 23
+  }
+},
+{
+  "model": "recipes.favorite",
+  "pk": 73,
+  "fields": {
+    "user": 8,
+    "recipe": 12
+  }
+},
+{
+  "model": "recipes.favorite",
+  "pk": 74,
+  "fields": {
+    "user": 8,
+    "recipe": 11
+  }
+},
+{
   "model": "recipes.basketuser",
-  "pk": 10,
+  "pk": 61,
+  "fields": {
+    "user": 8,
+    "recipe": 26
+  }
+},
+{
+  "model": "recipes.basketuser",
+  "pk": 62,
   "fields": {
     "user": 8,
     "recipe": 27
@@ -21515,15 +21799,7 @@
 },
 {
   "model": "recipes.basketuser",
-  "pk": 11,
-  "fields": {
-    "user": 8,
-    "recipe": 26
-  }
-},
-{
-  "model": "recipes.basketuser",
-  "pk": 12,
+  "pk": 64,
   "fields": {
     "user": 8,
     "recipe": 25
@@ -21531,7 +21807,7 @@
 },
 {
   "model": "recipes.basketuser",
-  "pk": 13,
+  "pk": 65,
   "fields": {
     "user": 8,
     "recipe": 24
@@ -21539,58 +21815,10 @@
 },
 {
   "model": "recipes.basketuser",
-  "pk": 14,
+  "pk": 66,
   "fields": {
     "user": 8,
     "recipe": 23
-  }
-},
-{
-  "model": "recipes.basketuser",
-  "pk": 15,
-  "fields": {
-    "user": 8,
-    "recipe": 22
-  }
-},
-{
-  "model": "recipes.basketuser",
-  "pk": 16,
-  "fields": {
-    "user": 8,
-    "recipe": 20
-  }
-},
-{
-  "model": "recipes.basketuser",
-  "pk": 17,
-  "fields": {
-    "user": 8,
-    "recipe": 19
-  }
-},
-{
-  "model": "recipes.basketuser",
-  "pk": 18,
-  "fields": {
-    "user": 8,
-    "recipe": 18
-  }
-},
-{
-  "model": "recipes.basketuser",
-  "pk": 19,
-  "fields": {
-    "user": 8,
-    "recipe": 17
-  }
-},
-{
-  "model": "recipes.basketuser",
-  "pk": 20,
-  "fields": {
-    "user": 8,
-    "recipe": 16
   }
 },
 {
@@ -21760,6 +21988,45 @@
     "object_repr": "/sucess-activate/ -- \u0410\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"Title\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2021-03-30T18:09:42.604Z",
+    "user": 2,
+    "content_type": 9,
+    "object_id": "5",
+    "object_repr": "/activate/ -- \u0410\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2021-04-09T15:18:41.866Z",
+    "user": 10,
+    "content_type": 6,
+    "object_id": "29",
+    "object_repr": "fefe",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2021-04-09T15:18:41.883Z",
+    "user": 10,
+    "content_type": 6,
+    "object_id": "28",
+    "object_repr": "\u0420\u0435\u0446\u0435\u043f\u0442 \u0431\u0435\u0437 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f",
+    "action_flag": 3,
+    "change_message": ""
   }
 }
 ]

@@ -43,7 +43,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'recipes.utils.SimpleMiddleware',
+    'recipes.utils.ActualTagsMiddleware',
+    'recipes.utils.PaginatorMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
@@ -81,7 +82,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'foodgram_project.wsgi.application'
 
-if DEBUG is not True:
+if DEBUG is True:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',

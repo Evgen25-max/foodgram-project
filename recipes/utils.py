@@ -4,6 +4,7 @@ from io import BytesIO
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.utils.translation import gettext_lazy as _
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
@@ -162,7 +163,6 @@ def paginator_initial(request, model_objs, paginator_count):
             page = paginator.get_page(None)
         elif int(page_number) > paginator.num_pages:
             page = paginator.get_page(paginator.num_pages)
-            # request.GET.page = paginator.num_pages
         else:
             page = paginator.get_page(page_number)
         return paginator, page, page.object_list, page.has_other_pages()
@@ -180,7 +180,7 @@ def tag_from_get(request):
     return temp_actual_tags
 
 
-class SimpleMiddleware:
+class ActualTagsMiddleware:
     """Add actual tags in request.META."""
 
     def __init__(self, get_response):
@@ -190,3 +190,22 @@ class SimpleMiddleware:
         tags = tag_from_get(request)
         request.META['actual_tags'] = tags
         return self.get_response(request)
+
+
+class PaginatorMiddleware:
+    """Redirect to last_page if non valid paginator."""
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        page = request.GET.get('page')
+        paginator = response.context_data.get('paginator')
+        if (page and paginator) and (page.isdigit() is False or int(page) > paginator.num_pages):
+            q = request.GET.get('q')
+            full_path = f'{request.path}?page={paginator.num_pages}'
+            if q:
+                full_path = f'{full_path}&q={q}'
+            return redirect(full_path)
+        return response
