@@ -33,6 +33,8 @@ def server_error(request):
 
 
 class Index(ListView):
+    """Index page view class."""
+
     template_name = 'recipes/indexAuth.html'
     paginate_by = settings.PAGINATOR_COUNT['default']
 
@@ -46,7 +48,7 @@ class Index(ListView):
 
 
 class SubscriptionRecipe(LoginRequiredMixin, Index):
-
+    """Page with subscribes users."""
 
     template_name = 'recipes/myFollow.html'
     paginate_by = settings.PAGINATOR_COUNT['subscribe']
@@ -58,7 +60,7 @@ class SubscriptionRecipe(LoginRequiredMixin, Index):
 
 
 class FavoriteRecipe(LoginRequiredMixin, Index):
-    """."""
+    """Page with favorite recipes users."""
 
     def get_queryset(self):
         self.author = get_object_or_404(User.objects.filter(username=self.kwargs['username']))
@@ -76,6 +78,7 @@ class FavoriteRecipe(LoginRequiredMixin, Index):
 
 
 class ProfileUser(Index):
+    """All user recipes."""
 
     template_name = 'recipes/authorRecipe.html'
 
@@ -99,6 +102,8 @@ class ProfileUser(Index):
 
 
 class RecipeView(DetailView):
+    """Single recipe page."""
+
     template_name = 'recipes/singlePage.html'
     context_object_name = 'recipe'
 
@@ -113,6 +118,8 @@ class RecipeView(DetailView):
 
 
 class ShopList(ListView):
+    """Users recipes in basket."""
+
     template_name = 'recipes/shopList.html'
 
     context_object_name = 'recipes'
@@ -132,6 +139,8 @@ class ShopList(ListView):
 
 
 class NewRecipe(LoginRequiredMixin, CreateView):
+    """Recipe add form."""
+
     template_name = 'recipes/formRecipe.html'
     form_class = RecipeForm
 
@@ -150,6 +159,7 @@ class NewRecipe(LoginRequiredMixin, CreateView):
 
 
 class RecipeUpdate(UpdateView):
+    """Recipe update form."""
 
     template_name = 'recipes/formRecipe.html'
     form_class = RecipeForm
@@ -187,6 +197,8 @@ class RecipeUpdate(UpdateView):
 
 
 class RecipeDelete(DeleteView):
+    """Delete recipe."""
+
     model = Recipe
     success_url = reverse_lazy('recipes:index')
 

@@ -1,8 +1,6 @@
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
-from .permissions import AuthorOnly, IsFollower
-from recipes.models import Favorite, BasketUser
-
+from .permissions import AuthorOnly
 
 METHOD_PERMISSIONS = {
     'basket': {
