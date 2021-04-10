@@ -1,23 +1,20 @@
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .permissions import AuthorOnly, IsFollower
+from recipes.models import Favorite, BasketUser
 
-CATEGORIE_METHOD_PERMISSIONS = {
-    'POST': (IsAuthenticated,),
-    'DELETE': (IsFollower,),
-}
 
-FAVORITE_METHOD_PERMISSIONS = {
-    'POST': (IsAuthenticated,),
-    'DELETE': (AuthorOnly,),
-}
-
-BASKET_USER_METHOD_PERMISSIONS = {
-    'POST': (AllowAny,),
-    'DELETE': (AllowAny,),
-}
-
-SUBSCRIPTION_USER_METHOD_PERMISSIONS = {
-    'POST': (IsAuthenticated,),
-    'DELETE': (AuthorOnly,),
+METHOD_PERMISSIONS = {
+    'basket': {
+        'POST': (AllowAny,),
+        'DELETE': (AllowAny,),
+    },
+    'subscriptions': {
+        'POST': (IsAuthenticated,),
+        'DELETE': (AuthorOnly,),
+    },
+    'favorite': {
+        'POST': (IsAuthenticated,),
+        'DELETE': (AuthorOnly,),
+    }
 }

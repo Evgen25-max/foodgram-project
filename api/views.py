@@ -13,7 +13,7 @@ from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 from recipes.models import BasketUser, Favorite, Ingredient
 from users.models import Subscription
 
-from .const import BASKET_USER_METHOD_PERMISSIONS, FAVORITE_METHOD_PERMISSIONS
+from .const import METHOD_PERMISSIONS
 from .filters import IngredientFilterSet
 from .serializers import (BasketUserSerializer, FavoriteSerializer,
                           IngredientSerializer, SubscriptionSerializer)
@@ -77,7 +77,7 @@ class SubscriptionViewSet(CreateDestroyViewSet):
     serializer_class = SubscriptionSerializer
 
     def get_permissions(self):
-        return get_obj_method_permissions(self, **FAVORITE_METHOD_PERMISSIONS)
+        return get_obj_method_permissions(self, **METHOD_PERMISSIONS[self.basename])
 
     def destroy(self, request, *args, **kwargs):
         author = kwargs.get('pk')
@@ -102,9 +102,6 @@ class FavoriteViewSet(SubscriptionViewSet):
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
 
-    def get_permissions(self):
-        return get_obj_method_permissions(self, **FAVORITE_METHOD_PERMISSIONS)
-
     def destroy(self, request, *args, **kwargs):
         recipe_pk = kwargs.get('pk')
         if not recipe_pk:
@@ -121,9 +118,6 @@ class BasketViewSet(SubscriptionViewSet):
 
     queryset = BasketUser.objects.all()
     serializer_class = BasketUserSerializer
-
-    def get_permissions(self):
-        return get_obj_method_permissions(self, **BASKET_USER_METHOD_PERMISSIONS)
 
     def create(self, request, *args, **kwargs):
         """Adding a recipe to the shopping cart for an authorized and anonymous user."""

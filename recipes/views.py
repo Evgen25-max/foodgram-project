@@ -42,10 +42,11 @@ class Index(ListView):
         ).annotate_basket_favorite(user=self.request.user.pk)
 
     def paginate_queryset(self, queryset, page_size):
-        return(paginator_initial(self.request, queryset, settings.PAGINATOR_COUNT['default']))
+        return(paginator_initial(self.request, queryset, self.paginate_by))
 
 
 class SubscriptionRecipe(LoginRequiredMixin, Index):
+
 
     template_name = 'recipes/myFollow.html'
     paginate_by = settings.PAGINATOR_COUNT['subscribe']

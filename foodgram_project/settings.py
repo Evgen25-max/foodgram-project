@@ -82,16 +82,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'foodgram_project.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': os.environ['DB_ENGINE'],
-        'NAME': os.environ['POSTGRES_DB'],
-        'USER': os.environ['POSTGRES_USER'],
-        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
-        'HOST': os.environ['DB_HOST'],
-        'PORT': os.environ['DB_PORT'],
+if DEBUG is True:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': os.environ['DB_ENGINE'],
+            'NAME': os.environ['POSTGRES_DB'],
+            'USER': os.environ['POSTGRES_USER'],
+            'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+            'HOST': os.environ['DB_HOST'],
+            'PORT': os.environ['DB_PORT'],
+        }
+    }
 
 
 AUTH_PASSWORD_VALIDATORS = [

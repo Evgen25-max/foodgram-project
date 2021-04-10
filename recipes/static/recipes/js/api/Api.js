@@ -101,7 +101,7 @@ class Api {
         })
   }
   removeFavorites (id) {
-    return fetch(`/api/v1/favorites/${id}`, {
+    return fetch(`/api/v1/favorites/${id}/`, {
       method: 'DELETE',
       headers: {
         'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
