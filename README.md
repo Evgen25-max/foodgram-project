@@ -1,4 +1,4 @@
-![example event parameter](https://github.com/github/docs/actions/workflows/main.yml/badge.svg?event=pull_request)
+![example event parameter](https://github.com/Evgen25-max/foodgram-project/workflows/main.yml/badge.svg)
 
 ![](https://github.com/Evgen25-max/yamdb_final/workflows/yamdb_final-app/badge.svg)
 
