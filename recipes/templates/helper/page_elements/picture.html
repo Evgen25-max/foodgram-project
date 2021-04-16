@@ -1,4 +1,4 @@
 {% load thumbnail %}
 {% thumbnail image size_picture crop="center" as im %}
-    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="Картинка потeрялась :-(" class="{{ class }}">
+    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ recipe.title }}" title="Рецепт: {{ recipe.title }}." class="{{ class }}">
 {% endthumbnail %}

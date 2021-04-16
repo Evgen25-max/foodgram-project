@@ -63,7 +63,7 @@ class RecipeIngredient(models.Model):
         help_text=_('input amount for ingredient')
     )
     recipe = models.ForeignKey('Recipe', on_delete=models.CASCADE, related_name='recipe_ingredient')
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, null=True,)
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, null=True, related_name='recipe_ingredient')
 
     class Meta:
         verbose_name = _("Ингредиент для рецепта")
@@ -72,32 +72,21 @@ class RecipeIngredient(models.Model):
 
 
 class RecipeQuerySet(models.QuerySet):
-    def basket(self, **kwargs):
-        return self.annotate(basket=Exists(BasketUser.objects.filter(recipe=OuterRef('pk'), **kwargs)))
-
-    def favorite(self, **kwargs):
-        return self.annotate(favorite=Exists(Favorite.objects.filter(recipe=OuterRef('pk'), **kwargs)))
-
-    def subscribe(self, **kwargs):
-        return self.annotate(subscribe=Exists(Subscription.objects.filter(author=OuterRef('author'), **kwargs)))
 
     def recipe_with_tag(self, tag):
         return self.filter(
             recipe_tag__meal_time__in=tag
         ).select_related('author').prefetch_related('recipe_tag').distinct()
 
-    def annotate_basket_favorite(self, **kwargs):
-        return self.annotate(
-            basket=Exists(BasketUser.objects.filter(recipe=OuterRef('pk'), **kwargs)),
-            favorite=Exists(Favorite.objects.filter(recipe=OuterRef('pk'), **kwargs))
-        )
+    def selective_annotation(self, bask=False, fav=False, subs=False, **kwargs):
 
-    def annotate_all(self, **kwargs):
-        return self.annotate(
-            basket=Exists(BasketUser.objects.filter(recipe=OuterRef('pk'), **kwargs)),
-            favorite=Exists(Favorite.objects.filter(recipe=OuterRef('pk'), **kwargs)),
-            subscribe=Exists(Subscription.objects.filter(author=OuterRef('author'), **kwargs))
-        )
+        if bask:
+            self = self.annotate(basket=Exists(BasketUser.objects.filter(recipe=OuterRef('pk'), **kwargs)))
+        if fav:
+            self = self.annotate(favorite=Exists(Favorite.objects.filter(recipe=OuterRef('pk'), **kwargs)))
+        if subs:
+            self = self.annotate(subscribe=Exists(Subscription.objects.filter(author=OuterRef('author'), **kwargs)))
+        return self
 
 
 class Recipe(models.Model):

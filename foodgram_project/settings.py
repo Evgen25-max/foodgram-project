@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
-DEBUG = False
+DEBUG = True
 
 if not DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -43,8 +43,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'recipes.utils.ActualTagsMiddleware',
-    'recipes.utils.PaginatorMiddleware',
+    'foodgram_project.custom_mildware.ActualTagsMiddleware',
+    'foodgram_project.custom_mildware.PaginatorMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 

@@ -8,7 +8,8 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
-from recipes.models import Favorite, Recipe, RecipeIngredient
+from django.db.models import Sum
+from recipes.models import Favorite, Recipe, RecipeIngredient, Ingredient
 from users.models import Subscription
 
 from .forms import RecipeForm
@@ -41,7 +42,7 @@ class Index(ListView):
     def get_queryset(self):
         return Recipe.objects.recipe_with_tag(
             self.request.META.get('actual_tags')
-        ).annotate_basket_favorite(user=self.request.user.pk)
+        ).selective_annotation(bask=True, fav=True, user=self.request.user.pk)
 
     def paginate_queryset(self, queryset, page_size):
         return(paginator_initial(self.request, queryset, self.paginate_by))
@@ -55,9 +56,7 @@ class SubscriptionRecipe(LoginRequiredMixin, Index):
 
     def get_queryset(self):
         return Subscription.objects.filter(user=self.request.user).annotate(
-            num_recipes=Count('author__recipes')).prefetch_related('author__recipes'
-                                                                   )
-
+            num_recipes=Count('author__recipes')).prefetch_related('author__recipes')
 
 class FavoriteRecipe(LoginRequiredMixin, Index):
     """Page with favorite recipes users."""
@@ -68,8 +67,7 @@ class FavoriteRecipe(LoginRequiredMixin, Index):
         return Recipe.objects.filter(
             pk__in=Subquery(
                 favorite_recipe.values('recipe')
-            )).recipe_with_tag(self.request.META.get('actual_tags')).annotate_basket_favorite(
-            user=self.request.user)
+            )).recipe_with_tag(self.request.META.get('actual_tags')).selective_annotation(bask=True, fav=True, user=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -90,7 +88,7 @@ class ProfileUser(Index):
         )
         return self.author.recipes.recipe_with_tag(
             self.request.META.get('actual_tags')
-        ).annotate_all(
+        ).selective_annotation(bask=True, fav=True, subs=True,
             user=self.request.user.pk
         )
 
@@ -114,7 +112,7 @@ class RecipeView(DetailView):
                 author__username=self.kwargs['username']
             ).select_related('author').prefetch_related(
                 'recipe_ingredient__ingredient', 'recipe_tag'
-            ).annotate_all(user=self.request.user.pk))
+            ).selective_annotation(bask=True, fav=True, subs=True, user=self.request.user.pk))
 
 
 class ShopList(ListView):
@@ -210,17 +208,20 @@ def shoplist_file(request):
     """Uploads an ingredient purchase file to the user."""
 
     if request.user.is_authenticated:
-        recipes_ingredients = RecipeIngredient.objects.filter(
-            recipe__basket_recipe__user=request.user
-        ).select_related('ingredient')
+        recipes_ingredients = Ingredient.objects.filter(
+            recipe_ingredient__recipe__basket_recipe__user=request.user
+        ).annotate(
+            amount=Sum('recipe_ingredient__amount')
+        )
     else:
         recipes_pk_list = request.session.get('basket_recipes')
         if recipes_pk_list:
             try:
-                recipes_ingredients = RecipeIngredient.objects.filter(
-                    recipe__pk__in=recipes_pk_list
-                ).select_related('ingredient')
-
+                recipes_ingredients = Ingredient.objects.filter(
+                recipe_ingredient__recipe__in=recipes_pk_list
+            ).annotate(
+                amount=Sum('recipe_ingredient__amount')
+            )
             except ValueError:
                 request.session.pop('basket_recipes')
                 recipes_ingredients = {}

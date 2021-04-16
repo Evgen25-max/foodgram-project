@@ -88,12 +88,9 @@ class SubscriptionViewSet(CreateDestroyViewSet):
         return Response({'success': True})
 
     def perform_create(self, serializer):
-        """Save instance with/without data about user."""
+        """Save subscriptionV instance ."""
 
-        if 'user' not in serializer.validated_data:
-            serializer.save(user=self.request.user)
-        else:
-            serializer.save()
+        serializer.save(user=self.request.user)
 
 
 class FavoriteViewSet(SubscriptionViewSet):

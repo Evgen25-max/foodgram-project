@@ -45,20 +45,20 @@ def shop_count(user, request):
 
 
 @register.filter
-def correct_ending(number, word):
-    """Remainder for word (parent case)."""
+def correct_ending(number, ending):
+    """Remainder for word (parent case). Give count and 3 options ending. """
 
-    remainder_dict = {
-        (2, 3, 4): 'а',
-        (0, 5, 6, 7, 8, 9): 'ов',
-        (1,): '',
+    ending_all = ending.split(',')
+    try:
+        remainder_dict = {
+        (0, 5, 6, 7, 8, 9): ending_all[0],
+        (1,): ending_all[1],
+        (2, 3, 4): ending_all[2],
     }
+    except IndexError:
+        return 'Improper use of the filter'
     remainder = number % 100
-    if remainder in range(11, 20):
-        return f'{number} {word}ов'
+    if remainder in range(11, 19):
+        return f'{ending_all[0]}'
     remainder = remainder % 10
-    for key in remainder_dict:
-        if remainder in key:
-            remainder = remainder_dict[key]
-            break
-    return f'{number} {word}{remainder}'
+    return [remainder_dict[key] for key in remainder_dict if remainder in key][0]

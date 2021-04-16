@@ -31,12 +31,12 @@ class RecipeForm(ModelForm):
 
     def save(self, ingredients):
         recipe = super().save()
-        RecipeIngredient.objects.filter(recipe=recipe).delete()
-        recipe_ingerient = []
+        recipe.recipe_ingredient.all().delete()
+        recipe_ingredients = []
         for ingredient in ingredients:
-            recipe_ingerient.append(
+            recipe_ingredients.append(
                 RecipeIngredient(amount=ingredients[ingredient], recipe=recipe, ingredient=ingredient, )
             )
 
-        RecipeIngredient.objects.bulk_create(recipe_ingerient)
+        RecipeIngredient.objects.bulk_create(recipe_ingredients)
         return recipe
