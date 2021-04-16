@@ -44,7 +44,7 @@ You need to install [docker](https://www.docker.com/products/docker-desktop "use
 # Example of a working site
 http://www.foodgram-proj.ml/
    
-Use a request ```http://localhost/``` to make sure everything works.    
+Use a request `http://localhost/` to make sure everything works.    
 
 ### Author:
 - GitHub:  [github.com/Evgen25-max](https://github.com/Evgen25-max)
