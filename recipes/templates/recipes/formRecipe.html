@@ -41,7 +41,7 @@
                         <span class="form__error">{{ form.non_field_errors }}</span>
                        {% for ingredient in ingredients %}
                            <div class="form__field-item-ingredient" id="ing_{{ forloop.counter }}">
-                               <span> {{ ingredient.ingredient.title }} {{ ingredient.amount|floatformat }}{{ ingredient.ingredient.dimension }}</span>
+                               <span> {{ ingredient.ingredient.title }} {{ ingredient.amount|floatformat }} {{ ingredient.ingredient.dimension }}</span>
                                <span class="form__field-item-delete"></span>
                                <input id="nameIngredient_{{ forloop.counter }}" name="nameIngredient_{{ forloop.counter }}" type="hidden" value="{{ ingredient.ingredient.title }}">
                                <input id="valueIngredient_{{ forloop.counter }}" name="valueIngredient_{{ forloop.counter }}" type="hidden" value="{{ ingredient.amount|floatformat }}">

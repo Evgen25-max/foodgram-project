@@ -1,11 +1,11 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block main_title %}Вы вышли из системы{% endblock main_title %}
 {% block content %}
     <div class="custom-center-block">
         <p class="custom-text-block">
             Вы вышли из своей учётной записи. Ждём вас снова!
         </p>
-            {% include 'elements/custom_button_block.html' with url='/'  button_text="Перейти на главную страницу" %}
+            {% include "elements/custom_button_block.html" with url="/"  button_text="Перейти на главную страницу" %}
         </p>
     </div>
 {% endblock content %}

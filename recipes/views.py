@@ -156,7 +156,11 @@ class NewRecipe(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['ingredients'] = get_ingredients(context['form'])
+
+        if self.request.POST:
+            ingred = get_ingredients(context['form'].data)
+            if ingred:
+                context['ingredients'] = ingred
         return context
 
 

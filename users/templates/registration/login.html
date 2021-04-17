@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load user_filter_tag %}
 {% block content %}
     <div class="form-container">
@@ -6,9 +6,9 @@
             {% csrf_token %}
             <span class="form__error">{{ form.non_field_errors }}</span>
             {% for field in form %}
-                {% include 'elements/form_field.html' with id=field.id_for_label label=field.label errors=field.errors %}
+                {% include "elements/form_field.html" with id=field.id_for_label label=field.label errors=field.errors %}
             {% endfor %}
-            {% include 'elements/form_footer.html' with footer_text='Войти' forget_pass=True %}
+            {% include "elements/form_footer.html" with footer_text="Войти" forget_pass=True %}
         </form>
     </div>
 {% endblock content %}

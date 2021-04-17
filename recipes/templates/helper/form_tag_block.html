@@ -1,0 +1,9 @@
+<div class="tags">
+    {% for tag, value_tag in request.META.actual_tags.items %}
+        <div class="tags__item">
+            <input type="checkbox" name="recipe_tag" id="id_recipe_tag_{{ tag }}" class="tags__checkbox tags__checkbox_style_{{ value_tag.3 }} tags__checkbox_active"
+                   value={{ tag }} {% if tag in tags.value  %} checked {% endif %}>
+            <label for="id_recipe_tag_{{ tag }}" class="tags__label">{{ value_tag.1 }}</label>
+        </div>
+    {% endfor %}
+</div>
