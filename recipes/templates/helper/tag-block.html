@@ -1,32 +1,14 @@
 <ul class="tags">
-    <li class="tags__item">
-        <a id="breakfast" class="tags__checkbox tags__checkbox_style_orange {% if actual_tags.breakfast %} tags__checkbox_active {% endif %}"
-           {% if actual_tags|length > 1 or not actual_tags.breakfast %}
-                href="{% with url_name=request.resolver_match.view_name %}{% if author %}{% url url_name author.username %}{% else %}{% url url_name %}{% endif %}{% endwith %}?&q={% if actual_tags.breakfast %}breakfast=0{% endif %}{% if not actual_tags.lunch %}lunch=0{% endif %}{% if not actual_tags.dinner %}dinner=0{% endif %}">
-           {% else %}
-                href="#">
-           {% endif %}
-        </a>
-        <span class="tags__label">Завтрак</span>
-    </li>
-    <li class="tags__item">
-        <a id="lunch" class="tags__checkbox tags__checkbox_style_green {% if actual_tags.lunch %} tags__checkbox_active {% endif %}"
-            {% if actual_tags|length > 1 or not actual_tags.lunch %}
-                href="{% with url_name=request.resolver_match.view_name %}{% if author %}{% url url_name author.username %}{% else %}{% url url_name %}{% endif %}{% endwith %}?&q={% if not actual_tags.breakfast %}breakfast=0{% endif %}{% if  actual_tags.lunch %}lunch=0{% endif %}{% if not actual_tags.dinner %}dinner=0{% endif %}">
-            {% else %}
-                href="#">
-            {% endif %}
-        </a>
-        <span class="tags__label">Обед</span>
+    {% for tag, value_tag  in actual_tags.items %}
+        <li class="tags__item">
+            <a id="{{ tag }}" class="tags__checkbox tags__checkbox_style_{{ value_tag.3 }} {% if value_tag.0 %} tags__checkbox_active {% endif %}"
+               {% if request.META.count_tags > 1 or not value_tag.0 %}
+                    href="{{ value_tag.2 }}">
+               {% else %}
+                    href="#">
+               {% endif %}
+            </a>
+            <span class="tags__label">{{ value_tag.1 }}</span>
         </li>
-    <li class="tags__item">
-        <a id="dinner" class="tags__checkbox tags__checkbox_style_purple {% if actual_tags.dinner %} tags__checkbox_active {% endif %}"
-           {% if actual_tags|length > 1 or not actual_tags.dinner %}
-               href="{% with url_name=request.resolver_match.view_name %}{% if author %}{% url url_name author.username %}{% else %}{% url url_name %}{% endif %}{% endwith %}?&q={% if not actual_tags.breakfast %}breakfast=0{% endif %}{% if  not actual_tags.lunch %}lunch=0{% endif %}{% if  actual_tags.dinner %}dinner=0{% endif %}">
-            {% else %}
-                href="#">
-            {% endif %}
-        </a>
-        <span class="tags__label">Ужин</span>
-    </li>
+    {% endfor %}
 </ul>

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 {% load thumbnail %}
 {% block main_title %}Список покупок{% endblock main_title %}
@@ -8,17 +8,17 @@
         <ul class="shopping-list">
             {% for recipe in recipes %}
             <li class="shopping-list__item" data-id="{{ recipe.id }}">
-                <a class="href_no_decor" href='{% url 'recipes:recipe' recipe.author.username recipe.pk %}'><div class="recipe recipe_reverse">
-                    {% include 'helper/page_elements/picture.html' with image=recipe.image size_picture="90x90" class="recipe__image recipe__image_big" %}
+                <a class="href_no_decor" href="{% url "recipes:recipe" recipe.author.username recipe.pk %}"><div class="recipe recipe_reverse">
+                    {% include "helper/page_elements/picture.html" with image=recipe.image size_picture="90x90" class="recipe__image recipe__image_big" %}
                     <h3 class="recipe__title ">{{ recipe.title }}</h3>
-                    {% include 'helper/page_elements/recipe_clock.html' with class='recipe__text' clock=recipe.cooking_time %}
+                    {% include "helper/page_elements/recipe_clock.html" with class="recipe__text" clock=recipe.cooking_time %}
                 </div></a>
                 <a href="#" class="shopping-list__button link">Удалить</a>
             </li>
             {% endfor %}
         </ul>
     {% if recipes %}
-        <a href="{% url 'recipes:shoplist_file' %}"><button class="button button_style_blue">Скачать список</button></a>
+        <a href="{% url "recipes:shoplist_file" %}"><button class="button button_style_blue">Скачать список</button></a>
     {% else %}
         <p class="custom-text-block">Для скачивания файла с ингредиентами добавьте рецепты в корзину.</p>
     {% endif %}
@@ -26,5 +26,5 @@
 {% endblock content %}
 
 {% block js %}
-    {% include 'helper/js/js_shoplist.html' %}
+    {% include "helper/js/js_shoplist.html" %}
 {% endblock js  %}

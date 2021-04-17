@@ -1,4 +1,4 @@
 {% load thumbnail %}
-<a href="{% url 'recipes:recipe' recipe.author recipe.pk %}" class="link">
-    {% include 'helper/../helper/page_elements/picture.html' with image=image size_picture=size_picture class='recipe__image' %}
+<a href="{% url "recipes:recipe" recipe.author recipe.pk %}" class="link">
+    {% include "helper/../helper/page_elements/picture.html" with image=image size_picture=size_picture class="recipe__image" %}
 </a>

@@ -1,39 +1,39 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load thumbnail %}
 {% load user_filter_tag %}
 {% load static %}
 
 {% block content %}
     <div class="single-card" data-id="{{ recipe.pk }}" data-author="{{ recipe.author.id }}">
-    {% include "helper/../helper/page_elements/picture.html" with size_picture="300x300" image=recipe.image class='single-card__image' recipe=recipe.title %}
+    {% include "helper/../helper/page_elements/picture.html" with size_picture="300x300" image=recipe.image class="single-card__image" recipe=recipe.title %}
         <div class="single-card__info">
             <div class="single-card__header-info">
                 <h1 class="single-card__title">{{ recipe.title }}</h1>
                 {% if user.is_authenticated %}
                     <div class="single-card__favorite">
-                            {% include 'helper/recipe_footer_favorite.html' with favorite=recipe.favorite %}
+                            {% include "helper/recipe_footer_favorite.html" with favorite=recipe.favorite %}
                     </div>
                 {% endif %}
             </div>
-                {% include 'helper/recipe_tag.html' with meal_time=recipe.recipe_tag.all class='single-card__items'%}
+                {% include "helper/recipe_tag.html" with meal_time=recipe.recipe_tag.all class="single-card__items"%}
             <div class="single-card__items single-card__items_column">
-            {% include 'helper/page_elements/recipe_clock.html' with class="single-card__text" clock=recipe.cooking_time %}
+            {% include "helper/page_elements/recipe_clock.html" with class="single-card__text" clock=recipe.cooking_time %}
                 <ul class="single-card__items">
-                    <li class="single-card__item">{% include 'helper/user_data.html' with user=recipe.author class="single-card__text" %}</li>
+                    <li class="single-card__item">{% include "helper/user_data.html" with user=recipe.author class="single-card__text" %}</li>
                     {% if user == recipe.author %}
-                    <li class="single-card__item">  <a style="margin-left: 2.5em" href='{% url 'recipes:recipe_edit' recipe.author.username recipe.pk %}' class="single-card__text">Редактировать рецепт</a></li>
+                    <li class="single-card__item">  <a style="margin-left: 2.5em" href="{% url "recipes:recipe_edit" recipe.author.username recipe.pk %}" class="single-card__text">Редактировать рецепт</a></li>
                     {% endif %}
                 </ul>
             </div>
             <ul class="single-card__items">
             {% if user.is_authenticated %}
-                <li class="single-card__item">{% include 'helper/recipe_footer_basket.html' with basket=recipe.basket %}</li>
+                <li class="single-card__item">{% include "helper/recipe_footer_basket.html" with basket=recipe.basket %}</li>
             {% else %}
-                <li class="single-card__item">{% include 'helper/recipe_footer_basket.html' with basket=recipe|recipe_basket_check:request %}</li>
+                <li class="single-card__item">{% include "helper/recipe_footer_basket.html" with basket=recipe|recipe_basket_check:request %}</li>
             {% endif %}
-    {% if user.is_authenticated and user != author%}
-        <li class="single-card__item">{% include 'helper/page_elements/subscribe-button.html' with data=author.pk sub=recipe.subscribe %}</li>
-    {% endif %}
+            {% if user.is_authenticated and user != recipe.author %}
+                <li class="single-card__item">{% include "helper/page_elements/subscribe-button.html" with size="button_size_subscribe" data=author.pk sub=recipe.subscribe %}</li>
+            {% endif %}
             </ul>
             <div class="single-card__section">
                 <h3 class="single-card__section-title">Ингредиенты:</h3>
@@ -52,5 +52,5 @@
 {% endblock content %}
 
 {% block js %}
-    {% include 'helper/js/js_single_page.html' %}
+    {% include "helper/js/js_single_page.html" %}
 {% endblock js  %}

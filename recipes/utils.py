@@ -4,12 +4,11 @@ from io import BytesIO
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
 from django.http import HttpResponse
-
 from django.utils.translation import gettext_lazy as _
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 
-from .const import GIT_HUB, PROJECT_NAME, TAGS
+from .const import GIT_HUB, PROJECT_NAME
 from .models import Ingredient
 
 
@@ -168,6 +167,3 @@ def paginator_initial(request, model_objs, paginator_count):
         return paginator, page, page.object_list, page.has_other_pages()
     page = paginator.get_page(None)
     return paginator, page, page.object_list, page.has_other_pages()
-
-
-

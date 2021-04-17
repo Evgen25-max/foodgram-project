@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load user_filter_tag %}
 
-<title>{{ recipe|yesno:'Изменение рецепта,Создание рецепта' }}</title>
+<title>{{ recipe|yesno:"Изменение рецепта,Создание рецепта" }}</title>
 
-{% block main_title %}{{ recipe|yesno:'Изменение рецепта,Создание рецепта' }}{% endblock %}
+{% block main_title %}{{ recipe|yesno:"Изменение рецепта,Создание рецепта" }}{% endblock %}
 
 {% block content %}
     <div class="form-container">
@@ -20,23 +20,7 @@
             <div class="form__group">
                 <p class="form__label">Теги</p>
                 <div class="form__field-group">
-                    <div class="tags">
-                        <div class="tags__item">
-                            <input type="checkbox" name="recipe_tag" id="id_recipe_tag_breakfast" class="tags__checkbox tags__checkbox_style_orange tags__checkbox_active"
-                                   value=breakfast {% if 'breakfast' in form.recipe_tag.value  %} checked {% endif %}>
-                            <label for="id_recipe_tag_breakfast" class="tags__label">Завтрак</label>
-                        </div>
-                        <div class="tags__item">
-                            <input type="checkbox" name="recipe_tag" id="id_recipe_tag_lunch" class="tags__checkbox  tags__checkbox_style_green tags__checkbox_active"
-                                   value=lunch {% if 'lunch' in form.recipe_tag.value  %} checked {% endif %}>
-                            <label for="id_recipe_tag_lunch" class="tags__label">Обед</label>
-                        </div>
-                        <div class="tags__item">
-                            <input type="checkbox" name="recipe_tag" id="id_recipe_tag_dinner" class="tags__checkbox tags__checkbox_style_purple tags__checkbox_active"
-                                   value=dinner  {% if 'dinner' in form.recipe_tag.value  %} checked {% endif %}>
-                            <label for="id_recipe_tag_dinner" class="tags__label">Ужин</label>
-                        </div>
-                    </div>
+                    {% include "helper/form_tag_block.html" with tags=form.recipe_tag %}
                     <span class="form__error">{{ form.recipe_tag.errors }}</span>
                 </div>
             </div>
@@ -46,7 +30,7 @@
                 <div class="form__field-group">
                     <div class="form__field-group-ingredientes">
                         <div class="form__dropdown">
-                            <input type="text" name ='nameIngredient' id="nameIngredient" class="form__input">
+                            <input type="text" name ="nameIngredient" id="nameIngredient" class="form__input">
                             <div class="form__dropdown-items"></div>
                         </div>
                         <input type="number" id="cantidad" class="form__input" min="0">
@@ -98,7 +82,7 @@
                 {% if not recipe %}
                     <button class="button button_style_blue">Создать рецепт</button>
                 {% else %}
-                    <button class="button button_style_blue">Сохранить</button> <a style="margin-left: 2.5em" href="{% url 'recipes:remove_recipe' recipe.author recipe.pk %}" class="form__ingredient-link">Удалить</a>
+                    <button class="button button_style_blue">Сохранить</button> <a style="margin-left: 2.5em" href="{% url "recipes:remove_recipe" recipe.author recipe.pk %}" class="form__ingredient-link">Удалить</a>
                 {% endif %}
             </div>
         </form>
@@ -106,5 +90,5 @@
 {% endblock content %}
 
 {% block js %}
-    {% include 'helper/js/recipe_edit_new_form_js.html' %}
+    {% include "helper/js/recipe_edit_new_form_js.html" %}
 {% endblock js  %}

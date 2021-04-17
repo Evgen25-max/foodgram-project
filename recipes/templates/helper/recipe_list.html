@@ -2,21 +2,21 @@
 <div class="card-list">
     {% for recipe in recipes %}
         <div class="card" data-id="{{recipe.id}}">
-                {% include 'helper/recipe_picture.html' with image=recipe.image size_picture="361x240" %}
+                {% include "helper/recipe_picture.html" with image=recipe.image size_picture="361x240" %}
             <div class="card__body">
-                {% include 'helper/recipe_title_link.html' with recipe=recipe %}
-                {% include 'helper/recipe_tag.html' with meal_time=recipe.recipe_tag.all class='card__items'%}
+                {% include "helper/recipe_title_link.html" with recipe=recipe %}
+                {% include "helper/recipe_tag.html" with meal_time=recipe.recipe_tag.all class="card__items"%}
                 <div class="card__items card__items_column">
-                    {% include 'helper/page_elements/recipe_clock.html' with class='card__text' clock=recipe.cooking_time %}
-                    {% include 'helper/user_data.html' with user=recipe.author class="card__text" %}
+                    {% include "helper/page_elements/recipe_clock.html" with class="card__text" clock=recipe.cooking_time %}
+                    {% include "helper/user_data.html" with user=recipe.author class="card__text" %}
                 </div>
             </div>
             <div class="card__footer">
                 {% if user.is_authenticated %}
-                    {% include 'helper/recipe_footer_basket.html' with basket=recipe.basket %}
-                    {% include 'helper/recipe_footer_favorite.html' with favorite=recipe.favorite %}
+                    {% include "helper/recipe_footer_basket.html" with basket=recipe.basket %}
+                    {% include "helper/recipe_footer_favorite.html" with favorite=recipe.favorite %}
                 {% else %}
-                    {% include 'helper/recipe_footer_basket.html' with basket=recipe|recipe_basket_check:request %}
+                    {% include "helper/recipe_footer_basket.html" with basket=recipe|recipe_basket_check:request %}
                 {% endif %}
             </div>
         </div>

@@ -1,24 +1,24 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 {% load user_filter_tag %}
 {% block tag %}
-    {% include 'helper/tag-block.html' with author=author actual_tags=request.META.actual_tags %}
+    {% include "helper/tag-block.html" with author=author actual_tags=request.META.actual_tags %}
 {% endblock tag  %}
 
 {% block main_title %}{{ author.first_name }} {{ author.last_name }}{% endblock main_title%}
 
 {% block content %}
     {% if user.is_authenticated and user != author%}
-            {% include 'helper/subscribe.html' with data=author.pk sub=sub %}
+            {% include "helper/subscribe.html" with data=author.pk sub=sub %}
     {% endif %}
 
-    {% include 'helper/recipe_list.html' with recipes=page_obj %}
+    {% include "helper/recipe_list.html" with recipes=page_obj %}
 
     {% if page_obj.has_other_pages %}
-        {% include 'helper/paginator.html' with items=page_obj paginator=paginator actual_tags=actual_tags %}
+        {% include "helper/paginator.html" with items=page_obj paginator=paginator actual_tags=actual_tags %}
     {% endif %}
 {% endblock content %}
 
 {% block js %}
-    {% include 'helper/js/js.html' %}
+    {% include "helper/js/js.html" %}
 {% endblock js  %}

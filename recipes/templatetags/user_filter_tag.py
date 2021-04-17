@@ -51,10 +51,10 @@ def correct_ending(number, ending):
     ending_all = ending.split(',')
     try:
         remainder_dict = {
-        (0, 5, 6, 7, 8, 9): ending_all[0],
-        (1,): ending_all[1],
-        (2, 3, 4): ending_all[2],
-    }
+            (0, 5, 6, 7, 8, 9): ending_all[0],
+            (1,): ending_all[1],
+            (2, 3, 4): ending_all[2],
+        }
     except IndexError:
         return 'Improper use of the filter'
     remainder = number % 100

@@ -1,15 +1,14 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count, Prefetch, Subquery
+from django.db.models import Count, Prefetch, Subquery, Sum
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
-from django.db.models import Sum
-from recipes.models import Favorite, Recipe, RecipeIngredient, Ingredient
+from recipes.models import Favorite, Ingredient, Recipe, RecipeIngredient
 from users.models import Subscription
 
 from .forms import RecipeForm
@@ -58,6 +57,7 @@ class SubscriptionRecipe(LoginRequiredMixin, Index):
         return Subscription.objects.filter(user=self.request.user).annotate(
             num_recipes=Count('author__recipes')).prefetch_related('author__recipes')
 
+
 class FavoriteRecipe(LoginRequiredMixin, Index):
     """Page with favorite recipes users."""
 
@@ -67,7 +67,11 @@ class FavoriteRecipe(LoginRequiredMixin, Index):
         return Recipe.objects.filter(
             pk__in=Subquery(
                 favorite_recipe.values('recipe')
-            )).recipe_with_tag(self.request.META.get('actual_tags')).selective_annotation(bask=True, fav=True, user=self.request.user)
+            )).recipe_with_tag(
+            self.request.META.get('actual_tags')
+        ).selective_annotation(
+            bask=True, fav=True, user=self.request.user
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -88,8 +92,8 @@ class ProfileUser(Index):
         )
         return self.author.recipes.recipe_with_tag(
             self.request.META.get('actual_tags')
-        ).selective_annotation(bask=True, fav=True, subs=True,
-            user=self.request.user.pk
+        ).selective_annotation(
+            bask=True, fav=True, subs=True, user=self.request.user.pk
         )
 
     def get_context_data(self, **kwargs):
@@ -218,10 +222,10 @@ def shoplist_file(request):
         if recipes_pk_list:
             try:
                 recipes_ingredients = Ingredient.objects.filter(
-                recipe_ingredient__recipe__in=recipes_pk_list
-            ).annotate(
-                amount=Sum('recipe_ingredient__amount')
-            )
+                    recipe_ingredient__recipe__in=recipes_pk_list
+                ).annotate(
+                    amount=Sum('recipe_ingredient__amount')
+                )
             except ValueError:
                 request.session.pop('basket_recipes')
                 recipes_ingredients = {}

@@ -8,42 +8,48 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-
-{% if request.resolver_match.view_name == 'recipes:favorite' %}
+{% with request.resolver_match.view_name as view_name %}
+{% if view_name == 'recipes:favorite' %}
     <title>Избранное</title>
     <link rel="stylesheet" href="{% static "recipes/pages/index.css" %}">
 
-{% elif request.resolver_match.view_name == 'recipes:subscriptions'  %}
+{% elif view_name == 'recipes:subscriptions'  %}
     <title>Мои подписки</title>
     <link rel="stylesheet" href="{% static "recipes/pages/myFollow.css" %}">
 
-{% elif request.resolver_match.view_name == 'recipes:shoplist' %}
+{% elif view_name == 'recipes:shoplist' %}
     <title>Список покупок</title>
     <link rel="stylesheet" href="{% static "recipes/pages/shopList.css" %}">
 
-{% elif request.resolver_match.view_name == 'recipes:profile' %}
-    <title>Рецепты</title>
+{% elif view_name == 'recipes:profile' %}
+    <title>Рецепты {% firstof user.get_full_name user.username %}</title>
     <link rel="stylesheet" href="{% static "recipes/pages/index.css" %}">
 
-{% elif request.resolver_match.view_name == 'recipes:recipe' %}
-    <title>Рецепты</title>
+{% elif view_name == 'recipes:recipe' %}
+    <title>Рецепты {% firstof user.get_full_name user.username %}</title>
     <link rel="stylesheet" href="{% static "recipes/pages/single.css" %}">
 
-{% elif request.resolver_match.view_name == 'recipes:new_recipe' %}
+{% elif view_name in 'recipes:new_recipe, recipes:recipe_edit' %}
+    <title>{{ recipe|yesno:'Редактирование,Создание' }} рецепта</title>
     <link rel="stylesheet" href="{% static "recipes/pages/form.css" %}">
 
-{% elif request.resolver_match.view_name == 'auth:signup' %}
+{% elif view_name == 'auth:signup' %}
     <title>Регистрация</title>
       <link rel="stylesheet" href="{% static "recipes/pages/form.css" %}">
 
-{% elif request.resolver_match.view_name in 'password_change, password_reset, password_reset_confirm, login,recipes:new_recipe,recipes:recipe_edit' %}
-    <title>Рецепты</title>
+{% elif view_name in 'password_change, password_reset, password_reset_confirm, login' %}
+    {% if view_name == 'password_change' %}
+        <title>Изменение пароля</title>
+    {% elif view_name in 'password_reset, password_reset_confirm'%}
+        <title>Сброс пароля</title>
+    {% elif view_name == 'login'%}
+        <title>Авторизация</title>
     <link rel="stylesheet" href="{% static "recipes/pages/form.css" %}">
 
 {% else %}
     <link rel="stylesheet" href="{% static "recipes/pages/index.css" %}">
 {% endif %}
-
+{% endwith %}
 
 </head>
 

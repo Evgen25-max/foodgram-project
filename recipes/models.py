@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 from users.models import Subscription
 
-from .const import TAG_COLOR, TAG_RECIPE, TAG_RUS
+from .const import TAG_RECIPE, TAGS_DATA
 
 User = get_user_model()
 
@@ -18,12 +18,12 @@ class RecipeTag(models.Model):
     meal_time = models.CharField(
         max_length=20, choices=TAG_RECIPE.choices, unique=True, verbose_name=_('meal for time')
     )
-    color = models.CharField(max_length=20, null=True, editable=False)
     tag_russian = models.CharField(max_length=20, null=True, editable=False)
+    color = models.CharField(max_length=20, null=True, editable=False)
 
     def save(self, *args, **kwargs):
-        self.color = TAG_COLOR[self.meal_time]
-        self.tag_russian = TAG_RUS[self.meal_time]
+        self.color = TAGS_DATA[self.meal_time][1]
+        self.tag_russian = TAGS_DATA[self.meal_time][0]
         super().save(self, *args, **kwargs)
 
     def __str__(self):
@@ -73,7 +73,8 @@ class RecipeIngredient(models.Model):
 
 class RecipeQuerySet(models.QuerySet):
 
-    def recipe_with_tag(self, tag):
+    def recipe_with_tag(self, all_tag):
+        tag = [tag for tag, val_tag in all_tag.items() if val_tag[0]]
         return self.filter(
             recipe_tag__meal_time__in=tag
         ).select_related('author').prefetch_related('recipe_tag').distinct()

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 {% load user_filter_tag %}
 
@@ -7,15 +7,15 @@
 {% block content %}
      <div class="card-list">
          {% for follow in page_obj %}
-             {% include 'helper/subscribe/subscribe_recipe.html' with follow=follow %}
+             {% include "helper/subscribe/subscribe_recipe.html" with follow=follow %}
          {% endfor %}
      </div>
 
      {% if page_obj.has_other_pages %}
-         {% include 'helper/paginator.html' with items=page_obj paginator=paginator %}
+         {% include "helper/paginator.html" with items=page_obj paginator=paginator %}
      {% endif %}
 {% endblock content %}
 
 {% block js %}
-    {% include 'helper/js/js_follow.html' %}
+    {% include "helper/js/js_follow.html" %}
 {% endblock js %}

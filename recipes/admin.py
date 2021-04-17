@@ -6,6 +6,7 @@ from .models import Ingredient, Recipe, RecipeIngredient, RecipeTag
 class RecipeIngredientInline(admin.StackedInline):
     model = RecipeIngredient
     extra = 1
+    min_num = 1
 
 
 class RecipeAdmin(admin.ModelAdmin):
@@ -49,8 +50,6 @@ class RecipeTagAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'meal_time',
-        'color',
-        'tag_russian',
         )
 
 

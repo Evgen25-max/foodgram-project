@@ -1,18 +1,18 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% load static %}
 {% block main_title %}Рецепты{% endblock main_title %}
 {% block tag %}
-    {% include 'helper/tag-block.html' with actual_tags=request.META.actual_tags author=author %}
+    {% include "helper/tag-block.html" with actual_tags=request.META.actual_tags author=author %}
 {% endblock tag  %}
 
 {% block content %}
-    {% include 'helper/recipe_list.html' with recipes=page_obj %}
+    {% include "helper/recipe_list.html" with recipes=page_obj %}
     {% if page_obj.has_other_pages %}
-        {% include 'helper/paginator.html' with items=page_obj paginator=paginator %}
+        {% include "helper/paginator.html" with items=page_obj paginator=paginator %}
     {% endif %}
 {% endblock content %}
 
 {% block js %}
-    {% include 'helper/js/js.html' %}
+    {% include "helper/js/js.html" %}
 {% endblock js  %}

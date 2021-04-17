@@ -1,8 +1,8 @@
 {% load user_filter_tag %}
-{% with count=recipe_count|add:'-3' %}
+{% with count=recipe_count|add:"-3" %}
     {% if  recipe_count|add:"-3" > 0 %}
         <li class="card-user__item">
-            <a href="{% url 'recipes:profile' follow.author  %}" class="card-user__link link">Еще {{ count }} рецепт{{ count|correct_ending:'ов,,а' }} ...</a>
+            <a href="{% url "recipes:profile" follow.author  %}" class="card-user__link link">Еще {{ count }} рецепт{{ count|correct_ending:"ов,,а" }} ...</a>
         </li>
     {% endif %}
 {% endwith %}
