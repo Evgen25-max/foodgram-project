@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
-DEBUG = False
+DEBUG = True
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -100,7 +100,6 @@ else:
             'PORT': os.environ['DB_PORT'],
         }
     }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
