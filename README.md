@@ -16,7 +16,7 @@ You need to install [docker](https://www.docker.com/products/docker-desktop "use
 
 ## Getting Started
 - Clone the repository to your server.
-- Create your own **.env** file. You can use the **.example_env** file as a base. In the file, you must specify the data for the correct operation of the Django framework and the postgresql database:
+- Create your own **.env** file. You can use the **.env.example** file as a base. In the file, you must specify the data for the correct operation of the Django framework and the postgresql database:
    * DJANGO_SECRET_KEY
    * DB_ENGINE   
    * DB_NAME   
