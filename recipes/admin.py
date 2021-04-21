@@ -16,7 +16,6 @@ class RecipeAdmin(admin.ModelAdmin):
         'pk',
         'title',
         'cooking_time',
-        'description',
         'image',
         'author',
         'count_favorite'

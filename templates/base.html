@@ -22,11 +22,11 @@
     <link rel="stylesheet" href="{% static "recipes/pages/shopList.css" %}">
 
 {% elif view_name == "recipes:profile" %}
-    <title>Рецепты {% firstof user.get_full_name user.username %}</title>
+    <title>Рецепты {% firstof author.get_full_name author.username %}</title>
     <link rel="stylesheet" href="{% static "recipes/pages/index.css" %}">
 
 {% elif view_name == "recipes:recipe" %}
-    <title>Рецепты {% firstof user.get_full_name user.username %}</title>
+    <title>{{ recipe.title }}</title>
     <link rel="stylesheet" href="{% static "recipes/pages/single.css" %}">
 
 {% elif view_name in "recipes:new_recipe, recipes:recipe_edit" %}

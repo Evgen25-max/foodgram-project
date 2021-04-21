@@ -22,8 +22,7 @@ class RecipeTag(models.Model):
     color = models.CharField(max_length=20, null=True, editable=False)
 
     def save(self, *args, **kwargs):
-        self.color = TAGS_DATA[self.meal_time][1]
-        self.tag_russian = TAGS_DATA[self.meal_time][0]
+        self.tag_russian, self.color = TAGS_DATA[self.meal_time]
         super().save(self, *args, **kwargs)
 
     def __str__(self):

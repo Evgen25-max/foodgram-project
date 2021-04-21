@@ -43,8 +43,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'foodgram_project.custom_mildware.ActualTagsMiddleware',
-    'foodgram_project.custom_mildware.PaginatorMiddleware',
+    'foodgram_project.custom_middleware.ActualTagsMiddleware',
+    'foodgram_project.custom_middleware.PaginatorMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 

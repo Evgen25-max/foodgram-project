@@ -1,7 +1,8 @@
 <div class="card-user" data-author="{{ follow.author.id }}">
     <div class="card-user__header">
         <a class="href_no_decor" href="{% url "recipes:profile" follow.author.username %}">
-            <h2 class="card-user__title">{% if follow.author.first_name or follow.author.last_name %}{{ follow.author.first_name }} {{ follow.author.last_name }}{% else %} {{ follow.author.username }}{% endif %}</h2>
+        {% firstof follow.author.first_name follow.author.first_name.username %}
+            <h2 class="card-user__title">{% firstof follow.author.first_name follow.author.first_name.username %}</h2>
         </a>
     </div>
     <div class="card-user__body">

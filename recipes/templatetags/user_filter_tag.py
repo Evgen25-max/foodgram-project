@@ -58,7 +58,11 @@ def correct_ending(number, ending):
     except IndexError:
         return 'Improper use of the filter'
     remainder = number % 100
-    if remainder in range(11, 19):
+    if remainder in range(11, 15):
         return f'{ending_all[0]}'
     remainder = remainder % 10
-    return [remainder_dict[key] for key in remainder_dict if remainder in key][0]
+    for key in remainder_dict:
+        if remainder in key:
+            remainder = remainder_dict[key]
+            break
+    return remainder

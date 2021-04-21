@@ -11,7 +11,7 @@
                 <h1 class="single-card__title">{{ recipe.title }}</h1>
                 {% if user.is_authenticated %}
                     <div class="single-card__favorite">
-                            {% include "helper/recipe_footer_favorite.html" with favorite=recipe.favorite %}
+                            {% include "helper/page_elements/recipe_footer_favorite.html" with favorite=recipe.favorite single=True %}
                     </div>
                 {% endif %}
             </div>
@@ -19,7 +19,7 @@
             <div class="single-card__items single-card__items_column">
             {% include "helper/page_elements/recipe_clock.html" with class="single-card__text" clock=recipe.cooking_time %}
                 <ul class="single-card__items">
-                    <li class="single-card__item">{% include "helper/user_data.html" with user=recipe.author class="single-card__text" %}</li>
+                    <li class="single-card__item">{% include "helper/page_elements/user_data.html" with user=recipe.author class="single-card__text" %}</li>
                     {% if user == recipe.author %}
                     <li class="single-card__item">  <a style="margin-left: 2.5em" href="{% url "recipes:recipe_edit" recipe.author.username recipe.pk %}" class="single-card__text">Редактировать рецепт</a></li>
                     {% endif %}
@@ -27,9 +27,9 @@
             </div>
             <ul class="single-card__items">
             {% if user.is_authenticated %}
-                <li class="single-card__item">{% include "helper/recipe_footer_basket.html" with basket=recipe.basket %}</li>
+                <li class="single-card__item">{% include "helper/page_elements/recipe_footer_basket.html" with basket=recipe.basket %}</li>
             {% else %}
-                <li class="single-card__item">{% include "helper/recipe_footer_basket.html" with basket=recipe|recipe_basket_check:request %}</li>
+                <li class="single-card__item">{% include "helper/page_elements/recipe_footer_basket.html" with basket=recipe|recipe_basket_check:request %}</li>
             {% endif %}
             {% if user.is_authenticated and user != recipe.author %}
                 <li class="single-card__item">{% include "helper/page_elements/subscribe-button.html" with size="button_size_subscribe" data=author.pk sub=recipe.subscribe %}</li>
