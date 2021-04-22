@@ -15,7 +15,9 @@ if DEBUG:
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', '130.193.43.240', 'foodgram-proj.ml', 'www.foodgram-proj.ml', 'localhost', 'web']
+ALLOWED_HOSTS = [
+    '127.0.0.1', '0.0.0.0', '130.193.43.240', 'foodgram-proj.ml', 'www.foodgram-proj.ml', 'localhost', 'web'
+]
 
 INSTALLED_APPS = [
     'api',
