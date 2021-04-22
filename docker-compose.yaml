@@ -1,6 +1,15 @@
 version: '3.8'
 volumes:
   postgres_data:
+  certbot-etc:
+  certbot-var:
+  web-root:
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/gdi25max/app/dhparam/
+      o: bind
 services:
   db:
     image: postgres:13.1-alpine
@@ -15,19 +24,31 @@ services:
     volumes:
       - ./static:/code/static/
       - ./media:/code/media/
-    env_file:
-      - ./.env
     depends_on:
       - db
   nginx:
     image: nginx:1.19.6
     restart: always
     volumes:
-      - ./env:/env/
+      - web-root:/var/www/html
       - ./static:/static/
       - ./media:/media/
       - ./nginx:/etc/nginx/conf.d/
+      - dhparam:/etc/ssl/certs/
+      - certbot-etc:/etc/letsencrypt/
+      - certbot-var:/var/lib/letsencrypt/
     depends_on:
       - web
     ports:
       - "80:80"
+      - "443:443"
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt/
+      - certbot-var:/var/lib/letsencrypt/
+      - web-root:/var/www/html/
+    depends_on:
+      - nginx
+    command: certonly --webroot --webroot-path=/var/www/html --email foodgramproj@gmail.com --agree-tos --no-eff-email --staging -d foodgram-proj.ml  -d www.foodgram-proj.ml
