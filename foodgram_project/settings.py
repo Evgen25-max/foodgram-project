@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -84,7 +84,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'foodgram_project.wsgi.application'
 
-if DEBUG is not True:
+if DEBUG is True:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
