@@ -102,7 +102,6 @@ jobs:
          echo EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST }} >> .env
          echo EMAIL_PORT=${{ secrets.EMAIL_HOST }} >> .env
          mkdir dhparam
-         sudo openssl dhparam -out /home/gdi25max/app/dhparam/dhparam-2048.pem 2048
          sudo docker pull evgen25max/python3.8.5_foodgram:v1.0
          sudo docker pull nginx:1.19.6
          sudo docker-compose up -d
