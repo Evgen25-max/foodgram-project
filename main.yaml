@@ -101,6 +101,7 @@ jobs:
          echo EMAIL_HOST_USER=${{ secrets.EMAIL_HOST }} >> .env
          echo EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST }} >> .env
          echo EMAIL_PORT=${{ secrets.EMAIL_HOST }} >> .env
+         mkdir dhparam
          sudo docker pull evgen25max/python3.8.5_foodgram:v1.0
          sudo docker pull nginx:1.19.6
          sudo docker-compose up -d
@@ -114,7 +115,7 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: ${{ github.workflow }} в ветку ${{ github.ref }} успешно выполнен!
+          message: ${{ github.workflow }} РІ РІРµС‚РєСѓ ${{ github.ref }} СѓСЃРїРµС€РЅРѕ РІС‹РїРѕР»РЅРµРЅ!
   send_message_no_master:
     name: send_message_no_master_branch
     if: github.ref != 'refs/heads/master' && github.ref !=' refs/heads/main'
@@ -126,4 +127,4 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: ${{ github.workflow }} в ветку ${{ github.ref }} успешно выполнен!
+          message: ${{ github.workflow }} РІ РІРµС‚РєСѓ ${{ github.ref }} СѓСЃРїРµС€РЅРѕ РІС‹РїРѕР»РЅРµРЅ!
